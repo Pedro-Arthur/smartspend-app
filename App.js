@@ -1,5 +1,5 @@
-import React from "react";
-import * as eva from "@eva-design/eva";
+import React from 'react';
+import * as eva from '@eva-design/eva';
 import {
   ApplicationProvider,
   IconRegistry,
@@ -9,31 +9,30 @@ import {
   Icon,
   Button,
   Spinner,
-} from "@ui-kitten/components";
-import { EvaIconsPack } from "@ui-kitten/eva-icons";
-import { StyleSheet, View } from "react-native";
-import { default as theme } from "./src/theme/theme.json";
+} from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { StyleSheet, View } from 'react-native';
+import theme from './src/theme/theme.json';
 
-const StarIcon = (props) => (
-  <Icon {...props} style={styles.icon} fill="white" name="star" />
-);
+function StarIcon(props) {
+  return <Icon {...props} style={styles.icon} fill="white" name="star" />;
+}
 
-const LoadingIndicator = (props) => (
-  <View style={[props.style, styles.indicator]}>
-    <Spinner size="small" />
-  </View>
-);
+function LoadingIndicator(props) {
+  return (
+    <View style={[props.style, styles.indicator]}>
+      <Spinner size="small" />
+    </View>
+  );
+}
 
-const HomeScreen = () => {
+function HomeScreen() {
   const [checked, setChecked] = React.useState(false);
 
   return (
-    <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text category="h1">HOME</Text>
-      <Radio
-        checked={checked}
-        onChange={(nextChecked) => setChecked(nextChecked)}
-      >
+      <Radio checked={checked} onChange={(nextChecked) => setChecked(nextChecked)}>
         {`Checked: ${checked}`}
       </Radio>
       <Icon style={styles.icon} fill="#8F9BB3" name="facebook" />
@@ -47,31 +46,20 @@ const HomeScreen = () => {
 
       <Button style={styles.button} status="danger" accessoryLeft={StarIcon} />
 
-      <Button
-        style={styles.button}
-        appearance="ghost"
-        status="danger"
-        accessoryLeft={StarIcon}
-      />
+      <Button style={styles.button} appearance="ghost" status="danger" accessoryLeft={StarIcon} />
 
-      <Button
-        style={styles.button}
-        appearance="outline"
-        accessoryLeft={LoadingIndicator}
-      >
+      <Button style={styles.button} appearance="outline" accessoryLeft={LoadingIndicator}>
         LOADING
       </Button>
     </Layout>
   );
-};
+}
 
 export default () => (
-  <>
+  <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
     <IconRegistry icons={EvaIconsPack} />
-    <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
-      <HomeScreen />
-    </ApplicationProvider>
-  </>
+    <HomeScreen />
+  </ApplicationProvider>
 );
 
 const styles = StyleSheet.create({
@@ -80,14 +68,14 @@ const styles = StyleSheet.create({
     height: 32,
   },
   container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   button: {
     margin: 2,
   },
   indicator: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
