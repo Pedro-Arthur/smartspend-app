@@ -1,81 +1,42 @@
 import React from 'react';
-import * as eva from '@eva-design/eva';
-import {
-  ApplicationProvider,
-  IconRegistry,
-  Layout,
-  Text,
-  Radio,
-  Icon,
-  Button,
-  Spinner,
-} from '@ui-kitten/components';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { StyleSheet, View } from 'react-native';
-import theme from './src/theme/theme.json';
+import { NativeBaseProvider, extendTheme, WarningOutlineIcon, Button, Text } from 'native-base';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-function StarIcon(props) {
-  return <Icon {...props} style={styles.icon} fill="white" name="star" />;
-}
-
-function LoadingIndicator(props) {
-  return (
-    <View style={[props.style, styles.indicator]}>
-      <Spinner size="small" />
-    </View>
-  );
-}
-
-function HomeScreen() {
-  const [checked, setChecked] = React.useState(false);
-
-  return (
-    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text category="h1">HOME</Text>
-      <Radio checked={checked} onChange={(nextChecked) => setChecked(nextChecked)}>
-        {`Checked: ${checked}`}
-      </Radio>
-      <Icon style={styles.icon} fill="#8F9BB3" name="facebook" />
-      <Button style={styles.button} status="primary" accessoryLeft={StarIcon}>
-        PRIMARY
-      </Button>
-
-      <Button style={styles.button} status="success" accessoryRight={StarIcon}>
-        SUCCESS
-      </Button>
-
-      <Button style={styles.button} status="danger" accessoryLeft={StarIcon} />
-
-      <Button style={styles.button} appearance="ghost" status="danger" accessoryLeft={StarIcon} />
-
-      <Button style={styles.button} appearance="outline" accessoryLeft={LoadingIndicator}>
-        LOADING
-      </Button>
-    </Layout>
-  );
-}
-
-export default () => (
-  <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
-    <IconRegistry icons={EvaIconsPack} />
-    <HomeScreen />
-  </ApplicationProvider>
-);
-
-const styles = StyleSheet.create({
-  icon: {
-    width: 32,
-    height: 32,
-  },
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  button: {
-    margin: 2,
-  },
-  indicator: {
-    justifyContent: 'center',
-    alignItems: 'center',
+const theme = extendTheme({
+  colors: {
+    primary: {
+      500: '#FF0000',
+    },
   },
 });
+
+const App = () => (
+  <NativeBaseProvider theme={theme}>
+    <SafeAreaView>
+      <WarningOutlineIcon />
+
+      <Button size="sm" variant="subtle">
+        PRIMARY
+      </Button>
+      <Button size="sm" variant="subtle" colorScheme="secondary">
+        SECONDARY
+      </Button>
+      <Button size="sm" variant="subtle" isDisabled>
+        DISABLED
+      </Button>
+
+      <Text fontSize="xs">xs</Text>
+      <Text fontSize="sm">sm</Text>
+      <Text fontSize="md">md</Text>
+      <Text fontSize="lg">lg</Text>
+      <Text fontSize="xl">xl</Text>
+      <Text fontSize="2xl">2xl</Text>
+      <Text fontSize="3xl">3xl</Text>
+      <Text fontSize="4xl">4xl</Text>
+      <Text fontSize="5xl">5xl</Text>
+      <Text fontSize="6xl">6xl</Text>
+    </SafeAreaView>
+  </NativeBaseProvider>
+);
+
+export default App;
