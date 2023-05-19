@@ -8,7 +8,6 @@ import {
   Alert,
   useColorMode,
   useColorModeValue,
-  Center,
   Box,
 } from 'native-base';
 import * as Font from 'expo-font';
@@ -84,19 +83,17 @@ function UseColorMode() {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
 
   return (
-    <Center>
-      <Box p="4" flex="1" bg={bg} maxW="300" w="100%" mt={10} safeArea>
-        <Text fontSize="lg" display="flex" mb={20}>
-          The active color mode is{' '}
-          <Text bold fontSize="18px">
-            {text}
-          </Text>
+    <Box flex="1" bg={bg} safeArea>
+      <Text fontSize="lg" display="flex" mb={20}>
+        The active color mode is{' '}
+        <Text bold fontSize="18px">
+          {text}
         </Text>
-        <Button onPress={toggleColorMode} h={10}>
-          Toggle
-        </Button>
-      </Box>
-    </Center>
+      </Text>
+      <Button onPress={toggleColorMode} h={10}>
+        Toggle
+      </Button>
+    </Box>
   );
 }
 
@@ -154,9 +151,7 @@ export default () => {
 
   return (
     <NativeBaseProvider theme={theme}>
-      <Center flex={1} px="3">
-        <UseColorMode />
-      </Center>
+      <UseColorMode />
     </NativeBaseProvider>
   );
 };
