@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Text as RNText } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   NativeBaseProvider,
   Button,
@@ -9,11 +8,12 @@ import {
   useColorModeValue,
   Box,
 } from 'native-base';
-import * as Font from 'expo-font';
 import * as NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
 import theme from './src/theme';
+import AppLoading from './src/components/AppLoading';
 
 const colorModeManager = {
   get: async () => {
@@ -56,37 +56,9 @@ function UseColorMode() {
 export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
 
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      'montserrat-thin': require('./src/assets/fonts/Montserrat-Thin.ttf'),
-      'montserrat-thin-italic': require('./src/assets/fonts/Montserrat-ThinItalic.ttf'),
-
-      'montserrat-extra-light': require('./src/assets/fonts/Montserrat-ExtraLight.ttf'),
-      'montserrat-extra-light-italic': require('./src/assets/fonts/Montserrat-ExtraLightItalic.ttf'),
-
-      'montserrat-light': require('./src/assets/fonts/Montserrat-Light.ttf'),
-      'montserrat-light-italic': require('./src/assets/fonts/Montserrat-LightItalic.ttf'),
-
-      'montserrat-regular': require('./src/assets/fonts/Montserrat-Regular.ttf'),
-      'montserrat-italic': require('./src/assets/fonts/Montserrat-Italic.ttf'),
-
-      'montserrat-medium': require('./src/assets/fonts/Montserrat-Medium.ttf'),
-      'montserrat-medium-italic': require('./src/assets/fonts/Montserrat-MediumItalic.ttf'),
-
-      'montserrat-semi-bold': require('./src/assets/fonts/Montserrat-SemiBold.ttf'),
-      'montserrat-semi-bold-italic': require('./src/assets/fonts/Montserrat-SemiBoldItalic.ttf'),
-
-      'montserrat-bold': require('./src/assets/fonts/Montserrat-Bold.ttf'),
-      'montserrat-bold-italic': require('./src/assets/fonts/Montserrat-BoldItalic.ttf'),
-
-      'montserrat-extra-bold': require('./src/assets/fonts/Montserrat-ExtraBold.ttf'),
-      'montserrat-extra-bold-italic': require('./src/assets/fonts/Montserrat-ExtraBoldItalic.ttf'),
-
-      'montserrat-black': require('./src/assets/fonts/Montserrat-Black.ttf'),
-      'montserrat-black-italic': require('./src/assets/fonts/Montserrat-BlackItalic.ttf'),
-    });
+  const handleFinishLoading = useCallback(() => {
     setFontLoaded(true);
-  };
+  }, []);
 
   const checkInternetConnection = async () => {
     const netInfo = await NetInfo.fetch();
@@ -96,13 +68,17 @@ export default () => {
     }
   };
 
+  async function teste() {
+    await SplashScreen.preventAutoHideAsync();
+  }
+
   useEffect(() => {
     checkInternetConnection();
-    loadFonts();
+    teste();
   }, []);
 
   if (!fontLoaded) {
-    return <RNText>Carregando...</RNText>;
+    return <AppLoading onFinish={handleFinishLoading} />;
   }
 
   return (
