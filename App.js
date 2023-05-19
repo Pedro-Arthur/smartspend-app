@@ -15,16 +15,16 @@ import * as NetInfo from '@react-native-community/netinfo';
 const theme = extendTheme({
   colors: {
     primary: {
-      50: '#f5f0fb',
-      100: '#eadbff',
-      200: '#dac0ff',
-      300: '#c39eff',
-      400: '#aa7dff',
-      500: '#5E17EB',
-      600: '#822be6',
-      700: '#6b24bf',
-      800: '#541d99',
-      900: '#431774',
+      50: '#F5F0FB',
+      100: '#EADBFF',
+      200: '#E5D0FE',
+      300: '#C9A1FD',
+      400: '#A872F9',
+      500: '#8B4EF3',
+      600: '#5E17EB',
+      700: '#4810CA',
+      800: '#350BA9',
+      900: '#250788',
     },
   },
 
