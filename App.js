@@ -3,12 +3,14 @@ import { Text as RNText } from 'react-native';
 import {
   NativeBaseProvider,
   extendTheme,
-  WarningOutlineIcon,
   Button,
   Text,
   Alert,
+  useColorMode,
+  useColorModeValue,
+  Center,
+  Box,
 } from 'native-base';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Font from 'expo-font';
 import * as NetInfo from '@react-native-community/netinfo';
 
@@ -76,7 +78,29 @@ const theme = extendTheme({
   },
 });
 
-const App = () => {
+function UseColorMode() {
+  const { toggleColorMode } = useColorMode();
+  const text = useColorModeValue('Light', 'Dark');
+  const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+
+  return (
+    <Center>
+      <Box p="4" flex="1" bg={bg} maxW="300" w="100%" mt={10} safeArea>
+        <Text fontSize="lg" display="flex" mb={20}>
+          The active color mode is{' '}
+          <Text bold fontSize="18px">
+            {text}
+          </Text>
+        </Text>
+        <Button onPress={toggleColorMode} h={10}>
+          Toggle
+        </Button>
+      </Box>
+    </Center>
+  );
+}
+
+export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   const loadFonts = async () => {
@@ -130,32 +154,9 @@ const App = () => {
 
   return (
     <NativeBaseProvider theme={theme}>
-      <SafeAreaView>
-        <WarningOutlineIcon />
-
-        <Button size="sm" variant="solid">
-          PRIMARY
-        </Button>
-        <Button size="sm" variant="subtle" colorScheme="secondary">
-          SECONDARY
-        </Button>
-        <Button size="sm" variant="subtle" isDisabled>
-          DISABLED
-        </Button>
-
-        <Text fontSize="xs">xs</Text>
-        <Text fontSize="sm">sm</Text>
-        <Text fontSize="md">md</Text>
-        <Text fontSize="lg">lg</Text>
-        <Text fontSize="xl">xl</Text>
-        <Text fontSize="2xl">2xl</Text>
-        <Text fontSize="3xl">3xl</Text>
-        <Text fontSize="4xl">4xl</Text>
-        <Text fontSize="5xl">5xl</Text>
-        <Text fontSize="6xl">6xl</Text>
-      </SafeAreaView>
+      <Center flex={1} px="3">
+        <UseColorMode />
+      </Center>
     </NativeBaseProvider>
   );
 };
-
-export default App;
