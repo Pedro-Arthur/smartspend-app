@@ -12,6 +12,7 @@ import {
 import * as Font from 'expo-font';
 import * as NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'expo-status-bar';
 import theme from './src/theme';
 
 const colorModeManager = {
@@ -106,6 +107,7 @@ export default () => {
 
   return (
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
+      <StatusBar backgroundColor="#5E17EB" barStyle="light-content" />
       <UseColorMode />
     </NativeBaseProvider>
   );
