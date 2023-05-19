@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import {
   NativeBaseProvider,
   Button,
   Text,
-  Alert,
   useColorMode,
   useColorModeValue,
   Box,
@@ -12,28 +12,35 @@ import * as NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
+
 import theme from './src/theme';
 import AppLoading from './src/components/AppLoading';
+
+const STORAGE_KEY = '@color-mode';
+const DARK_MODE = 'dark';
+const LIGHT_MODE = 'light';
+const NO_INTERNET_CONNECTION_TITLE = 'Sem conexão com a internet';
+const NO_INTERNET_CONNECTION_MESSAGE = 'Verifique sua conexão e tente novamente.';
 
 const colorModeManager = {
   get: async () => {
     try {
-      const val = await AsyncStorage.getItem('@color-mode');
-      return val === 'dark' ? 'dark' : 'light';
+      const val = await AsyncStorage.getItem(STORAGE_KEY);
+      return val === DARK_MODE ? DARK_MODE : LIGHT_MODE;
     } catch (e) {
-      return 'light';
+      return LIGHT_MODE;
     }
   },
   set: async (value) => {
     try {
-      await AsyncStorage.setItem('@color-mode', value);
+      await AsyncStorage.setItem(STORAGE_KEY, value);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   },
 };
 
-function UseColorMode() {
+const UseColorMode = () => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue('Light', 'Dark');
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
@@ -51,7 +58,7 @@ function UseColorMode() {
       </Button>
     </Box>
   );
-}
+};
 
 export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -64,17 +71,17 @@ export default () => {
     const netInfo = await NetInfo.fetch();
 
     if (!netInfo.isConnected) {
-      Alert.alert('Sem conexão com a internet', 'Verifique sua conexão e tente novamente.');
+      Alert.alert(NO_INTERNET_CONNECTION_TITLE, NO_INTERNET_CONNECTION_MESSAGE);
     }
   };
 
-  async function teste() {
+  const callPreventAutoHideAsync = async () => {
     await SplashScreen.preventAutoHideAsync();
-  }
+  };
 
   useEffect(() => {
     checkInternetConnection();
-    teste();
+    callPreventAutoHideAsync();
   }, []);
 
   if (!fontLoaded) {
