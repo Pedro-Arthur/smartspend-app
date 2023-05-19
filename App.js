@@ -12,6 +12,7 @@ import {
 } from 'native-base';
 import * as Font from 'expo-font';
 import * as NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const theme = extendTheme({
   colors: {
@@ -76,6 +77,24 @@ const theme = extendTheme({
     mono: 'Montserrat',
   },
 });
+
+const colorModeManager = {
+  get: async () => {
+    try {
+      const val = await AsyncStorage.getItem('@color-mode');
+      return val === 'dark' ? 'dark' : 'light';
+    } catch (e) {
+      return 'light';
+    }
+  },
+  set: async (value) => {
+    try {
+      await AsyncStorage.setItem('@color-mode', value);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+};
 
 function UseColorMode() {
   const { toggleColorMode } = useColorMode();
@@ -150,7 +169,7 @@ export default () => {
   }
 
   return (
-    <NativeBaseProvider theme={theme}>
+    <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
       <UseColorMode />
     </NativeBaseProvider>
   );
