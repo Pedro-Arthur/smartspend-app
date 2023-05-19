@@ -30,9 +30,41 @@ const theme = extendTheme({
 
   fontConfig: {
     Montserrat: {
+      100: {
+        normal: 'montserrat-thin',
+        italic: 'montserrat-thin-italic',
+      },
+      200: {
+        normal: 'montserrat-extra-light',
+        italic: 'montserrat-extra-light-italic',
+      },
+      300: {
+        normal: 'montserrat-light',
+        italic: 'montserrat-light-italic',
+      },
       400: {
         normal: 'montserrat-regular',
         italic: 'montserrat-italic',
+      },
+      500: {
+        normal: 'montserrat-medium',
+        italic: 'montserrat-medium-italic',
+      },
+      600: {
+        normal: 'montserrat-semi-bold',
+        italic: 'montserrat-semi-bold-italic',
+      },
+      700: {
+        normal: 'montserrat-bold',
+        italic: 'montserrat-bold-italic',
+      },
+      800: {
+        normal: 'montserrat-extra-bold',
+        italic: 'montserrat-extra-bold-italic',
+      },
+      900: {
+        normal: 'montserrat-black',
+        italic: 'montserrat-black-italic',
       },
     },
   },
@@ -49,9 +81,32 @@ const App = () => {
 
   const loadFonts = async () => {
     await Font.loadAsync({
+      'montserrat-thin': require('./src/assets/fonts/Montserrat-Thin.ttf'),
+      'montserrat-thin-italic': require('./src/assets/fonts/Montserrat-ThinItalic.ttf'),
+
+      'montserrat-extra-light': require('./src/assets/fonts/Montserrat-ExtraLight.ttf'),
+      'montserrat-extra-light-italic': require('./src/assets/fonts/Montserrat-ExtraLightItalic.ttf'),
+
+      'montserrat-light': require('./src/assets/fonts/Montserrat-Light.ttf'),
+      'montserrat-light-italic': require('./src/assets/fonts/Montserrat-LightItalic.ttf'),
+
       'montserrat-regular': require('./src/assets/fonts/Montserrat-Regular.ttf'),
       'montserrat-italic': require('./src/assets/fonts/Montserrat-Italic.ttf'),
+
+      'montserrat-medium': require('./src/assets/fonts/Montserrat-Medium.ttf'),
+      'montserrat-medium-italic': require('./src/assets/fonts/Montserrat-MediumItalic.ttf'),
+
+      'montserrat-semi-bold': require('./src/assets/fonts/Montserrat-SemiBold.ttf'),
+      'montserrat-semi-bold-italic': require('./src/assets/fonts/Montserrat-SemiBoldItalic.ttf'),
+
       'montserrat-bold': require('./src/assets/fonts/Montserrat-Bold.ttf'),
+      'montserrat-bold-italic': require('./src/assets/fonts/Montserrat-BoldItalic.ttf'),
+
+      'montserrat-extra-bold': require('./src/assets/fonts/Montserrat-ExtraBold.ttf'),
+      'montserrat-extra-bold-italic': require('./src/assets/fonts/Montserrat-ExtraBoldItalic.ttf'),
+
+      'montserrat-black': require('./src/assets/fonts/Montserrat-Black.ttf'),
+      'montserrat-black-italic': require('./src/assets/fonts/Montserrat-BlackItalic.ttf'),
     });
     setFontLoaded(true);
   };
