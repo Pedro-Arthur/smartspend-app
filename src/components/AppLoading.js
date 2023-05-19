@@ -44,7 +44,7 @@ const AppLoading = ({ onFinish }) => {
     };
 
     loadFonts();
-  }, [onFinish]);
+  }, []);
 
   return null;
 };
