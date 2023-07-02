@@ -23,6 +23,8 @@ const SignIn = () => {
               description="Verifique sua conexão e tente novamente."
               variant="solid"
               isClosable
+              status="error"
+              mb={-4}
             />
           ),
         });
