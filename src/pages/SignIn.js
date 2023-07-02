@@ -11,8 +11,10 @@ import {
   Input,
   Link,
   HStack,
+  Icon,
   useToast,
 } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 import ToastAlert from '../components/ToastAlert';
 
 const SignIn = () => {
@@ -114,6 +116,15 @@ const SignIn = () => {
 
           <Button onPress={validate} mt="2">
             Entrar
+          </Button>
+
+          <Button
+            variant="solid"
+            backgroundColor="red.900"
+            endIcon={<Icon as={Ionicons} name="logo-google" size="sm" />}
+            mt="2"
+          >
+            Entrar com
           </Button>
 
           <HStack mt="6" justifyContent="center">
