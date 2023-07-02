@@ -1,23 +1,136 @@
-import React from 'react';
-import { Box, Button, Text, useColorMode, useColorModeValue } from 'native-base';
+import React, { useState } from 'react';
+import {
+  Box,
+  Button,
+  Text,
+  useColorModeValue,
+  Center,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Link,
+  HStack,
+  useToast,
+} from 'native-base';
+import ToastAlert from '../components/ToastAlert';
 
 const SignIn = () => {
-  const { toggleColorMode } = useColorMode();
-  const text = useColorModeValue('Light', 'Dark');
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+  const toast = useToast();
+  const [formData, setFormData] = useState({
+    email: null,
+    password: null,
+  });
+  const [formErrors, setFormErrors] = useState({
+    email: null,
+    password: null,
+  });
+
+  const validate = () => {
+    const errors = {
+      email: null,
+      password: null,
+    };
+
+    if (!formData.email) {
+      errors.email = 'E-mail é obrigatório!';
+    } else {
+      const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      if (!regexEmail.test(formData.email)) {
+        errors.email = 'E-mail é inválido!';
+      }
+    }
+
+    if (!formData.password) {
+      errors.password = 'Senha é obrigatório!';
+    }
+
+    setFormErrors(errors);
+
+    if (!errors.email && !errors.password) {
+      toast.show({
+        render: ({ id }) => (
+          <ToastAlert
+            id={id}
+            toast={toast}
+            title="Sucesso!"
+            description="Autenticado com sucesso."
+            variant="solid"
+            isClosable
+            status="success"
+          />
+        ),
+      });
+    }
+  };
 
   return (
-    <Box flex="1" bg={bg} safeArea>
-      <Text fontSize="lg" display="flex" mb={20}>
-        The active color mode is{' '}
-        <Text bold fontSize="18px">
-          {text}
-        </Text>
-      </Text>
-      <Button onPress={toggleColorMode} h={10}>
-        Toggle
-      </Button>
-    </Box>
+    <Center bg={bg} flex={1} safeArea w="100%">
+      <Box safeArea p="2" py="8" w="90%" maxW="290">
+        <Heading size="lg" fontWeight="600">
+          Bem-vindo
+        </Heading>
+        <Heading mt="1" fontWeight="medium" size="xs">
+          Faça login para continuar!
+        </Heading>
+
+        <VStack space={3} mt="5">
+          <FormControl isRequired isInvalid={formErrors.email}>
+            <FormControl.Label>E-mail</FormControl.Label>
+            <Input
+              keyboardType="email-address"
+              placeholder="joao@email.com"
+              onChangeText={(value) => setFormData({ ...formData, email: value })}
+            />
+            {'email' in formErrors && (
+              <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
+            )}
+          </FormControl>
+
+          <FormControl isRequired isInvalid={formErrors.password}>
+            <FormControl.Label>Senha</FormControl.Label>
+            <Input
+              placeholder="******"
+              onChangeText={(value) => setFormData({ ...formData, password: value })}
+              type="password"
+            />
+            {'password' in formErrors && (
+              <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
+            )}
+
+            <Link
+              _text={{
+                fontSize: 'xs',
+                fontWeight: '500',
+                color: 'primary.600',
+              }}
+              alignSelf="flex-end"
+              mt="1"
+            >
+              Esqueceu a senha?
+            </Link>
+          </FormControl>
+
+          <Button onPress={validate} mt="2">
+            Entrar
+          </Button>
+
+          <HStack mt="6" justifyContent="center">
+            <Text fontSize="sm">Sou um novo usuário. </Text>
+            <Link
+              _text={{
+                fontWeight: 'medium',
+                fontSize: 'sm',
+                color: 'primary.600',
+              }}
+            >
+              Inscrever-se
+            </Link>
+          </HStack>
+        </VStack>
+      </Box>
+    </Center>
   );
 };
 
