@@ -8,6 +8,7 @@ const ToastAlert = ({ id, toast, status, variant, title, description, isClosable
     flexDirection="row"
     status={status || 'info'}
     variant={variant}
+    mb={-4}
     {...rest}
   >
     <VStack space={1} flexShrink={1} w="95%">
