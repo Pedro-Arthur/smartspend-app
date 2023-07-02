@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Text, useColorMode, useColorModeValue, useToast } from 'native-base';
 import * as NetInfo from '@react-native-community/netinfo';
+import ToastAlert from '../components/ToastAlert';
 
 const SignIn = () => {
   const { toggleColorMode } = useColorMode();
@@ -14,8 +15,16 @@ const SignIn = () => {
 
       if (!netInfo.isConnected) {
         toast.show({
-          title: 'Sem conexão com a internet',
-          description: 'Verifique sua conexão e tente novamente.',
+          render: ({ id }) => (
+            <ToastAlert
+              id={id}
+              toast={toast}
+              title="Sem conexão com a internet"
+              description="Verifique sua conexão e tente novamente."
+              variant="solid"
+              isClosable
+            />
+          ),
         });
       }
     };
