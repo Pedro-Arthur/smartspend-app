@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Box,
   Button,
@@ -12,14 +12,14 @@ import {
   Link,
   HStack,
   Icon,
-  useToast,
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
-import ToastAlert from '../components/ToastAlert';
+import { ToastContext } from '../contexts/ToastContext';
 
 const SignIn = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
-  const toast = useToast();
+  const { showToast } = useContext(ToastContext);
+
   const [formData, setFormData] = useState({
     email: null,
     password: null,
@@ -51,18 +51,12 @@ const SignIn = () => {
     setFormErrors(errors);
 
     if (!errors.email && !errors.password) {
-      toast.show({
-        render: ({ id }) => (
-          <ToastAlert
-            id={id}
-            toast={toast}
-            title="Sucesso!"
-            description="Autenticado com sucesso."
-            variant="solid"
-            isClosable
-            status="success"
-          />
-        ),
+      showToast({
+        title: 'Sucesso!',
+        description: 'Autenticado com sucesso.',
+        variant: 'solid',
+        isClosable: true,
+        status: 'success',
       });
     }
   };

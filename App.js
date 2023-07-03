@@ -8,6 +8,7 @@ import colorModeManager from './src/theme/colorModeManager';
 
 import AppLoading from './src/components/AppLoading';
 import Routes from './src/routes';
+import { ToastProvider } from './src/contexts/ToastContext';
 
 export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -31,7 +32,10 @@ export default () => {
   return (
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
       <StatusBar backgroundColor="#5E17EB" barStyle="light-content" />
-      <Routes />
+
+      <ToastProvider>
+        <Routes />
+      </ToastProvider>
     </NativeBaseProvider>
   );
 };
