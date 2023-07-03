@@ -122,7 +122,7 @@ const SignIn = () => {
           </Button>
 
           <HStack mt="6" justifyContent="center">
-            <Text fontSize="sm">Sou um novo usuário. </Text>
+            <Text fontSize="sm">Não tem uma conta? </Text>
             <Link
               _text={{
                 fontWeight: 'medium',
