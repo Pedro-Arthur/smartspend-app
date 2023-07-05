@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Spinner } from 'native-base';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 
 const FetchLoading = () => {
@@ -8,8 +9,7 @@ const FetchLoading = () => {
   if (isFetchLoading) {
     return (
       <View style={styles.container}>
-        <View style={styles.overlay} />
-        <ActivityIndicator size="large" color="#FFFFFF" />
+        <Spinner size="lg" />
       </View>
     );
   }
@@ -22,10 +22,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    position: 'absolute',
+    zIndex: 1,
+    width: '100%',
+    height: '100%',
   },
 });
 
