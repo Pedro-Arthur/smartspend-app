@@ -65,6 +65,9 @@ const SignIn = () => {
 
   useEffect(() => {
     setFetchLoading(true);
+    setTimeout(() => {
+      setFetchLoading(false);
+    }, 2000);
   }, []);
 
   return (
