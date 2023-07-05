@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { NativeBaseProvider } from 'native-base';
+import { Image } from 'react-native';
+import { Button, Center, NativeBaseProvider } from 'native-base';
 import { StatusBar } from 'expo-status-bar';
 import { preventAutoHideAsync } from 'expo-splash-screen';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -19,6 +20,10 @@ export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
 
+  const callPreventAutoHideAsync = async () => {
+    await preventAutoHideAsync();
+  };
+
   const handleAuthenticate = async () => {
     const available = await LocalAuthentication.hasHardwareAsync();
 
@@ -32,20 +37,16 @@ export default () => {
     }
   };
 
-  const callPreventAutoHideAsync = async () => {
-    await preventAutoHideAsync();
-  };
-
   const handleFinishFontsLoading = useCallback(() => {
     setFontLoaded(true);
+    handleAuthenticate();
   }, []);
 
   useEffect(() => {
     callPreventAutoHideAsync();
-    handleAuthenticate();
   }, []);
 
-  if (!fontLoaded || !authenticated) {
+  if (!fontLoaded) {
     return <AppLoading onFinish={handleFinishFontsLoading} />;
   }
 
@@ -53,13 +54,25 @@ export default () => {
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
       <StatusBar backgroundColor="#5E17EB" barStyle="light-content" />
 
-      <FetchLoadingProvider>
-        <FetchLoading />
+      {authenticated ? (
+        <FetchLoadingProvider>
+          <FetchLoading />
 
-        <ToastProvider>
-          <Routes />
-        </ToastProvider>
-      </FetchLoadingProvider>
+          <ToastProvider>
+            <Routes />
+          </ToastProvider>
+        </FetchLoadingProvider>
+      ) : (
+        <Center safeArea flex={1}>
+          <Image
+            source={require('./src/assets/images/fingerprint-scan.gif')}
+            style={{ width: 200, height: 200 }}
+          />
+          <Button mt={2} width={200} onPress={handleAuthenticate}>
+            Autenticar
+          </Button>
+        </Center>
+      )}
     </NativeBaseProvider>
   );
 };
