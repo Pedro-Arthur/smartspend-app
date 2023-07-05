@@ -14,6 +14,7 @@ import {
   Icon,
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
+
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 
