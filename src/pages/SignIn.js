@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -15,10 +15,12 @@ import {
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
+import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 
 const SignIn = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
+  const { setFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     email: null,
@@ -60,6 +62,10 @@ const SignIn = () => {
       });
     }
   };
+
+  useEffect(() => {
+    setFetchLoading(true);
+  }, []);
 
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
