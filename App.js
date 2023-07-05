@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Button, Center, NativeBaseProvider } from 'native-base';
 import { StatusBar } from 'expo-status-bar';
 import { preventAutoHideAsync } from 'expo-splash-screen';
@@ -66,7 +66,7 @@ export default () => {
         <Center safeArea flex={1}>
           <Image
             source={require('./src/assets/images/fingerprint-scan.gif')}
-            style={{ width: 200, height: 200 }}
+            style={styles.image}
           />
           <Button mt={2} width={200} onPress={handleAuthenticate}>
             Autenticar
@@ -76,3 +76,10 @@ export default () => {
     </NativeBaseProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: 200,
+    height: 200,
+  },
+});
