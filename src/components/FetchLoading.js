@@ -5,16 +5,16 @@ import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 const FetchLoading = () => {
   const { isFetchLoading } = useContext(FetchLoadingContext);
 
-  return (
-    <View>
-      {isFetchLoading && (
-        <View style={styles.container}>
-          <View style={styles.overlay} />
-          <ActivityIndicator size="large" color="#FFFFFF" />
-        </View>
-      )}
-    </View>
-  );
+  if (isFetchLoading) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.overlay} />
+        <ActivityIndicator size="large" color="#FFFFFF" />
+      </View>
+    );
+  }
+
+  return <View />;
 };
 
 const styles = StyleSheet.create({
