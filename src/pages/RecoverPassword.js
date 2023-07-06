@@ -16,7 +16,7 @@ import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
 
-const SignIn = ({ navigation }) => {
+const RecoverPassword = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
   const { setFetchLoading } = useContext(FetchLoadingContext);
@@ -111,7 +111,6 @@ const SignIn = ({ navigation }) => {
               }}
               alignSelf="flex-end"
               mt="1"
-              onPress={() => navigation.navigate('SignUp')}
             >
               Esqueceu a senha?
             </Link>
@@ -133,7 +132,6 @@ const SignIn = ({ navigation }) => {
                 fontSize: 'sm',
                 color: 'primary.600',
               }}
-              onPress={() => navigation.navigate('SignUp')}
             >
               Cadastre-se
             </Link>
@@ -144,4 +142,4 @@ const SignIn = ({ navigation }) => {
   );
 };
 
-export default SignIn;
+export default RecoverPassword;

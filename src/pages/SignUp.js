@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Box,
   Button,
@@ -9,32 +9,31 @@ import {
   VStack,
   FormControl,
   Input,
-  Link,
-  HStack,
+  IconButton,
 } from 'native-base';
+import { Feather } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
-import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
 
-const SignIn = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
-  const { setFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
+    name: null,
     email: null,
     password: null,
+    confirmPassword: null,
   });
   const [formErrors, setFormErrors] = useState({
+    name: null,
     email: null,
     password: null,
+    confirmPassword: null,
   });
 
   const validate = () => {
-    const errors = {
-      email: null,
-      password: null,
-    };
+    const errors = { name: null, email: null, password: null, confirmPassword: null };
 
     if (!formData.email) {
       errors.email = 'E-mail é obrigatório!';
@@ -45,16 +44,26 @@ const SignIn = ({ navigation }) => {
       }
     }
 
+    const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
     if (!formData.password) {
       errors.password = 'Senha é obrigatório!';
+    } else if (formData.password.length < 8 || !regexPass.test(formData.password)) {
+      errors.password =
+        'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.';
+    } else if (formData.confirmPassword !== formData.password) {
+      errors.confirmPassword = 'Senhas não coincidem!';
+    }
+
+    if (!formData.name) {
+      errors.name = 'Nome é obrigatório!';
     }
 
     setFormErrors(errors);
 
-    if (!errors.email && !errors.password) {
+    if (!errors.email && !errors.password && !errors.name && !errors.confirmPassword) {
       showToast({
         title: 'Sucesso!',
-        description: 'Autenticado com sucesso.',
+        description: 'Cadastrado com sucesso.',
         variant: 'solid',
         isClosable: true,
         status: 'success',
@@ -62,24 +71,39 @@ const SignIn = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    setFetchLoading(true);
-    setTimeout(() => {
-      setFetchLoading(false);
-    }, 2000);
-  }, []);
-
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
       <Box safeArea p="2" py="8" w="90%" maxW="290">
+        <IconButton
+          variant="unstyled"
+          _icon={{
+            as: Feather,
+            name: 'chevron-left',
+            size: 'lg',
+          }}
+          colorScheme="text"
+          onPress={() => navigation.goBack()}
+          width="0"
+        />
         <Heading size="lg" fontWeight="600">
           Bem-vindo
         </Heading>
         <Heading mt="1" fontWeight="medium" size="xs">
-          Faça login para continuar!
+          Faça seu cadastro agora!
         </Heading>
 
         <VStack space={3} mt="5">
+          <FormControl isRequired isInvalid={formErrors.name}>
+            <FormControl.Label>Nome</FormControl.Label>
+            <Input
+              placeholder="João Silva"
+              onChangeText={(value) => setFormData({ ...formData, name: value })}
+            />
+            {'name' in formErrors && (
+              <FormControl.ErrorMessage>{formErrors.name}</FormControl.ErrorMessage>
+            )}
+          </FormControl>
+
           <FormControl isRequired isInvalid={formErrors.email}>
             <FormControl.Label>E-mail</FormControl.Label>
             <Input
@@ -102,46 +126,31 @@ const SignIn = ({ navigation }) => {
             {'password' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
             )}
+          </FormControl>
 
-            <Link
-              _text={{
-                fontSize: 'xs',
-                fontWeight: '500',
-                color: 'primary.600',
-              }}
-              alignSelf="flex-end"
-              mt="1"
-              onPress={() => navigation.navigate('SignUp')}
-            >
-              Esqueceu a senha?
-            </Link>
+          <FormControl isRequired isInvalid={formErrors.confirmPassword}>
+            <FormControl.Label>Confirme a senha</FormControl.Label>
+            <Input
+              placeholder="******"
+              onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
+              type="password"
+            />
+            {'confirmPassword' in formErrors && (
+              <FormControl.ErrorMessage>{formErrors.confirmPassword}</FormControl.ErrorMessage>
+            )}
           </FormControl>
 
           <Button onPress={validate} mt="2">
-            Entrar
+            Cadastrar
           </Button>
 
           <Button variant="outline" startIcon={<GoogleLogo width={20} height={20} />} mt="2">
-            <Text>Entrar com Google</Text>
+            <Text>Cadastrar com Google</Text>
           </Button>
-
-          <HStack mt="6" justifyContent="center">
-            <Text fontSize="sm">Não tem uma conta? </Text>
-            <Link
-              _text={{
-                fontWeight: 'medium',
-                fontSize: 'sm',
-                color: 'primary.600',
-              }}
-              onPress={() => navigation.navigate('SignUp')}
-            >
-              Cadastre-se
-            </Link>
-          </HStack>
         </VStack>
       </Box>
     </Center>
   );
 };
 
-export default SignIn;
+export default SignUp;
