@@ -1,39 +1,34 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Box,
   Button,
-  Text,
   useColorModeValue,
   Center,
   Heading,
   VStack,
   FormControl,
   Input,
-  Link,
-  HStack,
+  Alert,
+  Text,
+  IconButton,
 } from 'native-base';
+import { Feather } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
-import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
-import GoogleLogo from '../assets/images/google-logo.svg';
 
-const RecoverPassword = () => {
+const RecoverPassword = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
-  const { setFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     email: null,
-    password: null,
   });
   const [formErrors, setFormErrors] = useState({
     email: null,
-    password: null,
   });
 
   const validate = () => {
     const errors = {
       email: null,
-      password: null,
     };
 
     if (!formData.email) {
@@ -45,16 +40,12 @@ const RecoverPassword = () => {
       }
     }
 
-    if (!formData.password) {
-      errors.password = 'Senha é obrigatório!';
-    }
-
     setFormErrors(errors);
 
     if (!errors.email && !errors.password) {
       showToast({
         title: 'Sucesso!',
-        description: 'Autenticado com sucesso.',
+        description: 'Um e-mail foi enviado contendo instruções para criar uma nova senha.',
         variant: 'solid',
         isClosable: true,
         status: 'success',
@@ -62,22 +53,41 @@ const RecoverPassword = () => {
     }
   };
 
-  useEffect(() => {
-    setFetchLoading(true);
-    setTimeout(() => {
-      setFetchLoading(false);
-    }, 2000);
-  }, []);
-
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
       <Box safeArea p="2" py="8" w="90%" maxW="290">
+        <IconButton
+          variant="unstyled"
+          _icon={{
+            as: Feather,
+            name: 'chevron-left',
+            size: 'lg',
+          }}
+          colorScheme="text"
+          onPress={() => navigation.goBack()}
+          width="0"
+        />
         <Heading size="lg" fontWeight="600">
-          Bem-vindo
+          Recuperar senha
         </Heading>
-        <Heading mt="1" fontWeight="medium" size="xs">
-          Faça login para continuar!
-        </Heading>
+
+        <Alert mt="5" w="100%" status="warning">
+          <VStack space={1} flexShrink={1} w="100%" alignItems="center">
+            <Alert.Icon size="md" />
+            <Text fontSize="md" fontWeight="medium">
+              Atenção!
+            </Text>
+
+            <Box
+              _text={{
+                textAlign: 'center',
+              }}
+            >
+              Certifique-se de inserir o endereço de e-mail correto, pois enviaremos um e-mail com
+              instruções sobre como alterar sua senha.
+            </Box>
+          </VStack>
+        </Alert>
 
         <VStack space={3} mt="5">
           <FormControl isRequired isInvalid={formErrors.email}>
@@ -92,50 +102,9 @@ const RecoverPassword = () => {
             )}
           </FormControl>
 
-          <FormControl isRequired isInvalid={formErrors.password}>
-            <FormControl.Label>Senha</FormControl.Label>
-            <Input
-              placeholder="******"
-              onChangeText={(value) => setFormData({ ...formData, password: value })}
-              type="password"
-            />
-            {'password' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
-            )}
-
-            <Link
-              _text={{
-                fontSize: 'xs',
-                fontWeight: '500',
-                color: 'primary.600',
-              }}
-              alignSelf="flex-end"
-              mt="1"
-            >
-              Esqueceu a senha?
-            </Link>
-          </FormControl>
-
           <Button onPress={validate} mt="2">
-            Entrar
+            Enviar
           </Button>
-
-          <Button variant="outline" startIcon={<GoogleLogo width={20} height={20} />} mt="2">
-            <Text>Entrar com Google</Text>
-          </Button>
-
-          <HStack mt="6" justifyContent="center">
-            <Text fontSize="sm">Não tem uma conta? </Text>
-            <Link
-              _text={{
-                fontWeight: 'medium',
-                fontSize: 'sm',
-                color: 'primary.600',
-              }}
-            >
-              Cadastre-se
-            </Link>
-          </HStack>
         </VStack>
       </Box>
     </Center>
