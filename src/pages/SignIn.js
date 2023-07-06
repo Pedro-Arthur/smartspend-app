@@ -12,6 +12,8 @@ import {
   Link,
   HStack,
 } from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions } from '@react-navigation/native';
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
@@ -30,7 +32,7 @@ const SignIn = ({ navigation }) => {
     password: null,
   });
 
-  const validate = () => {
+  const validate = async () => {
     const errors = {
       email: null,
       password: null,
@@ -59,6 +61,14 @@ const SignIn = ({ navigation }) => {
         isClosable: true,
         status: 'success',
       });
+
+      await AsyncStorage.setItem('@user', JSON.stringify({ id: 1, name: 'Pedro' }));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        })
+      );
     }
   };
 

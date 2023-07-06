@@ -7,6 +7,7 @@ import Initial from '../pages/Initial';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import RecoverPassword from '../pages/RecoverPassword';
+import Home from '../pages/Home';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -22,6 +23,7 @@ const Routes = () => (
       <Screen name="SignIn" component={SignIn} />
       <Screen name="SignUp" component={SignUp} />
       <Screen name="RecoverPassword" component={RecoverPassword} />
+      <Screen name="Home" component={Home} />
     </Navigator>
   </NavigationContainer>
 );

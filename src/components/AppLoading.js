@@ -32,17 +32,17 @@ const fonts = {
 };
 
 const AppLoading = ({ onFinish }) => {
-  useEffect(() => {
-    const loadFonts = async () => {
-      try {
-        await loadAsync(fonts);
-        await hideAsync();
-        onFinish();
-      } catch (e) {
-        console.error(e);
-      }
-    };
+  const loadFonts = async () => {
+    try {
+      await loadAsync(fonts);
+      await hideAsync();
+      onFinish();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
+  useEffect(() => {
     loadFonts();
   }, []);
 
