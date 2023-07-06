@@ -71,7 +71,7 @@ const RecoverPassword = ({ navigation }) => {
           Recuperar senha
         </Heading>
 
-        <Alert mt="5" w="100%" status="warning">
+        <Alert mt="5" w="100%" variant={useColorModeValue('subtle', 'solid')} status="warning">
           <VStack space={1} flexShrink={1} w="100%" alignItems="center">
             <Alert.Icon size="md" />
             <Text fontSize="md" fontWeight="medium">
