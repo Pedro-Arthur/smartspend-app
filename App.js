@@ -28,7 +28,9 @@ export default () => {
     const available = await LocalAuthentication.hasHardwareAsync();
 
     if (available) {
-      const result = await LocalAuthentication.authenticateAsync();
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Autenticação obrigatória',
+      });
       if (result.success) {
         setAuthenticated(true);
       }
