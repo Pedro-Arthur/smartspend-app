@@ -62,8 +62,8 @@ const RecoverPassword = ({ navigation }) => {
             as: Feather,
             name: 'chevron-left',
             size: 'lg',
+            color: useColorModeValue('black', 'white'),
           }}
-          colorScheme="text"
           onPress={() => navigation.goBack()}
           width="0"
         />
