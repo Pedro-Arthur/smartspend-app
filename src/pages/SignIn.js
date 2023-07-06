@@ -140,7 +140,7 @@ const SignIn = () => {
                 color: 'primary.600',
               }}
             >
-              Inscrever-se
+              Cadastre-se
             </Link>
           </HStack>
         </VStack>
