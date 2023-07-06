@@ -14,9 +14,9 @@ import {
   Icon,
 } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
-
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
+import GoogleLogo from '../assets/images/google-logo.svg';
 
 const SignIn = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
@@ -130,6 +130,8 @@ const SignIn = () => {
           >
             Entrar com
           </Button>
+
+          <GoogleLogo width={100} height={100} />
 
           <HStack mt="6" justifyContent="center">
             <Text fontSize="sm">Não tem uma conta? </Text>
