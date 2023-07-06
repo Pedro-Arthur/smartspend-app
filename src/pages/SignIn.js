@@ -11,9 +11,7 @@ import {
   Input,
   Link,
   HStack,
-  Icon,
 } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
@@ -122,16 +120,9 @@ const SignIn = () => {
             Entrar
           </Button>
 
-          <Button
-            variant="solid"
-            backgroundColor="red.900"
-            endIcon={<Icon as={Ionicons} name="logo-google" size="sm" />}
-            mt="2"
-          >
-            Entrar com
+          <Button variant="outline" startIcon={<GoogleLogo width={20} height={20} />} mt="2">
+            <Text>Entrar com Google</Text>
           </Button>
-
-          <GoogleLogo width={100} height={100} />
 
           <HStack mt="6" justifyContent="center">
             <Text fontSize="sm">Não tem uma conta? </Text>
