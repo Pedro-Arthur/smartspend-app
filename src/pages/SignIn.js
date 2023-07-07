@@ -12,16 +12,16 @@ import {
   Link,
   HStack,
 } from 'native-base';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CommonActions } from '@react-navigation/native';
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
+import { AuthContext } from '../contexts/AuthContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
 
 const SignIn = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
-  const { setFetchLoading } = useContext(FetchLoadingContext);
+  const { setIsFetchLoading } = useContext(FetchLoadingContext);
+  const { setAuthIsLoggedIn, setAuthUser, setAuthToken } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     email: null,
@@ -62,20 +62,18 @@ const SignIn = ({ navigation }) => {
         status: 'success',
       });
 
-      await AsyncStorage.setItem('@user', JSON.stringify({ id: 1, name: 'Pedro' }));
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Home' }],
-        })
-      );
+      await Promise.all([
+        setAuthIsLoggedIn(true),
+        setAuthToken('dehjhdgjhgde'),
+        setAuthUser({ id: 1, name: 'Pedro' }),
+      ]);
     }
   };
 
   useEffect(() => {
-    setFetchLoading(true);
+    setIsFetchLoading(true);
     setTimeout(() => {
-      setFetchLoading(false);
+      setIsFetchLoading(false);
     }, 2000);
   }, []);
 

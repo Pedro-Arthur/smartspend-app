@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   useColorModeValue,
   Heading,
@@ -9,22 +9,15 @@ import {
   Text,
   HStack,
 } from 'native-base';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CommonActions } from '@react-navigation/native';
+import { AuthContext } from '../contexts/AuthContext';
 
-const Home = ({ navigation }) => {
+const Home = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { colorMode, toggleColorMode } = useColorMode();
+  const { setAuthIsLoggedIn, setAuthUser, setAuthToken } = useContext(AuthContext);
 
   const logout = async () => {
-    await AsyncStorage.removeItem('@user');
-
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'SignIn' }],
-      })
-    );
+    await Promise.all([setAuthIsLoggedIn(false), setAuthToken(null), setAuthUser(null)]);
   };
 
   return (

@@ -10,11 +10,11 @@ import colorModeManager from './src/theme/colorModeManager';
 
 import AppLoading from './src/components/AppLoading';
 import FetchLoading from './src/components/FetchLoading';
-
-import Routes from './src/routes';
+import Main from './src/components/Main';
 
 import { ToastProvider } from './src/contexts/ToastContext';
 import { FetchLoadingProvider } from './src/contexts/FetchLoadingContext';
+import { AuthProvider } from './src/contexts/AuthContext';
 
 export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -61,7 +61,9 @@ export default () => {
           <FetchLoading />
 
           <ToastProvider>
-            <Routes />
+            <AuthProvider>
+              <Main />
+            </AuthProvider>
           </ToastProvider>
         </FetchLoadingProvider>
       ) : (
