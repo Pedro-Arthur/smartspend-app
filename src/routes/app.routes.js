@@ -30,7 +30,10 @@ const AppRoutes = () => (
       },
       tabBarItemStyle: {
         paddingVertical: 8,
+        backgroundColor: '#5E17EB',
       },
+      tabBarActiveTintColor: '#fff',
+      tabBarInactiveTintColor: '#a1a1aa',
     }}
     initialRouteName="Home"
   >

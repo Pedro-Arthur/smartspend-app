@@ -18,8 +18,7 @@ const Routes = () => {
           background: useColorModeValue('#fafaf9', '#1f2937'),
           text: useColorModeValue('#000', '#fff'),
           card: useColorModeValue('#fafaf9', '#1f2937'),
-          border: 'rgb(199, 199, 204)',
-          notification: 'rgb(255, 69, 58)',
+          border: 'transparent',
         },
       }}
     >
