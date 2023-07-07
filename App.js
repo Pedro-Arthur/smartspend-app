@@ -31,7 +31,8 @@ export default () => {
       const result = await LocalAuthentication.authenticateAsync({
         promptMessage: 'Autenticação obrigatória',
       });
-      if (result.success) {
+
+      if (result.success || result.error === 'not_enrolled') {
         setAuthenticated(true);
       }
     } else {
