@@ -76,7 +76,7 @@ const SignUp = ({ navigation }) => {
 
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
-      <Box safeArea p="2" py="8" w="90%" maxW="290">
+      <Box safeArea p="2" py="8" w="90%">
         <IconButton
           variant="unstyled"
           _icon={{

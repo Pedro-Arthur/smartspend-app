@@ -11,7 +11,10 @@ import {
   Input,
   Link,
   HStack,
+  Icon,
+  Pressable,
 } from 'native-base';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import { AuthContext } from '../contexts/AuthContext';
@@ -31,6 +34,7 @@ const SignIn = ({ navigation }) => {
     email: null,
     password: null,
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const validate = async () => {
     const errors = {
@@ -79,7 +83,7 @@ const SignIn = ({ navigation }) => {
 
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
-      <Box safeArea p="2" py="8" w="90%" maxW="290">
+      <Box safeArea p="2" py="8" w="90%">
         <Heading size="lg" fontWeight="600">
           Bem-vindo
         </Heading>
@@ -91,6 +95,9 @@ const SignIn = ({ navigation }) => {
           <FormControl isRequired isInvalid={formErrors.email}>
             <FormControl.Label>E-mail</FormControl.Label>
             <Input
+              InputLeftElement={
+                <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+              }
               keyboardType="email-address"
               placeholder="joao@email.com"
               onChangeText={(value) => setFormData({ ...formData, email: value })}
@@ -105,7 +112,17 @@ const SignIn = ({ navigation }) => {
             <Input
               placeholder="******"
               onChangeText={(value) => setFormData({ ...formData, password: value })}
-              type="password"
+              type={showPassword ? 'text' : 'password'}
+              InputRightElement={
+                <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <Icon
+                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                    size={4}
+                    mr="3"
+                    color="muted.400"
+                  />
+                </Pressable>
+              }
             />
             {'password' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
