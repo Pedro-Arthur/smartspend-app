@@ -23,9 +23,44 @@ export const AuthProvider = ({ children }) => {
     setToken(value);
   };
 
+  const removeAuthIsLoggedIn = async () => {
+    await AsyncStorage.removeItem('@isLoggedIn');
+    setIsLoggedIn(false);
+  };
+
+  const removeAuthUser = async () => {
+    await AsyncStorage.removeItem('@user');
+    setUser(null);
+  };
+
+  const removeAuthToken = async () => {
+    await AsyncStorage.removeItem('@token');
+    setToken(null);
+  };
+
   const contextValue = useMemo(
-    () => ({ isLoggedIn, setAuthIsLoggedIn, user, setAuthUser, token, setAuthToken }),
-    [isLoggedIn, setAuthIsLoggedIn, user, setAuthUser, token, setAuthToken]
+    () => ({
+      isLoggedIn,
+      setAuthIsLoggedIn,
+      removeAuthIsLoggedIn,
+      user,
+      setAuthUser,
+      removeAuthUser,
+      token,
+      setAuthToken,
+      removeAuthToken,
+    }),
+    [
+      isLoggedIn,
+      setAuthIsLoggedIn,
+      removeAuthIsLoggedIn,
+      user,
+      setAuthUser,
+      removeAuthUser,
+      token,
+      setAuthToken,
+      removeAuthToken,
+    ]
   );
 
   const loadStorage = async () => {

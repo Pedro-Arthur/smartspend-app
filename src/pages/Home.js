@@ -14,10 +14,10 @@ import { AuthContext } from '../contexts/AuthContext';
 const Home = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { colorMode, toggleColorMode } = useColorMode();
-  const { setAuthIsLoggedIn, setAuthUser, setAuthToken } = useContext(AuthContext);
+  const { removeAuthIsLoggedIn, removeAuthUser, removeAuthToken } = useContext(AuthContext);
 
   const logout = async () => {
-    await Promise.all([setAuthIsLoggedIn(false), setAuthToken(null), setAuthUser(null)]);
+    await Promise.all([removeAuthIsLoggedIn(), removeAuthUser(), removeAuthToken()]);
   };
 
   return (
