@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -79,11 +80,17 @@ export const AuthProvider = ({ children }) => {
     if (storageToken) {
       setToken(storageToken);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
     loadStorage();
   }, []);
+
+  if (isLoading) {
+    return null;
+  }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

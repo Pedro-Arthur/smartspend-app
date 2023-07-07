@@ -31,7 +31,7 @@ const fonts = {
   'montserrat-black-italic': require('../assets/fonts/Montserrat-BlackItalic.ttf'),
 };
 
-const AppLoading = ({ onFinish }) => {
+const AppLoadingFonts = ({ onFinish }) => {
   const loadFonts = async () => {
     try {
       await loadAsync(fonts);
@@ -49,4 +49,4 @@ const AppLoading = ({ onFinish }) => {
   return null;
 };
 
-export default AppLoading;
+export default AppLoadingFonts;

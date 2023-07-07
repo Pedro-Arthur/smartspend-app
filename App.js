@@ -8,7 +8,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import theme from './src/theme';
 import colorModeManager from './src/theme/colorModeManager';
 
-import AppLoading from './src/components/AppLoading';
+import AppLoadingFonts from './src/components/AppLoadingFonts';
 import FetchLoading from './src/components/FetchLoading';
 import Main from './src/components/Main';
 
@@ -49,7 +49,7 @@ export default () => {
   }, []);
 
   if (!fontLoaded) {
-    return <AppLoading onFinish={handleFinishFontsLoading} />;
+    return <AppLoadingFonts onFinish={handleFinishFontsLoading} />;
   }
 
   return (
