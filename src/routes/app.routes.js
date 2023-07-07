@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
+import { Text } from 'native-base';
 
 // Pages
 import Home from '../pages/Home';
@@ -9,13 +10,25 @@ import Profile from '../pages/Profile';
 const Tab = createBottomTabNavigator();
 
 const homeScreenOptions = {
-  tabBarLabel: 'Início',
-  tabBarIcon: ({ color, size }) => <AntDesign name="home" color={color} size={size} />,
+  tabBarLabel: ({ color, focused }) => (
+    <Text fontSize={10} fontWeight={focused ? 600 : 400} color={color}>
+      Início
+    </Text>
+  ),
+  tabBarIcon: ({ color, focused }) => (
+    <AntDesign name="home" color={color} size={focused ? 25 : 20} />
+  ),
 };
 
 const profileScreenOptions = {
-  tabBarLabel: 'Perfil',
-  tabBarIcon: ({ color, size }) => <AntDesign name="user" color={color} size={size} />,
+  tabBarLabel: ({ color, focused }) => (
+    <Text fontSize={10} fontWeight={focused ? 600 : 400} color={color}>
+      Perfil
+    </Text>
+  ),
+  tabBarIcon: ({ color, focused }) => (
+    <AntDesign name="user" color={color} size={focused ? 25 : 20} />
+  ),
 };
 
 const AppRoutes = () => (
