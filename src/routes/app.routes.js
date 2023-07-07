@@ -11,6 +11,9 @@ const AppRoutes = () => (
   <Tab.Navigator
     screenOptions={{
       headerShown: false,
+      tabBarLabelStyle: {
+        fontFamily: 'montserrat-regular',
+      },
     }}
     initialRouteName="Home"
   >
