@@ -25,6 +25,12 @@ const AppRoutes = () => (
       tabBarLabelStyle: {
         fontFamily: 'montserrat-regular',
       },
+      tabBarStyle: {
+        height: 60,
+      },
+      tabBarItemStyle: {
+        paddingVertical: 8,
+      },
     }}
     initialRouteName="Home"
   >
