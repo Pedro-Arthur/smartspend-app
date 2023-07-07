@@ -11,8 +11,9 @@ import {
   Alert,
   Text,
   IconButton,
+  Icon,
 } from 'native-base';
-import { Feather } from '@expo/vector-icons';
+import { Feather, AntDesign } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
 
 const RecoverPassword = ({ navigation }) => {
@@ -55,7 +56,7 @@ const RecoverPassword = ({ navigation }) => {
 
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
-      <Box safeArea p="2" py="8" w="90%" maxW="290">
+      <Box safeArea p="2" py="8" w="90%">
         <IconButton
           variant="unstyled"
           _icon={{
@@ -93,6 +94,9 @@ const RecoverPassword = ({ navigation }) => {
           <FormControl isRequired isInvalid={formErrors.email}>
             <FormControl.Label>E-mail</FormControl.Label>
             <Input
+              InputLeftElement={
+                <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+              }
               keyboardType="email-address"
               placeholder="joao@email.com"
               onChangeText={(value) => setFormData({ ...formData, email: value })}
