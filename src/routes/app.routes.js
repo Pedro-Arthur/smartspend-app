@@ -7,7 +7,12 @@ import Home from '../pages/Home';
 const Tab = createBottomTabNavigator();
 
 const AppRoutes = () => (
-  <Tab.Navigator>
+  <Tab.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+    initialRouteName="Home"
+  >
     <Tab.Screen name="Home" component={Home} />
   </Tab.Navigator>
 );
