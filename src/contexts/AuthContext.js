@@ -1,5 +1,6 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useColorModeValue, Spinner, Center } from 'native-base';
 
 export const AuthContext = createContext();
 
@@ -64,6 +65,8 @@ export const AuthProvider = ({ children }) => {
     ]
   );
 
+  const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+
   const loadStorage = async () => {
     const storageUser = await AsyncStorage.getItem('@user');
     const storageIsLoggedIn = await AsyncStorage.getItem('@isLoggedIn');
@@ -89,7 +92,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   if (isLoading) {
-    return null;
+    return (
+      <Center flex="1" bg={bg} safeArea>
+        <Spinner size="lg" />
+      </Center>
+    );
   }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
