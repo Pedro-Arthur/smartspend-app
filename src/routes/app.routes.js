@@ -6,30 +6,22 @@ import { Text } from 'native-base';
 // Pages
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
+import BankAccounts from '../pages/BankAccounts';
+import BankCards from '../pages/BankCards';
+import Goals from '../pages/Goals';
 
 const Tab = createBottomTabNavigator();
 
-const homeScreenOptions = {
+const getTabOptions = (text, icon) => ({
   tabBarLabel: ({ color, focused }) => (
     <Text fontSize={10} fontWeight={focused ? 600 : 400} color={color}>
-      Início
+      {text}
     </Text>
   ),
   tabBarIcon: ({ color, focused }) => (
-    <AntDesign name="home" color={color} size={focused ? 25 : 20} />
+    <AntDesign name={icon} color={color} size={focused ? 25 : 20} />
   ),
-};
-
-const profileScreenOptions = {
-  tabBarLabel: ({ color, focused }) => (
-    <Text fontSize={10} fontWeight={focused ? 600 : 400} color={color}>
-      Perfil
-    </Text>
-  ),
-  tabBarIcon: ({ color, focused }) => (
-    <AntDesign name="user" color={color} size={focused ? 25 : 20} />
-  ),
-};
+});
 
 const AppRoutes = () => (
   <Tab.Navigator
@@ -50,9 +42,19 @@ const AppRoutes = () => (
     }}
     initialRouteName="Home"
   >
-    <Tab.Screen name="Home" component={Home} options={homeScreenOptions} />
-
-    <Tab.Screen name="Profile" component={Profile} options={profileScreenOptions} />
+    <Tab.Screen
+      name="BankAccounts"
+      component={BankAccounts}
+      options={getTabOptions('Contas', 'bank')}
+    />
+    <Tab.Screen
+      name="BankCards"
+      component={BankCards}
+      options={getTabOptions('Cartões', 'creditcard')}
+    />
+    <Tab.Screen name="Home" component={Home} options={getTabOptions('Início', 'home')} />
+    <Tab.Screen name="Goals" component={Goals} options={getTabOptions('Metas', 'calendar')} />
+    <Tab.Screen name="Profile" component={Profile} options={getTabOptions('Perfil', 'user')} />
   </Tab.Navigator>
 );
 
