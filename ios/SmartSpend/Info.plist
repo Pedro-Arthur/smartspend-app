@@ -25,6 +25,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
+          <string>smartspend</string>
           <string>com.anonymous.smartspendapp</string>
         </array>
       </dict>
