@@ -17,6 +17,7 @@ import {
 import { AntDesign, Feather } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import { AuthContext } from '../contexts/AuthContext';
@@ -25,10 +26,11 @@ import GoogleLogo from '../assets/images/google-logo.svg';
 WebBrowser.maybeCompleteAuthSession();
 
 const SignIn = ({ navigation }) => {
+  // eslint-disable-next-line no-unused-vars
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: '913091252992-qagujss4d5j25fkc3gpfd4bo0jkua0dk.apps.googleusercontent.com',
-    iosClientId: '913091252992-br37ib85lp0ccit2ts7ul25rh62tmgfp.apps.googleusercontent.com',
-    expoClientId: '913091252992-bohslro8dcd4855eaqaa0anetge3g98v.apps.googleusercontent.com',
+    androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+    iosClientId: GOOGLE_IOS_CLIENT_ID,
+    expoClientId: GOOGLE_WEB_CLIENT_ID,
   });
 
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
