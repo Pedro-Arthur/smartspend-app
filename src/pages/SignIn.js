@@ -15,12 +15,15 @@ import {
   Pressable,
 } from 'native-base';
 import { AntDesign, Feather } from '@expo/vector-icons';
+
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
+
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import { AuthContext } from '../contexts/AuthContext';
+
 import GoogleLogo from '../assets/images/google-logo.svg';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -34,6 +37,7 @@ const SignIn = ({ navigation }) => {
   });
 
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+
   const { showToast } = useContext(ToastContext);
   const { setIsFetchLoading } = useContext(FetchLoadingContext);
   const { setAuthIsLoggedIn, setAuthUser, setAuthToken } = useContext(AuthContext);
@@ -88,20 +92,15 @@ const SignIn = ({ navigation }) => {
 
   const handleSignInWithGoogle = async () => {
     if (response?.type === 'success') {
-      await getGoogleUserInfo(response.authentication.accessToken);
-    }
-  };
+      try {
+        const userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+          headers: { Authorization: `Bearer ${response.authentication.accessToken}` },
+        });
 
-  const getGoogleUserInfo = async (token) => {
-    if (!token) return;
-    try {
-      const userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      console.log(await userInfoResponse.json());
-    } catch (error) {
-      console.error(error);
+        console.log(await userInfoResponse.json());
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
