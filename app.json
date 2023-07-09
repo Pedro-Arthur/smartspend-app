@@ -13,13 +13,19 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to use Face ID."
+      },
+      "bundleIdentifier": "com.anonymous.smartspendapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#5E17EB"
-      }
+      },
+      "permissions": ["android.permission.USE_BIOMETRIC", "android.permission.USE_FINGERPRINT"],
+      "package": "com.anonymous.smartspendapp"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
@@ -47,6 +53,7 @@
         "wasm",
         "svg"
       ]
-    }
+    },
+    "scheme": "smartspend"
   }
 }

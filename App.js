@@ -4,6 +4,7 @@ import { Button, Center, NativeBaseProvider } from 'native-base';
 import { StatusBar } from 'expo-status-bar';
 import { preventAutoHideAsync } from 'expo-splash-screen';
 import * as LocalAuthentication from 'expo-local-authentication';
+import 'react-native-gesture-handler';
 
 import theme from './src/theme';
 import colorModeManager from './src/theme/colorModeManager';
@@ -68,7 +69,7 @@ export default () => {
           </ToastProvider>
         </FetchLoadingProvider>
       ) : (
-        <Center safeArea flex={1}>
+        <Center backgroundColor="white" safeArea flex={1}>
           <Image
             source={require('./src/assets/images/fingerprint-scan.gif')}
             style={styles.image}

@@ -15,12 +15,22 @@ import {
   Pressable,
 } from 'native-base';
 import { AntDesign, Feather } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import { AuthContext } from '../contexts/AuthContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
 
+WebBrowser.maybeCompleteAuthSession();
+
 const SignIn = ({ navigation }) => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: '913091252992-qagujss4d5j25fkc3gpfd4bo0jkua0dk.apps.googleusercontent.com',
+    iosClientId: '913091252992-br37ib85lp0ccit2ts7ul25rh62tmgfp.apps.googleusercontent.com',
+    expoClientId: '913091252992-bohslro8dcd4855eaqaa0anetge3g98v.apps.googleusercontent.com',
+  });
+
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
   const { setIsFetchLoading } = useContext(FetchLoadingContext);
@@ -73,6 +83,29 @@ const SignIn = ({ navigation }) => {
       ]);
     }
   };
+
+  const handleSignInWithGoogle = async () => {
+    if (response?.type === 'success') {
+      await getGoogleUserInfo(response.authentication.accessToken);
+    }
+  };
+
+  const getGoogleUserInfo = async (token) => {
+    if (!token) return;
+    try {
+      const userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log(await userInfoResponse.json());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    handleSignInWithGoogle();
+  }, [response]);
 
   useEffect(() => {
     setIsFetchLoading(true);
@@ -146,7 +179,12 @@ const SignIn = ({ navigation }) => {
             Entrar
           </Button>
 
-          <Button variant="outline" startIcon={<GoogleLogo width={20} height={20} />} mt="2">
+          <Button
+            onPress={() => promptAsync()}
+            variant="outline"
+            startIcon={<GoogleLogo width={20} height={20} />}
+            mt="2"
+          >
             <Text>Entrar com Google</Text>
           </Button>
 
