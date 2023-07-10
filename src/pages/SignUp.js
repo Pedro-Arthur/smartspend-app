@@ -33,6 +33,8 @@ const SignUp = ({ navigation }) => {
   });
 
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+  const sucessMessage =
+    'Cadastro do usuário realizado com sucesso. Por favor, verifique sua caixa de entrada de e-mails para concluir a confirmação.';
   const { showToast } = useContext(ToastContext);
   const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
@@ -85,8 +87,7 @@ const SignUp = ({ navigation }) => {
 
         showToast({
           title: 'Sucesso!',
-          description:
-            'Cadastro do usuário realizado com sucesso. Por favor, verifique sua caixa de entrada de e-mails para concluir a confirmação.',
+          description: sucessMessage,
           variant: 'solid',
           isClosable: true,
           status: 'success',
@@ -122,8 +123,7 @@ const SignUp = ({ navigation }) => {
 
         showToast({
           title: 'Sucesso!',
-          description:
-            'Cadastro do usuário realizado com sucesso. Por favor, verifique sua caixa de entrada de e-mails para concluir a confirmação.',
+          description: sucessMessage,
           variant: 'solid',
           isClosable: true,
           status: 'success',
