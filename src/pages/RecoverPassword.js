@@ -100,6 +100,7 @@ const RecoverPassword = ({ navigation }) => {
               keyboardType="email-address"
               placeholder="joao@email.com"
               onChangeText={(value) => setFormData({ ...formData, email: value })}
+              value={formData.email}
             />
             {'email' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>

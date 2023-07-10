@@ -21,7 +21,6 @@ import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
 
 import { ToastContext } from '../contexts/ToastContext';
-import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import { AuthContext } from '../contexts/AuthContext';
 
 import GoogleLogo from '../assets/images/google-logo.svg';
@@ -39,7 +38,6 @@ const SignIn = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
 
   const { showToast } = useContext(ToastContext);
-  const { setIsFetchLoading } = useContext(FetchLoadingContext);
   const { setAuthIsLoggedIn, setAuthUser, setAuthToken } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -108,13 +106,6 @@ const SignIn = ({ navigation }) => {
     handleSignInWithGoogle();
   }, [response]);
 
-  useEffect(() => {
-    setIsFetchLoading(true);
-    setTimeout(() => {
-      setIsFetchLoading(false);
-    }, 2000);
-  }, []);
-
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
       <Box safeArea p="2" py="8" w="90%">
@@ -135,6 +126,7 @@ const SignIn = ({ navigation }) => {
               keyboardType="email-address"
               placeholder="joao@email.com"
               onChangeText={(value) => setFormData({ ...formData, email: value })}
+              value={formData.email}
             />
             {'email' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
@@ -146,6 +138,7 @@ const SignIn = ({ navigation }) => {
             <Input
               placeholder="******"
               onChangeText={(value) => setFormData({ ...formData, password: value })}
+              value={formData.password}
               type={showPassword ? 'text' : 'password'}
               InputRightElement={
                 <Pressable onPress={() => setShowPassword(!showPassword)}>

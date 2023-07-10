@@ -15,12 +15,14 @@ import {
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
+import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
 import api from '../services/api';
 
 const SignUp = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
+  const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     name: null,
@@ -66,6 +68,7 @@ const SignUp = ({ navigation }) => {
 
     if (!errors.email && !errors.password && !errors.name && !errors.confirmPassword) {
       try {
+        setIsFetchLoading(true);
         await api.post('/users', formData);
 
         showToast({
@@ -83,6 +86,7 @@ const SignUp = ({ navigation }) => {
           password: null,
           confirmPassword: null,
         });
+        setIsFetchLoading(false);
       } catch (error) {
         showToast({
           title: 'Ops!',
