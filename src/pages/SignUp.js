@@ -115,13 +115,29 @@ const SignUp = ({ navigation }) => {
   const handleSignUpWithGoogle = async () => {
     if (response?.type === 'success') {
       try {
-        const userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-          headers: { Authorization: `Bearer ${response.authentication.accessToken}` },
+        setIsFetchLoading(true);
+        await api.post('/users/withGoogle', {
+          token: response.authentication.accessToken,
         });
 
-        console.log(await userInfoResponse.json());
+        showToast({
+          title: 'Sucesso!',
+          description:
+            'Cadastro do usuário realizado com sucesso. Por favor, verifique sua caixa de entrada de e-mails para concluir a confirmação.',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
       } catch (error) {
-        console.error(error);
+        showToast({
+          title: 'Ops!',
+          description: error?.response?.data?.message || 'Erro ao cadastrar usuário com Google!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      } finally {
+        setIsFetchLoading(false);
       }
     }
   };
