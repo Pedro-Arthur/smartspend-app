@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -14,12 +14,24 @@ import {
   Pressable,
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
 import { ToastContext } from '../contexts/ToastContext';
 import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
 import api from '../services/api';
 
+WebBrowser.maybeCompleteAuthSession();
+
 const SignUp = ({ navigation }) => {
+  // eslint-disable-next-line no-unused-vars
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+    iosClientId: GOOGLE_IOS_CLIENT_ID,
+    expoClientId: GOOGLE_WEB_CLIENT_ID,
+  });
+
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
   const { setIsFetchLoading } = useContext(FetchLoadingContext);
@@ -89,7 +101,7 @@ const SignUp = ({ navigation }) => {
       } catch (error) {
         showToast({
           title: 'Ops!',
-          description: error.response.data.message,
+          description: error?.response?.data?.message || 'Erro ao cadastrar usuário!',
           variant: 'solid',
           isClosable: true,
           status: 'error',
@@ -99,6 +111,24 @@ const SignUp = ({ navigation }) => {
       }
     }
   };
+
+  const handleSignUpWithGoogle = async () => {
+    if (response?.type === 'success') {
+      try {
+        const userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+          headers: { Authorization: `Bearer ${response.authentication.accessToken}` },
+        });
+
+        console.log(await userInfoResponse.json());
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleSignUpWithGoogle();
+  }, [response]);
 
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
@@ -203,7 +233,12 @@ const SignUp = ({ navigation }) => {
             Cadastrar
           </Button>
 
-          <Button variant="outline" startIcon={<GoogleLogo width={20} height={20} />} mt="2">
+          <Button
+            onPress={() => promptAsync()}
+            variant="outline"
+            startIcon={<GoogleLogo width={20} height={20} />}
+            mt="2"
+          >
             <Text>Cadastrar com Google</Text>
           </Button>
         </VStack>
