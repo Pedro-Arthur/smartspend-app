@@ -66,19 +66,27 @@ const SignUp = ({ navigation }) => {
 
     if (!errors.email && !errors.password && !errors.name && !errors.confirmPassword) {
       try {
-        await api.post('/users');
+        await api.post('/users', formData);
 
         showToast({
           title: 'Sucesso!',
-          description: 'Cadastrado com sucesso.',
+          description:
+            'Cadastro do usuário realizado com sucesso. Por favor, verifique sua caixa de entrada de e-mails para concluir a confirmação.',
           variant: 'solid',
           isClosable: true,
           status: 'success',
         });
+
+        setFormData({
+          name: null,
+          email: null,
+          password: null,
+          confirmPassword: null,
+        });
       } catch (error) {
         showToast({
-          title: 'Erro!',
-          description: error.message,
+          title: 'Ops!',
+          description: error.response.data.message.join(),
           variant: 'solid',
           isClosable: true,
           status: 'error',
@@ -117,6 +125,7 @@ const SignUp = ({ navigation }) => {
               }
               placeholder="João Silva"
               onChangeText={(value) => setFormData({ ...formData, name: value })}
+              value={formData.name}
             />
             {'name' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.name}</FormControl.ErrorMessage>
@@ -132,6 +141,7 @@ const SignUp = ({ navigation }) => {
               keyboardType="email-address"
               placeholder="joao@email.com"
               onChangeText={(value) => setFormData({ ...formData, email: value })}
+              value={formData.email}
             />
             {'email' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
@@ -154,6 +164,7 @@ const SignUp = ({ navigation }) => {
               }
               placeholder="******"
               onChangeText={(value) => setFormData({ ...formData, password: value })}
+              value={formData.password}
             />
             {'password' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
@@ -176,6 +187,7 @@ const SignUp = ({ navigation }) => {
               }
               placeholder="******"
               onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
+              value={formData.confirmPassword}
             />
             {'confirmPassword' in formErrors && (
               <FormControl.ErrorMessage>{formErrors.confirmPassword}</FormControl.ErrorMessage>
