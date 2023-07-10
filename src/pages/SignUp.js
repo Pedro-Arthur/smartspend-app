@@ -66,7 +66,7 @@ const SignUp = ({ navigation }) => {
 
     if (!errors.email && !errors.password && !errors.name && !errors.confirmPassword) {
       try {
-        await api.post('http://localhost:3000/users');
+        await api.post('/users');
 
         showToast({
           title: 'Sucesso!',
