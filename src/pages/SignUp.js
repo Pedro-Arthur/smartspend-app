@@ -89,7 +89,7 @@ const SignUp = ({ navigation }) => {
       } catch (error) {
         showToast({
           title: 'Ops!',
-          description: error.response.data.message.join(),
+          description: error.response.data.message,
           variant: 'solid',
           isClosable: true,
           status: 'error',
