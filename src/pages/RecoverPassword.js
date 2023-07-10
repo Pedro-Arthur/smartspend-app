@@ -27,7 +27,7 @@ const RecoverPassword = ({ navigation }) => {
     email: null,
   });
 
-  const validate = () => {
+  const handleRecoverPassword = () => {
     const errors = {
       email: null,
     };
@@ -106,7 +106,7 @@ const RecoverPassword = ({ navigation }) => {
             )}
           </FormControl>
 
-          <Button onPress={validate} mt="2">
+          <Button onPress={handleRecoverPassword} mt="2">
             Enviar
           </Button>
         </VStack>

@@ -16,6 +16,7 @@ import {
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { ToastContext } from '../contexts/ToastContext';
 import GoogleLogo from '../assets/images/google-logo.svg';
+import api from '../services/api';
 
 const SignUp = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
@@ -35,7 +36,7 @@ const SignUp = ({ navigation }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const validate = () => {
+  const handleSignUp = async () => {
     const errors = { name: null, email: null, password: null, confirmPassword: null };
 
     if (!formData.email) {
@@ -64,13 +65,25 @@ const SignUp = ({ navigation }) => {
     setFormErrors(errors);
 
     if (!errors.email && !errors.password && !errors.name && !errors.confirmPassword) {
-      showToast({
-        title: 'Sucesso!',
-        description: 'Cadastrado com sucesso.',
-        variant: 'solid',
-        isClosable: true,
-        status: 'success',
-      });
+      try {
+        await api.post('http://localhost:3000/users');
+
+        showToast({
+          title: 'Sucesso!',
+          description: 'Cadastrado com sucesso.',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
+      } catch (error) {
+        showToast({
+          title: 'Erro!',
+          description: error.message,
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      }
     }
   };
 
@@ -169,7 +182,7 @@ const SignUp = ({ navigation }) => {
             )}
           </FormControl>
 
-          <Button onPress={validate} mt="2">
+          <Button onPress={handleSignUp} mt="2">
             Cadastrar
           </Button>
 

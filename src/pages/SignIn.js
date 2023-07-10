@@ -52,7 +52,7 @@ const SignIn = ({ navigation }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const validate = async () => {
+  const handleSignIn = async () => {
     const errors = {
       email: null,
       password: null,
@@ -176,7 +176,7 @@ const SignIn = ({ navigation }) => {
             </Link>
           </FormControl>
 
-          <Button onPress={validate} mt="2">
+          <Button onPress={handleSignIn} mt="2">
             Entrar
           </Button>
 
