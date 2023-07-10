@@ -86,7 +86,6 @@ const SignUp = ({ navigation }) => {
           password: null,
           confirmPassword: null,
         });
-        setIsFetchLoading(false);
       } catch (error) {
         showToast({
           title: 'Ops!',
@@ -95,6 +94,8 @@ const SignUp = ({ navigation }) => {
           isClosable: true,
           status: 'error',
         });
+      } finally {
+        setIsFetchLoading(false);
       }
     }
   };
