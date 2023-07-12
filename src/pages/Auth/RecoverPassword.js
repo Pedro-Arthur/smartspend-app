@@ -14,7 +14,7 @@ import {
   Icon,
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
-import { ToastContext } from '../contexts/ToastContext';
+import { ToastContext } from '../../contexts/ToastContext';
 
 const RecoverPassword = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');

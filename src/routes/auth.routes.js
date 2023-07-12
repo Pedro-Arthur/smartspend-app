@@ -2,9 +2,9 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Pages
-import SignIn from '../pages/SignIn';
-import SignUp from '../pages/SignUp';
-import RecoverPassword from '../pages/RecoverPassword';
+import SignIn from '../pages/Auth/SignIn';
+import SignUp from '../pages/Auth/SignUp';
+import RecoverPassword from '../pages/Auth/RecoverPassword';
 
 const { Navigator, Screen } = createStackNavigator();
 

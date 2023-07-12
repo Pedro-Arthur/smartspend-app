@@ -17,10 +17,10 @@ import { Feather, AntDesign } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
-import { ToastContext } from '../contexts/ToastContext';
-import { FetchLoadingContext } from '../contexts/FetchLoadingContext';
-import GoogleLogo from '../assets/images/google-logo.svg';
-import api from '../services/api';
+import { ToastContext } from '../../contexts/ToastContext';
+import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
+import GoogleLogo from '../../assets/images/google-logo.svg';
+import api from '../../services/api';
 
 WebBrowser.maybeCompleteAuthSession();
 
