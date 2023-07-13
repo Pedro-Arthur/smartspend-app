@@ -8,8 +8,6 @@ import {
   VStack,
   FormControl,
   Input,
-  Alert,
-  Text,
   IconButton,
   Icon,
 } from 'native-base';
@@ -24,46 +22,32 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
   const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
-    email: null,
+    code: null,
   });
   const [formErrors, setFormErrors] = useState({
-    email: null,
+    code: null,
   });
 
   const handleRecoverPasswordCheckCode = async () => {
     const errors = {
-      email: null,
+      code: null,
     };
 
-    if (!formData.email) {
-      errors.email = 'E-mail é obrigatório!';
-    } else {
-      const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-      if (!regexEmail.test(formData.email)) {
-        errors.email = 'E-mail é inválido!';
-      }
+    if (!formData.code) {
+      errors.code = 'Código é obrigatório!';
     }
 
     setFormErrors(errors);
 
-    if (!errors.email) {
+    if (!errors.code) {
       try {
         setIsFetchLoading(true);
-        await api.post('/auth/resetPassword/sendCode', formData);
-
-        showToast({
-          title: 'Sucesso!',
-          description: 'Um e-mail foi enviado contendo um código para criar uma nova senha.',
-          variant: 'solid',
-          isClosable: true,
-          status: 'success',
-        });
-
-        navigation.navigate('RecoverPasswordCheckCode');
+        await api.get(`/auth/resetPassword/checkCode/${formData.code}`);
+        navigation.navigate('RecoverPasswordUpdate', { code: formData.code });
       } catch (error) {
         showToast({
           title: 'Ops!',
-          description: error?.response?.data?.message || 'Erro ao enviar código!',
+          description: error?.response?.data?.message || 'Erro ao verificar código!',
           variant: 'solid',
           isClosable: true,
           status: 'error',
@@ -89,46 +73,27 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
           width="0"
         />
         <Heading size="lg" fontWeight="600">
-          Recuperar senha
+          Verificar código
         </Heading>
 
-        <Alert mt="5" w="100%" variant={useColorModeValue('subtle', 'solid')} status="warning">
-          <VStack space={1} flexShrink={1} w="100%" alignItems="center">
-            <Alert.Icon size="md" />
-            <Text fontSize="md" fontWeight="medium">
-              Atenção!
-            </Text>
-
-            <Box
-              _text={{
-                textAlign: 'center',
-              }}
-            >
-              Certifique-se de inserir o endereço de e-mail correto, pois enviaremos um e-mail com
-              um código para alterar sua senha.
-            </Box>
-          </VStack>
-        </Alert>
-
         <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={formErrors.email}>
-            <FormControl.Label>E-mail</FormControl.Label>
+          <FormControl isRequired isInvalid={formErrors.code}>
+            <FormControl.Label>Código</FormControl.Label>
             <Input
               InputLeftElement={
-                <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+                <Icon as={<AntDesign name="lock" />} size={4} ml="3" color="muted.400" />
               }
-              keyboardType="email-address"
-              placeholder="joao@email.com"
-              onChangeText={(value) => setFormData({ ...formData, email: value })}
-              value={formData.email}
+              placeholder="******"
+              onChangeText={(value) => setFormData({ ...formData, code: value })}
+              value={formData.code}
             />
-            {'email' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
+            {'code' in formErrors && (
+              <FormControl.ErrorMessage>{formErrors.code}</FormControl.ErrorMessage>
             )}
           </FormControl>
 
           <Button onPress={handleRecoverPasswordCheckCode} mt="2">
-            Enviar
+            Verificar
           </Button>
         </VStack>
       </Box>

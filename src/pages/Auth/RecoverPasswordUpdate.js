@@ -8,62 +8,75 @@ import {
   VStack,
   FormControl,
   Input,
-  Alert,
-  Text,
   IconButton,
   Icon,
+  Pressable,
 } from 'native-base';
-import { Feather, AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { CommonActions } from '@react-navigation/native';
 import { ToastContext } from '../../contexts/ToastContext';
 import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
 import api from '../../services/api';
 
-const RecoverPasswordUpdate = ({ navigation }) => {
+const RecoverPasswordUpdate = ({ navigation, route }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
   const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
-    email: null,
+    newPassword: null,
+    confirmPassword: null,
   });
   const [formErrors, setFormErrors] = useState({
-    email: null,
+    newPassword: null,
+    confirmPassword: null,
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleRecoverPasswordUpdate = async () => {
     const errors = {
-      email: null,
+      newPassword: null,
+      confirmPassword: null,
     };
 
-    if (!formData.email) {
-      errors.email = 'E-mail é obrigatório!';
-    } else {
-      const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-      if (!regexEmail.test(formData.email)) {
-        errors.email = 'E-mail é inválido!';
-      }
+    const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
+    if (!formData.newPassword) {
+      errors.newPassword = 'Senha é obrigatório!';
+    } else if (formData.newPassword.length < 8 || !regexPass.test(formData.newPassword)) {
+      errors.newPassword =
+        'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.';
+    } else if (formData.confirmPassword !== formData.newPassword) {
+      errors.confirmPassword = 'Senhas não coincidem!';
     }
 
     setFormErrors(errors);
 
-    if (!errors.email) {
+    if (!errors.newPassword && !errors.confirmPassword) {
       try {
         setIsFetchLoading(true);
-        await api.post('/auth/resetPassword/sendCode', formData);
+        await api.patch(
+          `/auth/resetPassword/updatePassword/${route?.params?.code || '-'}`,
+          formData
+        );
 
         showToast({
           title: 'Sucesso!',
-          description: 'Um e-mail foi enviado contendo um código para criar uma nova senha.',
+          description: 'Senha alterada com sucesso!',
           variant: 'solid',
           isClosable: true,
           status: 'success',
         });
 
-        navigation.navigate('RecoverPasswordCheckCode');
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'SignIn' }],
+          })
+        );
       } catch (error) {
         showToast({
           title: 'Ops!',
-          description: error?.response?.data?.message || 'Erro ao enviar código!',
+          description: error?.response?.data?.message || 'Erro ao alterar senha!',
           variant: 'solid',
           isClosable: true,
           status: 'error',
@@ -89,46 +102,58 @@ const RecoverPasswordUpdate = ({ navigation }) => {
           width="0"
         />
         <Heading size="lg" fontWeight="600">
-          Recuperar senha
+          Alterar senha
         </Heading>
 
-        <Alert mt="5" w="100%" variant={useColorModeValue('subtle', 'solid')} status="warning">
-          <VStack space={1} flexShrink={1} w="100%" alignItems="center">
-            <Alert.Icon size="md" />
-            <Text fontSize="md" fontWeight="medium">
-              Atenção!
-            </Text>
-
-            <Box
-              _text={{
-                textAlign: 'center',
-              }}
-            >
-              Certifique-se de inserir o endereço de e-mail correto, pois enviaremos um e-mail com
-              um código para alterar sua senha.
-            </Box>
-          </VStack>
-        </Alert>
-
         <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={formErrors.email}>
-            <FormControl.Label>E-mail</FormControl.Label>
+          <FormControl isRequired isInvalid={formErrors.newPassword}>
+            <FormControl.Label>Nova senha</FormControl.Label>
             <Input
-              InputLeftElement={
-                <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+              type={showPassword ? 'text' : 'password'}
+              InputRightElement={
+                <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <Icon
+                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                    size={4}
+                    mr="3"
+                    color="muted.400"
+                  />
+                </Pressable>
               }
-              keyboardType="email-address"
-              placeholder="joao@email.com"
-              onChangeText={(value) => setFormData({ ...formData, email: value })}
-              value={formData.email}
+              placeholder="******"
+              onChangeText={(value) => setFormData({ ...formData, newPassword: value })}
+              value={formData.newPassword}
             />
-            {'email' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
+            {'newPassword' in formErrors && (
+              <FormControl.ErrorMessage>{formErrors.newPassword}</FormControl.ErrorMessage>
+            )}
+          </FormControl>
+
+          <FormControl isRequired isInvalid={formErrors.confirmPassword}>
+            <FormControl.Label>Confirme a nova senha</FormControl.Label>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              InputRightElement={
+                <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <Icon
+                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                    size={4}
+                    mr="3"
+                    color="muted.400"
+                  />
+                </Pressable>
+              }
+              placeholder="******"
+              onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
+              value={formData.confirmPassword}
+            />
+            {'confirmPassword' in formErrors && (
+              <FormControl.ErrorMessage>{formErrors.confirmPassword}</FormControl.ErrorMessage>
             )}
           </FormControl>
 
           <Button onPress={handleRecoverPasswordUpdate} mt="2">
-            Enviar
+            Salvar
           </Button>
         </VStack>
       </Box>
