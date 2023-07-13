@@ -15,10 +15,13 @@ import {
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { ToastContext } from '../../contexts/ToastContext';
+import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
+import api from '../../services/api';
 
-const RecoverPassword = ({ navigation }) => {
+const RecoverPasswordCheckCode = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
+  const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     email: null,
@@ -27,7 +30,7 @@ const RecoverPassword = ({ navigation }) => {
     email: null,
   });
 
-  const handleRecoverPassword = () => {
+  const handleRecoverPasswordCheckCode = async () => {
     const errors = {
       email: null,
     };
@@ -43,14 +46,31 @@ const RecoverPassword = ({ navigation }) => {
 
     setFormErrors(errors);
 
-    if (!errors.email && !errors.password) {
-      showToast({
-        title: 'Sucesso!',
-        description: 'Um e-mail foi enviado contendo instruções para criar uma nova senha.',
-        variant: 'solid',
-        isClosable: true,
-        status: 'success',
-      });
+    if (!errors.email) {
+      try {
+        setIsFetchLoading(true);
+        await api.post('/auth/resetPassword/sendCode', formData);
+
+        showToast({
+          title: 'Sucesso!',
+          description: 'Um e-mail foi enviado contendo um código para criar uma nova senha.',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
+
+        navigation.navigate('RecoverPasswordCheckCode');
+      } catch (error) {
+        showToast({
+          title: 'Ops!',
+          description: error?.response?.data?.message || 'Erro ao enviar código!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      } finally {
+        setIsFetchLoading(false);
+      }
     }
   };
 
@@ -85,7 +105,7 @@ const RecoverPassword = ({ navigation }) => {
               }}
             >
               Certifique-se de inserir o endereço de e-mail correto, pois enviaremos um e-mail com
-              instruções sobre como alterar sua senha.
+              um código para alterar sua senha.
             </Box>
           </VStack>
         </Alert>
@@ -107,7 +127,7 @@ const RecoverPassword = ({ navigation }) => {
             )}
           </FormControl>
 
-          <Button onPress={handleRecoverPassword} mt="2">
+          <Button onPress={handleRecoverPasswordCheckCode} mt="2">
             Enviar
           </Button>
         </VStack>
@@ -116,4 +136,4 @@ const RecoverPassword = ({ navigation }) => {
   );
 };
 
-export default RecoverPassword;
+export default RecoverPasswordCheckCode;

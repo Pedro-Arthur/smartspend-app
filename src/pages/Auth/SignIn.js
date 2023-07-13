@@ -163,7 +163,7 @@ const SignIn = ({ navigation }) => {
               }}
               alignSelf="flex-end"
               mt="1"
-              onPress={() => navigation.navigate('RecoverPassword')}
+              onPress={() => navigation.navigate('RecoverPasswordSendCode')}
             >
               Esqueceu a senha?
             </Link>
