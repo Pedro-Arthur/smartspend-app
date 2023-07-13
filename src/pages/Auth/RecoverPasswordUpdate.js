@@ -15,13 +15,11 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
 import { ToastContext } from '../../contexts/ToastContext';
-import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
 import api from '../../services/api';
 
 const RecoverPasswordUpdate = ({ navigation, route }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
-  const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     newPassword: null,
@@ -32,6 +30,7 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
     confirmPassword: null,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRecoverPasswordUpdate = async () => {
     const errors = {
@@ -53,7 +52,7 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
 
     if (!errors.newPassword && !errors.confirmPassword) {
       try {
-        setIsFetchLoading(true);
+        setIsLoading(true);
         await api.patch(
           `/auth/resetPassword/updatePassword/${route?.params?.code || '-'}`,
           formData
@@ -82,7 +81,7 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
           status: 'error',
         });
       } finally {
-        setIsFetchLoading(false);
+        setIsLoading(false);
       }
     }
   };
@@ -152,7 +151,7 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
             )}
           </FormControl>
 
-          <Button onPress={handleRecoverPasswordUpdate} mt="2">
+          <Button isLoading={isLoading} onPress={handleRecoverPasswordUpdate} mt="2">
             Salvar
           </Button>
         </VStack>

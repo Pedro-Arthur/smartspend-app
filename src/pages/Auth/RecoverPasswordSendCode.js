@@ -15,13 +15,11 @@ import {
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { ToastContext } from '../../contexts/ToastContext';
-import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
 import api from '../../services/api';
 
 const RecoverPasswordSendCode = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
-  const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     email: null,
@@ -29,6 +27,7 @@ const RecoverPasswordSendCode = ({ navigation }) => {
   const [formErrors, setFormErrors] = useState({
     email: null,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRecoverPasswordSendCode = async () => {
     const errors = {
@@ -48,7 +47,7 @@ const RecoverPasswordSendCode = ({ navigation }) => {
 
     if (!errors.email) {
       try {
-        setIsFetchLoading(true);
+        setIsLoading(true);
         await api.post('/auth/resetPassword/sendCode', formData);
 
         showToast({
@@ -69,7 +68,7 @@ const RecoverPasswordSendCode = ({ navigation }) => {
           status: 'error',
         });
       } finally {
-        setIsFetchLoading(false);
+        setIsLoading(false);
       }
     }
   };
@@ -127,7 +126,7 @@ const RecoverPasswordSendCode = ({ navigation }) => {
             )}
           </FormControl>
 
-          <Button onPress={handleRecoverPasswordSendCode} mt="2">
+          <Button isLoading={isLoading} onPress={handleRecoverPasswordSendCode} mt="2">
             Enviar
           </Button>
         </VStack>

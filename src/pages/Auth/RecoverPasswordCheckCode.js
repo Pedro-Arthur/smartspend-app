@@ -13,13 +13,11 @@ import {
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { ToastContext } from '../../contexts/ToastContext';
-import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
 import api from '../../services/api';
 
 const RecoverPasswordCheckCode = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
   const { showToast } = useContext(ToastContext);
-  const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     code: null,
@@ -27,6 +25,7 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
   const [formErrors, setFormErrors] = useState({
     code: null,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRecoverPasswordCheckCode = async () => {
     const errors = {
@@ -41,7 +40,7 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
 
     if (!errors.code) {
       try {
-        setIsFetchLoading(true);
+        setIsLoading(true);
         await api.get(`/auth/resetPassword/checkCode/${formData.code}`);
         navigation.navigate('RecoverPasswordUpdate', { code: formData.code });
       } catch (error) {
@@ -53,7 +52,7 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
           status: 'error',
         });
       } finally {
-        setIsFetchLoading(false);
+        setIsLoading(false);
       }
     }
   };
@@ -92,7 +91,7 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
             )}
           </FormControl>
 
-          <Button onPress={handleRecoverPasswordCheckCode} mt="2">
+          <Button isLoading={isLoading} onPress={handleRecoverPasswordCheckCode} mt="2">
             Verificar
           </Button>
         </VStack>

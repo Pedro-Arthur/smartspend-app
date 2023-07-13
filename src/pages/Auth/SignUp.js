@@ -18,7 +18,6 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
 import { ToastContext } from '../../contexts/ToastContext';
-import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
 import GoogleLogo from '../../assets/images/google-logo.svg';
 import api from '../../services/api';
 
@@ -36,7 +35,6 @@ const SignUp = ({ navigation }) => {
   const sucessMessage =
     'Cadastro do usuário realizado com sucesso. Por favor, verifique sua caixa de entrada de e-mails para concluir a confirmação.';
   const { showToast } = useContext(ToastContext);
-  const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     name: null,
@@ -51,6 +49,8 @@ const SignUp = ({ navigation }) => {
     confirmPassword: null,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
 
   const handleSignUp = async () => {
     const errors = { name: null, email: null, password: null, confirmPassword: null };
@@ -82,7 +82,7 @@ const SignUp = ({ navigation }) => {
 
     if (!errors.email && !errors.password && !errors.name && !errors.confirmPassword) {
       try {
-        setIsFetchLoading(true);
+        setIsLoading(true);
         await api.post('/users', formData);
 
         showToast({
@@ -108,7 +108,7 @@ const SignUp = ({ navigation }) => {
           status: 'error',
         });
       } finally {
-        setIsFetchLoading(false);
+        setIsLoading(false);
       }
     }
   };
@@ -116,7 +116,7 @@ const SignUp = ({ navigation }) => {
   const handleSignUpWithGoogle = async () => {
     if (response?.type === 'success') {
       try {
-        setIsFetchLoading(true);
+        setIsLoadingGoogle(true);
         await api.post('/users/withGoogle', {
           token: response.authentication.accessToken,
         });
@@ -137,7 +137,7 @@ const SignUp = ({ navigation }) => {
           status: 'error',
         });
       } finally {
-        setIsFetchLoading(false);
+        setIsLoadingGoogle(false);
       }
     }
   };
@@ -245,11 +245,12 @@ const SignUp = ({ navigation }) => {
             )}
           </FormControl>
 
-          <Button onPress={handleSignUp} mt="2">
+          <Button isLoading={isLoading} onPress={handleSignUp} mt="2">
             Cadastrar
           </Button>
 
           <Button
+            isLoading={isLoadingGoogle}
             onPress={() => promptAsync()}
             variant="outline"
             startIcon={<GoogleLogo width={20} height={20} />}

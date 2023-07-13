@@ -14,7 +14,7 @@ const FetchLoading = () => {
     );
   }
 
-  return <View />;
+  return null;
 };
 
 const styles = StyleSheet.create({
