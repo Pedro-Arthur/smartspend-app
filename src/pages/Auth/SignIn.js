@@ -77,11 +77,13 @@ const SignIn = ({ navigation }) => {
 
         const { token } = (await api.post('/auth/login', formData)).data;
 
-        const authUser = await api.get('/auth/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const authUser = (
+          await api.get('/auth/user', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        ).data;
 
         showToast({
           title: 'Sucesso!',
@@ -117,11 +119,13 @@ const SignIn = ({ navigation }) => {
           })
         ).data;
 
-        const authUser = await api.get('/auth/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const authUser = (
+          await api.get('/auth/user', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        ).data;
 
         showToast({
           title: 'Sucesso!',
