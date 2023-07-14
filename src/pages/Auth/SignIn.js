@@ -15,15 +15,13 @@ import {
   Pressable,
 } from 'native-base';
 import { AntDesign, Feather } from '@expo/vector-icons';
-
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
-
 import { ToastContext } from '../../contexts/ToastContext';
 import { AuthContext } from '../../contexts/AuthContext';
-
 import GoogleLogo from '../../assets/images/google-logo.svg';
+import api from '../../services/api';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -49,6 +47,8 @@ const SignIn = ({ navigation }) => {
     password: null,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
 
   const handleSignIn = async () => {
     const errors = {
@@ -72,32 +72,74 @@ const SignIn = ({ navigation }) => {
     setFormErrors(errors);
 
     if (!errors.email && !errors.password) {
-      showToast({
-        title: 'Sucesso!',
-        description: 'Autenticado com sucesso.',
-        variant: 'solid',
-        isClosable: true,
-        status: 'success',
-      });
+      try {
+        setIsLoading(true);
 
-      await Promise.all([
-        setAuthIsLoggedIn(true),
-        setAuthToken('dehjhdgjhgde'),
-        setAuthUser({ id: 1, name: 'Pedro' }),
-      ]);
+        const token = await api.post('/auth/login', formData);
+
+        const authUser = await api.get('/auth/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        showToast({
+          title: 'Sucesso!',
+          description: 'Usuário autenticado com sucesso!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
+
+        await Promise.all([setAuthIsLoggedIn(true), setAuthToken(token), setAuthUser(authUser)]);
+      } catch (error) {
+        showToast({
+          title: 'Ops!',
+          description: error?.response?.data?.message || 'Erro ao logar usuário!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   const handleSignInWithGoogle = async () => {
     if (response?.type === 'success') {
       try {
-        const userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-          headers: { Authorization: `Bearer ${response.authentication.accessToken}` },
+        setIsLoadingGoogle(true);
+
+        const token = await api.post('/auth/loginWithGoogle', {
+          token: response.authentication.accessToken,
         });
 
-        console.log(await userInfoResponse.json());
+        const authUser = await api.get('/auth/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        showToast({
+          title: 'Sucesso!',
+          description: 'Usuário autenticado com sucesso!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
+
+        await Promise.all([setAuthIsLoggedIn(true), setAuthToken(token), setAuthUser(authUser)]);
       } catch (error) {
-        console.error(error);
+        showToast({
+          title: 'Ops!',
+          description: error?.response?.data?.message || 'Erro ao logar usuário com Google!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      } finally {
+        setIsLoadingGoogle(false);
       }
     }
   };
@@ -169,11 +211,12 @@ const SignIn = ({ navigation }) => {
             </Link>
           </FormControl>
 
-          <Button onPress={handleSignIn} mt="2">
+          <Button isLoading={isLoading} onPress={handleSignIn} mt="2">
             Entrar
           </Button>
 
           <Button
+            isLoading={isLoadingGoogle}
             onPress={() => promptAsync()}
             variant="outline"
             startIcon={<GoogleLogo width={20} height={20} />}
