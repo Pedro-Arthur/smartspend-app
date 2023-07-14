@@ -13,8 +13,8 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response && error.response.status === 401 && error.config.url !== '/auth/login') {
-      const { removeAuthIsLoggedIn, removeAuthUser, removeAuthToken } = useContext(AuthContext);
-      await Promise.all([removeAuthIsLoggedIn(), removeAuthUser(), removeAuthToken()]);
+      const { removeAuthIsLoggedIn } = useContext(AuthContext);
+      await Promise.all([removeAuthIsLoggedIn()]);
     }
 
     throw error;
