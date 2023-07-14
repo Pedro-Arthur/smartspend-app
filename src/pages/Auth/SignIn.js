@@ -75,7 +75,7 @@ const SignIn = ({ navigation }) => {
       try {
         setIsLoading(true);
 
-        const token = await api.post('/auth/login', formData);
+        const { token } = (await api.post('/auth/login', formData)).data;
 
         const authUser = await api.get('/auth/user', {
           headers: {
@@ -111,9 +111,11 @@ const SignIn = ({ navigation }) => {
       try {
         setIsLoadingGoogle(true);
 
-        const token = await api.post('/auth/loginWithGoogle', {
-          token: response.authentication.accessToken,
-        });
+        const { token } = (
+          await api.post('/auth/loginWithGoogle', {
+            token: response.authentication.accessToken,
+          })
+        ).data;
 
         const authUser = await api.get('/auth/user', {
           headers: {
