@@ -16,8 +16,12 @@ const Home = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { removeAuthIsLoggedIn, removeAuthUser, removeAuthToken } = useContext(AuthContext);
 
-  const logout = async () => {
-    await Promise.all([removeAuthIsLoggedIn(), removeAuthUser(), removeAuthToken()]);
+  const logout = async (force) => {
+    if (force) {
+      await Promise.all([removeAuthIsLoggedIn(), removeAuthUser(), removeAuthToken()]);
+    } else {
+      await removeAuthIsLoggedIn();
+    }
   };
 
   return (
@@ -31,8 +35,11 @@ const Home = () => {
         <Switch isChecked={colorMode === 'dark'} onToggle={toggleColorMode} mt={5} size="lg" />
       </HStack>
 
-      <Button mt={5} onPress={logout} w={40} backgroundColor="red.500">
-        Sair
+      <Button mt={5} onPress={logout(true)} w={40} backgroundColor="red.500">
+        force logout
+      </Button>
+      <Button mt={5} onPress={logout(false)} w={40} backgroundColor="red.500">
+        simulate expiration
       </Button>
     </Center>
   );
