@@ -8,7 +8,7 @@ import api from '../services/api';
 
 const Main = () => {
   const { showToast } = useContext(ToastContext);
-  const { removeAuthIsLoggedIn } = useContext(AuthContext);
+  const { removeAuthIsLoggedIn, isLoggedIn } = useContext(AuthContext);
 
   const checkInternetConnection = async () => {
     const netInfo = await NetInfo.fetch();
@@ -47,16 +47,7 @@ const Main = () => {
   // Request interceptor
   api.interceptors.request.use(
     async (config) => {
-      const routesWithoutToken = [
-        '/users',
-        '/users/withGoogle',
-        '/auth/login',
-        '/auth/loginWithGoogle',
-        '/auth/user',
-        '/auth/resetPassword/sendCode',
-      ];
-
-      if (!routesWithoutToken.includes(config.url)) {
+      if (isLoggedIn) {
         const storageToken = await AsyncStorage.getItem('@token');
 
         if (storageToken) {
