@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import * as NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routes from '../routes';
 import { ToastContext } from '../contexts/ToastContext';
 import { AuthContext } from '../contexts/AuthContext';
@@ -45,7 +46,16 @@ const Main = () => {
 
   // Request interceptor
   api.interceptors.request.use(
-    (config) => config,
+    async (config) => {
+      const storageToken = await AsyncStorage.getItem('@token');
+
+      if (storageToken) {
+        // eslint-disable-next-line no-param-reassign
+        config.headers.Authorization = `Bearer ${storageToken}`;
+      }
+
+      return config;
+    },
     (error) => Promise.reject(error)
   );
 
