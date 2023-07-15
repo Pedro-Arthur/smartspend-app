@@ -8,7 +8,15 @@ const Profile = () => {
   const { user, token } = useContext(AuthContext);
 
   const changeName = async () => {
-    await api.patch(`/users/${user.id}`, { name: `joao${user.id}` });
+    await api.patch(
+      `/users/${user.id}`,
+      { name: `joao${user.id}` },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
   };
 
   return (
