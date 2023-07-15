@@ -12,13 +12,13 @@ const UserAvatarBox = ({ user, changeLoginHeader }) => (
       <HStack alignItems="center" space={3}>
         {user.pictureUrl ? (
           <Avatar
-            size="48px"
+            size="40px"
             source={{
               uri: user.pictureUrl,
             }}
           />
         ) : (
-          <Avatar bg="primary.600" mr="1" _text={{ color: 'white' }}>
+          <Avatar size="40px" bg="primary.600" mr="1" _text={{ color: 'white' }}>
             {user.name.charAt(0)}
           </Avatar>
         )}

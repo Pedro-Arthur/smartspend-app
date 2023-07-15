@@ -56,6 +56,7 @@ const SignIn = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const [isAvailableBiometricAuthenticate, setIsAvailableBiometricAuthenticate] = useState(false);
+  const [loginHeader, setLoginHeader] = useState('email');
 
   const handleSignIn = async () => {
     const errors = {
@@ -63,12 +64,14 @@ const SignIn = ({ navigation }) => {
       password: null,
     };
 
-    if (!formData.email) {
-      errors.email = 'E-mail é obrigatório!';
-    } else {
-      const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-      if (!regexEmail.test(formData.email)) {
-        errors.email = 'E-mail é inválido!';
+    if (loginHeader === 'email') {
+      if (!formData.email) {
+        errors.email = 'E-mail é obrigatório!';
+      } else {
+        const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        if (!regexEmail.test(formData.email)) {
+          errors.email = 'E-mail é inválido!';
+        }
       }
     }
 
@@ -82,7 +85,10 @@ const SignIn = ({ navigation }) => {
       try {
         setIsLoading(true);
 
-        const res = await api.post('/auth/login', formData);
+        const res = await api.post('/auth/login', {
+          email: loginHeader === 'email' ? formData.email : user.email,
+          password: formData.password,
+        });
 
         const authUser = await api.get('/auth/user', {
           headers: {
@@ -218,12 +224,24 @@ const SignIn = ({ navigation }) => {
     }
   };
 
+  const handleLoginHeader = async () => {
+    if (await AsyncStorage.getItem('@user')) {
+      setLoginHeader('user-avatar-box');
+    }
+  };
+
+  const toggleLoginHeader = () => {
+    if (loginHeader === 'email') setLoginHeader('user-avatar-box');
+    else setLoginHeader('email');
+  };
+
   useEffect(() => {
     handleSignInWithGoogle();
   }, [response]);
 
   useEffect(() => {
     handleIsAvailableBiometricAuthenticate();
+    handleLoginHeader();
   }, []);
 
   return (
@@ -237,7 +255,7 @@ const SignIn = ({ navigation }) => {
         </Heading>
 
         <VStack space={3} mt="5">
-          {!user && (
+          {loginHeader === 'email' && (
             <FormControl isRequired isInvalid={formErrors.email}>
               <FormControl.Label>E-mail</FormControl.Label>
               <Input
@@ -255,7 +273,9 @@ const SignIn = ({ navigation }) => {
             </FormControl>
           )}
 
-          {user && <UserAvatarBox user={user} changeLoginHeader={() => console.log('opa')} />}
+          {loginHeader !== 'email' && (
+            <UserAvatarBox user={user} changeLoginHeader={() => toggleLoginHeader()} />
+          )}
 
           <FormControl isRequired isInvalid={formErrors.password}>
             <FormControl.Label>Senha</FormControl.Label>
