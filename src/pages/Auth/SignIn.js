@@ -20,6 +20,7 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
 import * as LocalAuthentication from 'expo-local-authentication';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ToastContext } from '../../contexts/ToastContext';
 import { AuthContext } from '../../contexts/AuthContext';
 import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
@@ -201,12 +202,14 @@ const SignIn = ({ navigation }) => {
   };
 
   const handleIsAvailableBiometricAuthenticate = async () => {
-    const available = await LocalAuthentication.hasHardwareAsync();
-    const enroll = await LocalAuthentication.isEnrolledAsync();
+    if (await AsyncStorage.getItem('@token')) {
+      const available = await LocalAuthentication.hasHardwareAsync();
+      const enroll = await LocalAuthentication.isEnrolledAsync();
 
-    if (available && enroll) {
-      setIsAvailableBiometricAuthenticate(true);
-      await handleBiometricAuthenticate();
+      if (available && enroll) {
+        setIsAvailableBiometricAuthenticate(true);
+        await handleBiometricAuthenticate();
+      }
     }
   };
 
@@ -215,9 +218,7 @@ const SignIn = ({ navigation }) => {
   }, [response]);
 
   useEffect(() => {
-    if (token) {
-      handleIsAvailableBiometricAuthenticate();
-    }
+    handleIsAvailableBiometricAuthenticate();
   }, []);
 
   return (
