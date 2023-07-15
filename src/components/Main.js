@@ -47,11 +47,22 @@ const Main = () => {
   // Request interceptor
   api.interceptors.request.use(
     async (config) => {
-      const storageToken = await AsyncStorage.getItem('@token');
+      const routesWithoutToken = [
+        '/users',
+        '/users/withGoogle',
+        '/auth/login',
+        '/auth/loginWithGoogle',
+        '/auth/user',
+        '/auth/resetPassword/sendCode',
+      ];
 
-      if (storageToken) {
-        // eslint-disable-next-line no-param-reassign
-        config.headers.Authorization = `Bearer ${storageToken}`;
+      if (!routesWithoutToken.includes(config.url)) {
+        const storageToken = await AsyncStorage.getItem('@token');
+
+        if (storageToken) {
+          // eslint-disable-next-line no-param-reassign
+          config.headers.Authorization = `Bearer ${storageToken}`;
+        }
       }
 
       return config;
