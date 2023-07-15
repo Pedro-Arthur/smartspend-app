@@ -186,7 +186,11 @@ const SignIn = ({ navigation }) => {
           status: 'success',
         });
 
-        await Promise.all([setAuthIsLoggedIn(true), setAuthToken(token), setAuthUser(authUser)]);
+        await Promise.all([
+          setAuthIsLoggedIn(true),
+          setAuthToken(res.token),
+          setAuthUser(authUser),
+        ]);
       } catch (error) {
         showToast({
           title: 'Ops!',
