@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
-import { Text } from 'native-base';
+import { Text, useColorModeValue } from 'native-base';
 
 // Pages
 import Home from '../pages/Home';
@@ -35,9 +35,9 @@ const AppRoutes = () => (
       },
       tabBarItemStyle: {
         paddingVertical: 8,
-        backgroundColor: '#5E17EB',
+        backgroundColor: useColorModeValue('#fff', '#111827'),
       },
-      tabBarActiveTintColor: '#fff',
+      tabBarActiveTintColor: '#5E17EB',
       tabBarInactiveTintColor: '#a1a1aa',
     }}
     initialRouteName="Home"
