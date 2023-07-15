@@ -4,12 +4,13 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const Profile = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
 
   return (
     <Center flex="1" bg={bg} safeArea>
       <Heading>PROFILE</Heading>
-      <Text>{user.name}</Text>
+      <Text>name: {user.name}</Text>
+      <Text>final 4 chars token: {token.substring(token.length - 4)}</Text>
     </Center>
   );
 };
