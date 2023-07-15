@@ -225,9 +225,11 @@ const SignIn = ({ navigation }) => {
   };
 
   const handleLoginHeader = async () => {
+    setIsFetchLoading(true);
     if (await AsyncStorage.getItem('@user')) {
       setLoginHeader('user-avatar-box');
     }
+    setIsFetchLoading(false);
   };
 
   const toggleLoginHeader = () => {
