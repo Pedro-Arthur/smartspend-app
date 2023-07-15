@@ -255,7 +255,7 @@ const SignIn = ({ navigation }) => {
             </FormControl>
           )}
 
-          {user && <UserAvatarBox user={user} />}
+          {user && <UserAvatarBox user={user} changeLoginHeader={() => console.log('opa')} />}
 
           <FormControl isRequired isInvalid={formErrors.password}>
             <FormControl.Label>Senha</FormControl.Label>

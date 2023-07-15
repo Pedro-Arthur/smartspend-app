@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, VStack, HStack, Pressable, Avatar, Spacer } from 'native-base';
 
-const UserAvatarBox = ({ user }) => (
+const UserAvatarBox = ({ user, changeLoginHeader }) => (
   <Box
     borderWidth={1}
     _dark={{ borderColor: 'light.700' }}
@@ -28,7 +28,7 @@ const UserAvatarBox = ({ user }) => (
         </VStack>
         <Spacer />
 
-        <Pressable onPress={() => console.log('You touched me')}>
+        <Pressable onPress={changeLoginHeader}>
           <Text
             underline
             color="primary.600"
