@@ -45,7 +45,7 @@ const AppRoutes = () => (
     <Tab.Screen
       name="BankAccounts"
       component={BankAccounts}
-      options={getTabOptions('Contas', 'bank')}
+      options={getTabOptions('Contas', 'wallet')}
     />
     <Tab.Screen
       name="BankCards"
