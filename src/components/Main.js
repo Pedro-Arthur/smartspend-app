@@ -45,7 +45,7 @@ const Main = () => {
 
   // Request interceptor
   api.interceptors.request.use(
-    async (config) => config,
+    (config) => config,
     (error) => Promise.reject(error)
   );
 
