@@ -68,9 +68,11 @@ export const AuthProvider = ({ children }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
 
   const loadStorage = async () => {
-    const storageUser = await AsyncStorage.getItem('@user');
-    const storageIsLoggedIn = await AsyncStorage.getItem('@isLoggedIn');
-    const storageToken = await AsyncStorage.getItem('@token');
+    const [storageUser, storageIsLoggedIn, storageToken] = await Promise.all([
+      AsyncStorage.getItem('@user'),
+      AsyncStorage.getItem('@isLoggedIn'),
+      AsyncStorage.getItem('@token'),
+    ]);
 
     if (storageUser) {
       setUser(JSON.parse(storageUser));
