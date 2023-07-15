@@ -35,10 +35,10 @@ const Home = () => {
         <Switch isChecked={colorMode === 'dark'} onToggle={toggleColorMode} mt={5} size="lg" />
       </HStack>
 
-      <Button mt={5} onPress={logout(true)} w={40} backgroundColor="red.500">
+      <Button mt={5} onPress={() => logout(true)} w={40} backgroundColor="red.500">
         force logout
       </Button>
-      <Button mt={5} onPress={logout(false)} w={40} backgroundColor="red.500">
+      <Button mt={5} onPress={() => logout(false)} w={40} backgroundColor="red.500">
         simulate expiration
       </Button>
     </Center>
