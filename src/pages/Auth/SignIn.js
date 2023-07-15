@@ -13,13 +13,16 @@ import {
   HStack,
   Icon,
   Pressable,
+  IconButton,
 } from 'native-base';
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
+import * as LocalAuthentication from 'expo-local-authentication';
 import { ToastContext } from '../../contexts/ToastContext';
 import { AuthContext } from '../../contexts/AuthContext';
+import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
 import GoogleLogo from '../../assets/images/google-logo.svg';
 import api from '../../services/api';
 
@@ -36,7 +39,8 @@ const SignIn = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
 
   const { showToast } = useContext(ToastContext);
-  const { setAuthIsLoggedIn, setAuthUser, setAuthToken } = useContext(AuthContext);
+  const { setAuthIsLoggedIn, setAuthUser, setAuthToken, token } = useContext(AuthContext);
+  const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
     email: null,
@@ -49,6 +53,7 @@ const SignIn = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
+  const [isAvailableBiometricAuthenticate, setIsAvailableBiometricAuthenticate] = useState(false);
 
   const handleSignIn = async () => {
     const errors = {
@@ -75,11 +80,11 @@ const SignIn = ({ navigation }) => {
       try {
         setIsLoading(true);
 
-        const { token } = await api.post('/auth/login', formData);
+        const res = await api.post('/auth/login', formData);
 
         const authUser = await api.get('/auth/user', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${res.token}`,
           },
         });
 
@@ -91,7 +96,11 @@ const SignIn = ({ navigation }) => {
           status: 'success',
         });
 
-        await Promise.all([setAuthIsLoggedIn(true), setAuthToken(token), setAuthUser(authUser)]);
+        await Promise.all([
+          setAuthIsLoggedIn(true),
+          setAuthToken(res.token),
+          setAuthUser(authUser),
+        ]);
       } catch (error) {
         showToast({
           title: 'Ops!',
@@ -111,13 +120,60 @@ const SignIn = ({ navigation }) => {
       try {
         setIsLoadingGoogle(true);
 
-        const { token } = await api.post('/auth/loginWithGoogle', {
+        const res = await api.post('/auth/loginWithGoogle', {
           token: response.authentication.accessToken,
         });
 
         const authUser = await api.get('/auth/user', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${res.token}`,
+          },
+        });
+
+        showToast({
+          title: 'Sucesso!',
+          description: 'Usuário autenticado com sucesso!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
+
+        await Promise.all([
+          setAuthIsLoggedIn(true),
+          setAuthToken(res.token),
+          setAuthUser(authUser),
+        ]);
+      } catch (error) {
+        showToast({
+          title: 'Ops!',
+          description: error?.response?.data?.message || 'Erro ao logar usuário com Google!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      } finally {
+        setIsLoadingGoogle(false);
+      }
+    }
+  };
+
+  const handleBiometricAuthenticate = async () => {
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage: 'Autenticação',
+      cancelLabel: 'Senha',
+      disableDeviceFallback: true,
+    });
+
+    if (result.success) {
+      try {
+        setIsFetchLoading(true);
+        const res = await api.post('/auth/loginByToken', {
+          token,
+        });
+
+        const authUser = await api.get('/auth/user', {
+          headers: {
+            Authorization: `Bearer ${res.token}`,
           },
         });
 
@@ -133,20 +189,36 @@ const SignIn = ({ navigation }) => {
       } catch (error) {
         showToast({
           title: 'Ops!',
-          description: error?.response?.data?.message || 'Erro ao logar usuário com Google!',
+          description: error?.response?.data?.message || 'Erro ao logar usuário com biometria!',
           variant: 'solid',
           isClosable: true,
           status: 'error',
         });
       } finally {
-        setIsLoadingGoogle(false);
+        setIsFetchLoading(false);
       }
+    }
+  };
+
+  const handleIsAvailableBiometricAuthenticate = async () => {
+    const available = await LocalAuthentication.hasHardwareAsync();
+    const enroll = await LocalAuthentication.isEnrolledAsync();
+
+    if (available && enroll) {
+      setIsAvailableBiometricAuthenticate(true);
+      await handleBiometricAuthenticate();
     }
   };
 
   useEffect(() => {
     handleSignInWithGoogle();
   }, [response]);
+
+  useEffect(() => {
+    if (token) {
+      handleIsAvailableBiometricAuthenticate();
+    }
+  }, []);
 
   return (
     <Center bg={bg} flex={1} safeArea w="100%">
@@ -225,7 +297,23 @@ const SignIn = ({ navigation }) => {
             <Text>Entrar com Google</Text>
           </Button>
 
-          <HStack mt="6" justifyContent="center">
+          {token && isAvailableBiometricAuthenticate && (
+            <Box alignItems="center">
+              <IconButton
+                borderRadius="full"
+                mt="3"
+                _icon={{
+                  as: Ionicons,
+                  name: 'finger-print-sharp',
+                  size: 31,
+                  color: 'primary.600',
+                }}
+                onPress={handleBiometricAuthenticate}
+              />
+            </Box>
+          )}
+
+          <HStack mt="3" justifyContent="center">
             <Text fontSize="sm">Não tem uma conta? </Text>
             <Link
               _text={{
