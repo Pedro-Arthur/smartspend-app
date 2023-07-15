@@ -28,7 +28,12 @@ const Main = () => {
   }, []);
 
   api.interceptors.response.use(
-    (response) => response.data,
+    (response) => {
+      if (response && response.data && typeof response.data === 'object') {
+        return response.data;
+      }
+      return response;
+    },
     async (error) => {
       if (error.response && error.response.status === 401 && error.config.url !== '/auth/login') {
         await removeAuthIsLoggedIn();
