@@ -2,7 +2,12 @@ import React from 'react';
 import { Box, Text, VStack, HStack, Pressable, Avatar, Spacer } from 'native-base';
 
 const UserAvatarBox = ({ user }) => (
-  <Box borderWidth={1} borderColor="light.700" borderRadius={4}>
+  <Box
+    borderWidth={1}
+    _dark={{ borderColor: 'light.700' }}
+    _light={{ borderColor: 'light.300' }}
+    borderRadius={4}
+  >
     <Box pl="4" pr="5" py="2">
       <HStack alignItems="center" space={3}>
         {user.pictureUrl ? (
@@ -24,7 +29,13 @@ const UserAvatarBox = ({ user }) => (
         <Spacer />
 
         <Pressable onPress={() => console.log('You touched me')}>
-          <Text underline color="primary.600" fontSize="xs" alignSelf="flex-start">
+          <Text
+            underline
+            color="primary.600"
+            fontSize="xs"
+            fontWeight="medium"
+            alignSelf="flex-start"
+          >
             Outro
           </Text>
         </Pressable>
