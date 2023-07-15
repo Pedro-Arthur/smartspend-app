@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react';
 import * as NetInfo from '@react-native-community/netinfo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routes from '../routes';
 import { ToastContext } from '../contexts/ToastContext';
 import { AuthContext } from '../contexts/AuthContext';
@@ -8,7 +7,7 @@ import api from '../services/api';
 
 const Main = () => {
   const { showToast } = useContext(ToastContext);
-  const { removeAuthIsLoggedIn, isLoggedIn } = useContext(AuthContext);
+  const { removeAuthIsLoggedIn } = useContext(AuthContext);
 
   const checkInternetConnection = async () => {
     const netInfo = await NetInfo.fetch();
@@ -28,7 +27,7 @@ const Main = () => {
     checkInternetConnection();
   }, []);
 
-  // Response interceptor
+  // Axios response interceptor
   api.interceptors.response.use(
     (response) => {
       if (response && response.data && typeof response.data === 'object') {
@@ -42,23 +41,6 @@ const Main = () => {
       }
       return Promise.reject(error);
     }
-  );
-
-  // Request interceptor
-  api.interceptors.request.use(
-    async (config) => {
-      if (isLoggedIn) {
-        const storageToken = await AsyncStorage.getItem('@token');
-
-        if (storageToken) {
-          // eslint-disable-next-line no-param-reassign
-          config.headers.Authorization = `Bearer ${storageToken}`;
-        }
-      }
-
-      return config;
-    },
-    (error) => Promise.reject(error)
   );
 
   return <Routes />;
