@@ -26,6 +26,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
 import GoogleLogo from '../../assets/images/google-logo.svg';
 import api from '../../services/api';
+import UserAvatarBox from '../../components/UserAvatarBox';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -40,7 +41,7 @@ const SignIn = ({ navigation }) => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
 
   const { showToast } = useContext(ToastContext);
-  const { setAuthIsLoggedIn, setAuthUser, setAuthToken, token } = useContext(AuthContext);
+  const { setAuthIsLoggedIn, setAuthUser, setAuthToken, token, user } = useContext(AuthContext);
   const { setIsFetchLoading } = useContext(FetchLoadingContext);
 
   const [formData, setFormData] = useState({
@@ -236,21 +237,25 @@ const SignIn = ({ navigation }) => {
         </Heading>
 
         <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={formErrors.email}>
-            <FormControl.Label>E-mail</FormControl.Label>
-            <Input
-              InputLeftElement={
-                <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
-              }
-              keyboardType="email-address"
-              placeholder="joao@email.com"
-              onChangeText={(value) => setFormData({ ...formData, email: value })}
-              value={formData.email}
-            />
-            {'email' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+          {!user && (
+            <FormControl isRequired isInvalid={formErrors.email}>
+              <FormControl.Label>E-mail</FormControl.Label>
+              <Input
+                InputLeftElement={
+                  <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+                }
+                keyboardType="email-address"
+                placeholder="joao@email.com"
+                onChangeText={(value) => setFormData({ ...formData, email: value })}
+                value={formData.email}
+              />
+              {'email' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
+          )}
+
+          {user && <UserAvatarBox user={user} />}
 
           <FormControl isRequired isInvalid={formErrors.password}>
             <FormControl.Label>Senha</FormControl.Label>
