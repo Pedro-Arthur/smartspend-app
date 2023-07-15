@@ -74,11 +74,18 @@ export const AuthProvider = ({ children }) => {
       AsyncStorage.getItem('@token'),
     ]);
 
-    if (storageUser) {
-      setUser(JSON.parse(storageUser));
+    const parsedUser = storageUser ? JSON.parse(storageUser) : null;
+    const currentTime = Date.now() / 1000;
+
+    if (parsedUser) {
+      if (currentTime > parsedUser.exp) {
+        await removeAuthIsLoggedIn();
+      } else {
+        setUser(parsedUser);
+      }
     }
 
-    if (storageIsLoggedIn) {
+    if (storageIsLoggedIn && parsedUser && currentTime <= parsedUser.exp) {
       setIsLoggedIn(JSON.parse(storageIsLoggedIn));
     }
 
