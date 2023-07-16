@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { Button, Modal, Box, useColorModeValue, Text } from 'native-base';
-import { Animated, Pressable } from 'react-native';
+import { Button, Modal, Box, useColorModeValue, Text, ScrollView } from 'native-base';
+import { Animated, Pressable, Dimensions } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 
+const screenHeight = Dimensions.get('window').height;
+
 const TermsTab = () => (
-  <Box my="4">
+  <ScrollView my="3">
     <Text>frfrfrr</Text>
-  </Box>
+  </ScrollView>
 );
 
 const PolicyTab = () => (
-  <Box my="4">
+  <ScrollView my="3">
     <Text>2frrgtgt878</Text>
-  </Box>
+  </ScrollView>
 );
 
 const renderScene = SceneMap({
@@ -99,7 +101,7 @@ const TermsModal = () => {
       <Modal.Content>
         <Modal.Header>Nossos termos</Modal.Header>
 
-        <Modal.Body>
+        <Modal.Body h={screenHeight * 0.5}>
           <Tabs />
         </Modal.Body>
 
