@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { Button, Modal, Center, Box, useColorModeValue, Text } from 'native-base';
+import { Button, Modal, Box, useColorModeValue, Text } from 'native-base';
 import { Animated, Pressable } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 
 const TermsTab = () => (
-  <Center flex={1} my="4">
+  <Box my="4">
     <Text>frfrfrr</Text>
-  </Center>
+  </Box>
 );
 
 const PolicyTab = () => (
-  <Center flex={1} my="4">
+  <Box my="4">
     <Text>2frrgtgt878</Text>
-  </Center>
+  </Box>
 );
 
 const renderScene = SceneMap({
