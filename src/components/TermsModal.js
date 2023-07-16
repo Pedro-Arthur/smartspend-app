@@ -5,13 +5,13 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 
 const TermsTab = () => (
   <Center flex={1} my="4">
-    <Text>1</Text>
+    <Text>frfrfrr</Text>
   </Center>
 );
 
 const PolicyTab = () => (
   <Center flex={1} my="4">
-    <Text>2</Text>
+    <Text>2frrgtgt878</Text>
   </Center>
 );
 
@@ -58,6 +58,7 @@ const Tabs = () => {
             <Animated.Text
               style={{
                 color: textColor,
+                fontFamily: 'montserrat-regular',
               }}
             >
               {route.title}
