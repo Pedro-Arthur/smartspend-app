@@ -7,7 +7,7 @@ const screenHeight = Dimensions.get('window').height;
 
 const TermsTab = () => (
   <ScrollView my="3">
-    <Heading size="md" my={3}>
+    <Heading size="md" mb={3}>
       1. Termos
     </Heading>
 
@@ -62,13 +62,13 @@ const TermsTab = () => (
       3. Isenção de responsabilidade
     </Heading>
 
-    <Text>
+    <Text ml="5">
       3.1 Os materiais no aplicativo SmartSpend são fornecidos como estão. SmartSpend não oferece
       garantias, expressas ou implícitas, e, por este meio, isenta e nega todas as outras garantias,
       incluindo, sem limitação, garantias implícitas ou condições de comercialização, adequação a um
       fim específico ou não violação de propriedade intelectual ou outra violação de direitos.
     </Text>
-    <Text>
+    <Text ml="5">
       3.2 Além disso, SmartSpend não garante ou faz qualquer representação relativa à precisão, aos
       resultados prováveis ou à confiabilidade do uso dos materiais em seu aplicativo ou de outra
       forma relacionado a esses materiais ou em sites vinculados a este aplicativo.
@@ -134,7 +134,71 @@ const TermsTab = () => (
 
 const PolicyTab = () => (
   <ScrollView my="3">
-    <Text>2frrgtgt878</Text>
+    <Text mb="3">
+      A sua privacidade é importante para nós. É política da SmartSpend respeitar a sua privacidade
+      em relação a qualquer informação sua que possamos coletar no aplicativo SmartSpend, e outros
+      aplicativos que possuímos e operamos.
+    </Text>
+
+    <Text mb="3">
+      Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um
+      serviço. Fazemo-lo por meios justos e legais, com o seu conhecimento e consentimento. Também
+      informamos por que estamos coletando e como será usado.
+    </Text>
+
+    <Text mb="3">
+      Apenas retemos as informações coletadas pelo tempo necessário para fornecer o serviço
+      solicitado. Quando armazenamos dados, protegemos dentro de meios comercialmente aceitáveis
+      para evitar perdas e roubos, bem como acesso, divulgação, cópia, uso ou modificação não
+      autorizados.
+    </Text>
+
+    <Text mb="3">
+      Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto
+      quando exigido por lei.
+    </Text>
+
+    <Text mb="3">
+      O nosso aplicativo pode ter links para sites externos que não são operados por nós. Esteja
+      ciente de que não temos controle sobre o conteúdo e práticas desses sites e não podemos
+      aceitar responsabilidade por suas respectivas políticas de privacidade.
+    </Text>
+
+    <Text mb="3">
+      Você é livre para recusar a nossa solicitação de informações pessoais, entendendo que talvez
+      não possamos fornecer alguns dos serviços desejados.
+    </Text>
+
+    <Text mb="3">
+      O uso continuado de nosso aplicativo será considerado como aceitação de nossas práticas em
+      torno de privacidade e informações pessoais. Se você tiver alguma dúvida sobre como lidamos
+      com dados do usuário e informações pessoais, entre em contato conosco.
+    </Text>
+
+    <Heading size="md" mb="3">
+      Compromisso do Usuário
+    </Heading>
+
+    <Text>
+      O usuário se compromete a fazer uso adequado dos conteúdos e da informação que a SmartSpend
+      oferece no aplicativo e com caráter enunciativo, mas não limitativo:
+    </Text>
+
+    <Text ml="5">
+      A) Não se envolver em atividades que sejam ilegais ou contrárias à boa fé a à ordem pública;
+    </Text>
+
+    <Text ml="5">
+      B) Não difundir propaganda ou conteúdo de natureza racista, xenofóbica, ou azar, qualquer tipo
+      de pornografia ilegal, de apologia ao terrorismo ou contra os direitos humanos;
+    </Text>
+
+    <Text ml="5">
+      C) Não causar danos aos sistemas físicos (hardwares) e lógicos (softwares) da SmartSpend, de
+      seus fornecedores ou terceiros, para introduzir ou disseminar vírus informáticos ou quaisquer
+      outros sistemas de hardware ou software que sejam capazes de causar danos anteriormente
+      mencionados.
+    </Text>
   </ScrollView>
 );
 
