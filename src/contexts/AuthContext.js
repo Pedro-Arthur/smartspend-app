@@ -80,9 +80,8 @@ export const AuthProvider = ({ children }) => {
     if (parsedUser) {
       if (currentTime > parsedUser.exp) {
         await removeAuthIsLoggedIn();
-      } else {
-        setUser(parsedUser);
       }
+      setUser(parsedUser);
     }
 
     if (storageIsLoggedIn && parsedUser && currentTime <= parsedUser.exp) {
