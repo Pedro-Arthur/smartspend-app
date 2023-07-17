@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Modal, Box, useColorModeValue, Text, ScrollView, Heading } from 'native-base';
 import { Animated, Dimensions, Pressable } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
+import { AuthContext } from '../contexts/AuthContext';
+import { ToastContext } from '../contexts/ToastContext';
+import api from '../services/api';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -270,10 +273,37 @@ const Tabs = () => {
 };
 
 const TermsModal = () => {
+  const { showToast } = useContext(ToastContext);
+  const { setAuthUser, user, token } = useContext(AuthContext);
+
   const [modalTermsVisible, setModalTermsVisible] = useState(true);
 
-  const acceptTerms = () => {
-    setModalTermsVisible(false);
+  const acceptTerms = async () => {
+    try {
+      await api.patch(
+        `/users/${user.id}`,
+        {
+          hasAcceptedTerms: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      await setAuthUser({ ...user, hasAcceptedTerms: true });
+
+      setModalTermsVisible(false);
+    } catch (error) {
+      showToast({
+        title: 'Ops!',
+        description: error?.response?.data?.message || 'Erro ao aceitar os termos.',
+        variant: 'solid',
+        isClosable: true,
+        status: 'error',
+      });
+    }
   };
 
   return (
