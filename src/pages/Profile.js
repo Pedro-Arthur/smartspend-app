@@ -29,11 +29,13 @@ const SettingsIcon = ({ triggerProps }) => (
 
 const Profile = () => {
   const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+  const boxColor = useColorModeValue('white', 'coolGray.900');
+  const { colorMode, toggleColorMode } = useColorMode();
+  const settingsIcon = (triggerProps) => <SettingsIcon triggerProps={triggerProps} />;
 
   const { showToast } = useContext(ToastContext);
   const { user, token, removeAuthIsLoggedIn, removeAuthUser, removeAuthToken, setAuthUser } =
     useContext(AuthContext);
-  const { colorMode, toggleColorMode } = useColorMode();
 
   const [formData, setFormData] = useState({
     name: user.name,
@@ -95,20 +97,17 @@ const Profile = () => {
     await Promise.all([removeAuthIsLoggedIn(), removeAuthUser(), removeAuthToken()]);
   };
 
-  const settingsIcon = (triggerProps) => <SettingsIcon triggerProps={triggerProps} />;
-  const boxColor = useColorModeValue('white', 'coolGray.900');
-
   return (
     <Box flex="1" bg={bg} safeArea>
-      <Center my="5">
+      <Center my="4">
         <Text>PERFIL</Text>
       </Center>
 
-      <Box mx={3} p={3} borderRadius={8} bg={boxColor}>
+      <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor}>
         <HStack justifyContent="flex-end">
           <Menu w="190" trigger={settingsIcon}>
             <Menu.Item>
-              <HStack alignItems="center">
+              <HStack alignItems="center" space={4}>
                 <Text>Tema escuro</Text>
                 <Switch isChecked={colorMode === 'dark'} onToggle={toggleColorMode} />
               </HStack>
@@ -116,7 +115,7 @@ const Profile = () => {
           </Menu>
         </HStack>
 
-        <Center mt={3}>
+        <Center mt={4}>
           {user.pictureUrl ? (
             <Avatar
               size="70px"
@@ -130,23 +129,25 @@ const Profile = () => {
             </Avatar>
           )}
 
-          <Text fontWeight="medium" fontSize="lg" mt={2}>
+          <Text fontWeight="medium" fontSize="lg" mt={3}>
             {user.name}
           </Text>
           <Text color="muted.400" fontSize="xs">
             {user.email}
           </Text>
 
-          <Button bg="red.600" onPress={() => handleLogout()} mt="5" w="100%">
+          <Button bg="red.700" onPress={() => handleLogout()} mt="4" w="100%">
             Sair
           </Button>
         </Center>
       </Box>
 
-      <Box mx={3} mt={5} p={3} borderRadius={8} bg={boxColor}>
-        <Heading mb={3} fontWeight="medium" size="sm">
-          Seus dados
-        </Heading>
+      <Box shadow={2} mx={4} mt={4} p={4} borderRadius={8} bg={boxColor}>
+        <Center mb={4}>
+          <Heading fontWeight="medium" size="sm">
+            SEUS DADOS
+          </Heading>
+        </Center>
 
         <FormControl isRequired isInvalid={formErrors.name}>
           <FormControl.Label>Nome</FormControl.Label>
@@ -163,7 +164,7 @@ const Profile = () => {
           )}
         </FormControl>
 
-        <Button isLoading={isLoading} onPress={() => handleUpdateUser()} mt="2">
+        <Button isLoading={isLoading} onPress={() => handleUpdateUser()} mt="4">
           Salvar
         </Button>
       </Box>
