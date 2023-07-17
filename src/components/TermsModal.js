@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Modal, Box, useColorModeValue, Text, ScrollView, Heading } from 'native-base';
 import { Animated, Dimensions, Pressable } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../contexts/AuthContext';
 import { ToastContext } from '../contexts/ToastContext';
 import api from '../services/api';
@@ -276,7 +277,7 @@ const TermsModal = () => {
   const { showToast } = useContext(ToastContext);
   const { setAuthUser, user, token } = useContext(AuthContext);
 
-  const [modalTermsVisible, setModalTermsVisible] = useState(true);
+  const [modalTermsVisible, setModalTermsVisible] = useState(false);
 
   const acceptTerms = async () => {
     try {
@@ -305,6 +306,19 @@ const TermsModal = () => {
       });
     }
   };
+
+  const handleModalTermsVisible = async () => {
+    const storageUser = await AsyncStorage.getItem('@user');
+    const parsedUser = storageUser ? JSON.parse(storageUser) : null;
+
+    if (parsedUser && parsedUser.hasAcceptedTerms === false) {
+      setModalTermsVisible(true);
+    }
+  };
+
+  useEffect(() => {
+    handleModalTermsVisible();
+  }, []);
 
   return (
     <Modal
