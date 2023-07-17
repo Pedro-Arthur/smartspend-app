@@ -14,7 +14,6 @@ import {
   FormControl,
   Input,
   Button,
-  Heading,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { AuthContext } from '../contexts/AuthContext';
@@ -124,7 +123,7 @@ const Profile = () => {
               }}
             />
           ) : (
-            <Avatar size="70px" bg="primary.600" _text={{ color: 'white', fontSize: 'lg' }}>
+            <Avatar size="70px" bg="primary.600" _text={{ color: 'white', fontSize: '2xl' }}>
               {user.name.charAt(0)}
             </Avatar>
           )}
@@ -144,9 +143,7 @@ const Profile = () => {
 
       <Box shadow={2} mx={4} mt={4} p={4} borderRadius={8} bg={boxColor}>
         <Center mb={4}>
-          <Heading fontWeight="medium" size="sm">
-            SEUS DADOS
-          </Heading>
+          <Text>SEUS DADOS</Text>
         </Center>
 
         <FormControl isRequired isInvalid={formErrors.name}>
