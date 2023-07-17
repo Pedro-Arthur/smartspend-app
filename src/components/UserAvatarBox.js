@@ -18,7 +18,7 @@ const UserAvatarBox = ({ user, changeLoginHeader }) => (
             }}
           />
         ) : (
-          <Avatar size="40px" bg="primary.600" mr="1" _text={{ color: 'white' }}>
+          <Avatar size="40px" bg="primary.600" _text={{ color: 'white' }}>
             {user.name.charAt(0)}
           </Avatar>
         )}
