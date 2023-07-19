@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Platform } from 'react-native';
 import {
   Box,
   Button,
@@ -12,6 +13,7 @@ import {
   Text,
   IconButton,
   Icon,
+  KeyboardAvoidingView,
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { ToastContext } from '../../contexts/ToastContext';
@@ -74,63 +76,65 @@ const RecoverPasswordSendCode = ({ navigation }) => {
   };
 
   return (
-    <Center bg={bg} flex={1} safeArea w="100%">
-      <Box safeArea p="2" py="8" w="90%">
-        <IconButton
-          variant="unstyled"
-          _icon={{
-            as: Feather,
-            name: 'chevron-left',
-            size: 'lg',
-            color: useColorModeValue('black', 'white'),
-          }}
-          onPress={() => navigation.goBack()}
-          width="0"
-        />
-        <Heading size="lg" fontWeight="600">
-          Recuperar senha
-        </Heading>
+    <Center bg={bg} flex={1} w="100%">
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Box p="2" py="8" w="90%">
+          <IconButton
+            variant="unstyled"
+            _icon={{
+              as: Feather,
+              name: 'chevron-left',
+              size: 'lg',
+              color: useColorModeValue('black', 'white'),
+            }}
+            onPress={() => navigation.goBack()}
+            width="0"
+          />
+          <Heading size="lg" fontWeight="600">
+            Recuperar senha
+          </Heading>
 
-        <Alert mt="5" w="100%" variant={useColorModeValue('subtle', 'solid')} status="warning">
-          <VStack space={1} flexShrink={1} w="100%" alignItems="center">
-            <Alert.Icon size="md" />
-            <Text fontSize="md" fontWeight="medium">
-              Atenção!
-            </Text>
+          <Alert mt="5" w="100%" variant={useColorModeValue('subtle', 'solid')} status="warning">
+            <VStack space={1} flexShrink={1} w="100%" alignItems="center">
+              <Alert.Icon size="md" />
+              <Text fontSize="md" fontWeight="medium">
+                Atenção!
+              </Text>
 
-            <Box
-              _text={{
-                textAlign: 'center',
-              }}
-            >
-              Certifique-se de inserir o endereço de e-mail correto, pois enviaremos um e-mail com
-              um código para alterar sua senha.
-            </Box>
+              <Box
+                _text={{
+                  textAlign: 'center',
+                }}
+              >
+                Certifique-se de inserir o endereço de e-mail correto, pois enviaremos um e-mail com
+                um código para alterar sua senha.
+              </Box>
+            </VStack>
+          </Alert>
+
+          <VStack space={3} mt="5">
+            <FormControl isRequired isInvalid={formErrors.email}>
+              <FormControl.Label>E-mail</FormControl.Label>
+              <Input
+                InputLeftElement={
+                  <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+                }
+                keyboardType="email-address"
+                placeholder="joao@email.com"
+                onChangeText={(value) => setFormData({ ...formData, email: value })}
+                value={formData.email}
+              />
+              {'email' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
+
+            <Button isLoading={isLoading} onPress={handleRecoverPasswordSendCode} mt="2">
+              Enviar
+            </Button>
           </VStack>
-        </Alert>
-
-        <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={formErrors.email}>
-            <FormControl.Label>E-mail</FormControl.Label>
-            <Input
-              InputLeftElement={
-                <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
-              }
-              keyboardType="email-address"
-              placeholder="joao@email.com"
-              onChangeText={(value) => setFormData({ ...formData, email: value })}
-              value={formData.email}
-            />
-            {'email' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
-
-          <Button isLoading={isLoading} onPress={handleRecoverPasswordSendCode} mt="2">
-            Enviar
-          </Button>
-        </VStack>
-      </Box>
+        </Box>
+      </KeyboardAvoidingView>
     </Center>
   );
 };
