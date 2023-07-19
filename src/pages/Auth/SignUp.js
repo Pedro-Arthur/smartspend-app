@@ -12,11 +12,13 @@ import {
   IconButton,
   Icon,
   Pressable,
+  KeyboardAvoidingView,
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
+import { Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import GoogleLogo from '../../assets/images/google-logo.svg';
 import api from '../../services/api';
@@ -148,118 +150,120 @@ const SignUp = ({ navigation }) => {
 
   return (
     <Center bg={bg} flex={1} w="100%">
-      <Box p="2" py="8" w="90%">
-        <IconButton
-          variant="unstyled"
-          _icon={{
-            as: Feather,
-            name: 'chevron-left',
-            size: 'lg',
-            color: useColorModeValue('black', 'white'),
-          }}
-          onPress={() => navigation.goBack()}
-          width="0"
-        />
-        <Heading size="lg" fontWeight="600">
-          Bem-vindo
-        </Heading>
-        <Heading mt="1" fontWeight="medium" size="xs">
-          Faça seu cadastro agora!
-        </Heading>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} w="90%">
+        <Box p="2" py="8">
+          <IconButton
+            variant="unstyled"
+            _icon={{
+              as: Feather,
+              name: 'chevron-left',
+              size: 'lg',
+              color: useColorModeValue('black', 'white'),
+            }}
+            onPress={() => navigation.goBack()}
+            width="0"
+          />
+          <Heading size="lg" fontWeight="600">
+            Bem-vindo
+          </Heading>
+          <Heading mt="1" fontWeight="medium" size="xs">
+            Faça seu cadastro agora!
+          </Heading>
 
-        <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={formErrors.name}>
-            <FormControl.Label>Nome</FormControl.Label>
-            <Input
-              InputLeftElement={
-                <Icon as={<AntDesign name="user" />} size={4} ml="3" color="muted.400" />
-              }
-              placeholder="João Silva"
-              onChangeText={(value) => setFormData({ ...formData, name: value })}
-              value={formData.name}
-            />
-            {'name' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.name}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+          <VStack space={3} mt="5">
+            <FormControl isRequired isInvalid={formErrors.name}>
+              <FormControl.Label>Nome</FormControl.Label>
+              <Input
+                InputLeftElement={
+                  <Icon as={<AntDesign name="user" />} size={4} ml="3" color="muted.400" />
+                }
+                placeholder="João Silva"
+                onChangeText={(value) => setFormData({ ...formData, name: value })}
+                value={formData.name}
+              />
+              {'name' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.name}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
-          <FormControl isRequired isInvalid={formErrors.email}>
-            <FormControl.Label>E-mail</FormControl.Label>
-            <Input
-              InputLeftElement={
-                <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
-              }
-              keyboardType="email-address"
-              placeholder="joao@email.com"
-              onChangeText={(value) => setFormData({ ...formData, email: value })}
-              value={formData.email}
-            />
-            {'email' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+            <FormControl isRequired isInvalid={formErrors.email}>
+              <FormControl.Label>E-mail</FormControl.Label>
+              <Input
+                InputLeftElement={
+                  <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+                }
+                keyboardType="email-address"
+                placeholder="joao@email.com"
+                onChangeText={(value) => setFormData({ ...formData, email: value })}
+                value={formData.email}
+              />
+              {'email' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
-          <FormControl isRequired isInvalid={formErrors.password}>
-            <FormControl.Label>Senha</FormControl.Label>
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              InputRightElement={
-                <Pressable onPress={() => setShowPassword(!showPassword)}>
-                  <Icon
-                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
-                    size={4}
-                    mr="3"
-                    color="muted.400"
-                  />
-                </Pressable>
-              }
-              placeholder="******"
-              onChangeText={(value) => setFormData({ ...formData, password: value })}
-              value={formData.password}
-            />
-            {'password' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+            <FormControl isRequired isInvalid={formErrors.password}>
+              <FormControl.Label>Senha</FormControl.Label>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                InputRightElement={
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                    <Icon
+                      as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                      size={4}
+                      mr="3"
+                      color="muted.400"
+                    />
+                  </Pressable>
+                }
+                placeholder="******"
+                onChangeText={(value) => setFormData({ ...formData, password: value })}
+                value={formData.password}
+              />
+              {'password' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
-          <FormControl isRequired isInvalid={formErrors.confirmPassword}>
-            <FormControl.Label>Confirme a senha</FormControl.Label>
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              InputRightElement={
-                <Pressable onPress={() => setShowPassword(!showPassword)}>
-                  <Icon
-                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
-                    size={4}
-                    mr="3"
-                    color="muted.400"
-                  />
-                </Pressable>
-              }
-              placeholder="******"
-              onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
-              value={formData.confirmPassword}
-            />
-            {'confirmPassword' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.confirmPassword}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+            <FormControl isRequired isInvalid={formErrors.confirmPassword}>
+              <FormControl.Label>Confirme a senha</FormControl.Label>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                InputRightElement={
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                    <Icon
+                      as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                      size={4}
+                      mr="3"
+                      color="muted.400"
+                    />
+                  </Pressable>
+                }
+                placeholder="******"
+                onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
+                value={formData.confirmPassword}
+              />
+              {'confirmPassword' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.confirmPassword}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
-          <Button isLoading={isLoading} onPress={handleSignUp} mt="2">
-            Cadastrar
-          </Button>
+            <Button isLoading={isLoading} onPress={handleSignUp} mt="2">
+              Cadastrar
+            </Button>
 
-          <Button
-            isLoading={isLoadingGoogle}
-            onPress={() => promptAsync()}
-            variant="outline"
-            startIcon={<GoogleLogo width={20} height={20} />}
-            mt="2"
-          >
-            <Text>Cadastrar com Google</Text>
-          </Button>
-        </VStack>
-      </Box>
+            <Button
+              isLoading={isLoadingGoogle}
+              onPress={() => promptAsync()}
+              variant="outline"
+              startIcon={<GoogleLogo width={20} height={20} />}
+              mt="2"
+            >
+              <Text>Cadastrar com Google</Text>
+            </Button>
+          </VStack>
+        </Box>
+      </KeyboardAvoidingView>
     </Center>
   );
 };

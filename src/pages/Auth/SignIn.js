@@ -14,6 +14,7 @@ import {
   Icon,
   Pressable,
   IconButton,
+  KeyboardAvoidingView,
 } from 'native-base';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
@@ -21,6 +22,7 @@ import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
 import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import { AuthContext } from '../../contexts/AuthContext';
 import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
@@ -253,118 +255,120 @@ const SignIn = ({ navigation }) => {
 
   return (
     <Center bg={bg} flex={1} w="100%">
-      <Box p="2" py="8" w="90%">
-        <Heading size="lg" fontWeight="600">
-          Bem-vindo
-        </Heading>
-        <Heading mt="1" fontWeight="medium" size="xs">
-          Faça login para continuar!
-        </Heading>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} w="90%">
+        <Box p="2" py="8">
+          <Heading size="lg" fontWeight="600">
+            Bem-vindo
+          </Heading>
+          <Heading mt="1" fontWeight="medium" size="xs">
+            Faça login para continuar!
+          </Heading>
 
-        <VStack space={3} mt="5">
-          {loginHeader === 'email' && (
-            <FormControl isRequired isInvalid={formErrors.email}>
-              <FormControl.Label>E-mail</FormControl.Label>
-              <Input
-                InputLeftElement={
-                  <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
-                }
-                keyboardType="email-address"
-                placeholder="joao@email.com"
-                onChangeText={(value) => setFormData({ ...formData, email: value })}
-                value={formData.email}
-              />
-              {'email' in formErrors && (
-                <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
-              )}
-            </FormControl>
-          )}
-
-          {loginHeader !== 'email' && (
-            <UserAvatarBox user={user} changeLoginHeader={() => toggleLoginHeader()} />
-          )}
-
-          <FormControl isRequired isInvalid={formErrors.password}>
-            <FormControl.Label>Senha</FormControl.Label>
-            <Input
-              placeholder="******"
-              onChangeText={(value) => setFormData({ ...formData, password: value })}
-              value={formData.password}
-              type={showPassword ? 'text' : 'password'}
-              InputRightElement={
-                <Pressable onPress={() => setShowPassword(!showPassword)}>
-                  <Icon
-                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
-                    size={4}
-                    mr="3"
-                    color="muted.400"
-                  />
-                </Pressable>
-              }
-            />
-            {'password' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
+          <VStack space={3} mt="5">
+            {loginHeader === 'email' && (
+              <FormControl isRequired isInvalid={formErrors.email}>
+                <FormControl.Label>E-mail</FormControl.Label>
+                <Input
+                  InputLeftElement={
+                    <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
+                  }
+                  keyboardType="email-address"
+                  placeholder="joao@email.com"
+                  onChangeText={(value) => setFormData({ ...formData, email: value })}
+                  value={formData.email}
+                />
+                {'email' in formErrors && (
+                  <FormControl.ErrorMessage>{formErrors.email}</FormControl.ErrorMessage>
+                )}
+              </FormControl>
             )}
 
-            <Link
-              _text={{
-                fontSize: 'xs',
-                fontWeight: '500',
-                color: 'primary.600',
-              }}
-              alignSelf="flex-end"
-              mt="1"
-              onPress={() => navigation.navigate('RecoverPasswordSendCode')}
-            >
-              Esqueceu a senha?
-            </Link>
-          </FormControl>
+            {loginHeader !== 'email' && (
+              <UserAvatarBox user={user} changeLoginHeader={() => toggleLoginHeader()} />
+            )}
 
-          <Button isLoading={isLoading} onPress={handleSignIn} mt="2">
-            Entrar
-          </Button>
+            <FormControl isRequired isInvalid={formErrors.password}>
+              <FormControl.Label>Senha</FormControl.Label>
+              <Input
+                placeholder="******"
+                onChangeText={(value) => setFormData({ ...formData, password: value })}
+                value={formData.password}
+                type={showPassword ? 'text' : 'password'}
+                InputRightElement={
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                    <Icon
+                      as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                      size={4}
+                      mr="3"
+                      color="muted.400"
+                    />
+                  </Pressable>
+                }
+              />
+              {'password' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.password}</FormControl.ErrorMessage>
+              )}
 
-          <Button
-            isLoading={isLoadingGoogle}
-            onPress={() => promptAsync()}
-            variant="outline"
-            startIcon={<GoogleLogo width={20} height={20} />}
-            mt="2"
-          >
-            <Text>Entrar com Google</Text>
-          </Button>
-
-          {token && isAvailableBiometricAuthenticate && (
-            <Box alignItems="center">
-              <IconButton
-                borderRadius="full"
-                mt="3"
-                _icon={{
-                  as: Ionicons,
-                  name: 'finger-print-sharp',
-                  size: 31,
+              <Link
+                _text={{
+                  fontSize: 'xs',
+                  fontWeight: '500',
                   color: 'primary.600',
                 }}
-                onPress={handleBiometricAuthenticate}
-              />
-            </Box>
-          )}
+                alignSelf="flex-end"
+                mt="1"
+                onPress={() => navigation.navigate('RecoverPasswordSendCode')}
+              >
+                Esqueceu a senha?
+              </Link>
+            </FormControl>
 
-          <HStack mt="3" justifyContent="center">
-            <Text fontSize="sm">Não tem uma conta? </Text>
-            <Link
-              _text={{
-                fontWeight: 'medium',
-                fontSize: 'sm',
-                color: 'primary.600',
-              }}
-              onPress={() => navigation.navigate('SignUp')}
+            <Button isLoading={isLoading} onPress={handleSignIn} mt="2">
+              Entrar
+            </Button>
+
+            <Button
+              isLoading={isLoadingGoogle}
+              onPress={() => promptAsync()}
+              variant="outline"
+              startIcon={<GoogleLogo width={20} height={20} />}
+              mt="2"
             >
-              Cadastre-se
-            </Link>
-          </HStack>
-        </VStack>
-      </Box>
+              <Text>Entrar com Google</Text>
+            </Button>
+
+            {token && isAvailableBiometricAuthenticate && (
+              <Box alignItems="center">
+                <IconButton
+                  borderRadius="full"
+                  mt="3"
+                  _icon={{
+                    as: Ionicons,
+                    name: 'finger-print-sharp',
+                    size: 31,
+                    color: 'primary.600',
+                  }}
+                  onPress={handleBiometricAuthenticate}
+                />
+              </Box>
+            )}
+
+            <HStack mt="3" justifyContent="center">
+              <Text fontSize="sm">Não tem uma conta? </Text>
+              <Link
+                _text={{
+                  fontWeight: 'medium',
+                  fontSize: 'sm',
+                  color: 'primary.600',
+                }}
+                onPress={() => navigation.navigate('SignUp')}
+              >
+                Cadastre-se
+              </Link>
+            </HStack>
+          </VStack>
+        </Box>
+      </KeyboardAvoidingView>
     </Center>
   );
 };
