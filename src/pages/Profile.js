@@ -97,7 +97,7 @@ const Profile = () => {
   };
 
   return (
-    <Box flex="1" bg={bg} safeArea>
+    <Box flex="1" bg={bg}>
       <Center my="4">
         <Text>PERFIL</Text>
       </Center>

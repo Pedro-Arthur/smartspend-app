@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <>
-      <Center flex="1" bg={bg} safeArea>
+      <Center flex="1" bg={bg}>
         <Heading>HOME</Heading>
       </Center>
 

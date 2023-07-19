@@ -58,8 +58,8 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
   };
 
   return (
-    <Center bg={bg} flex={1} safeArea w="100%">
-      <Box safeArea p="2" py="8" w="90%">
+    <Center bg={bg} flex={1} w="100%">
+      <Box p="2" py="8" w="90%">
         <IconButton
           variant="unstyled"
           _icon={{

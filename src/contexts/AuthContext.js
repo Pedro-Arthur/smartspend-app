@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
 
   if (isLoading) {
     return (
-      <Center flex="1" bg={bg} safeArea>
+      <Center flex="1" bg={bg}>
         <Spinner size="lg" />
       </Center>
     );
