@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
-import { StatusBar } from 'expo-status-bar';
 import { preventAutoHideAsync } from 'expo-splash-screen';
 import 'react-native-gesture-handler';
 
@@ -10,6 +9,7 @@ import colorModeManager from './src/theme/colorModeManager';
 import AppLoadingFonts from './src/components/AppLoadingFonts';
 import FetchLoading from './src/components/FetchLoading';
 import Main from './src/components/Main';
+import StatusBar from './src/components/StatusBar';
 
 import { ToastProvider } from './src/contexts/ToastContext';
 import { FetchLoadingProvider } from './src/contexts/FetchLoadingContext';
@@ -36,7 +36,7 @@ export default () => {
 
   return (
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
-      <StatusBar backgroundColor="#5E17EB" barStyle="light-content" />
+      <StatusBar />
 
       <FetchLoadingProvider>
         <FetchLoading />

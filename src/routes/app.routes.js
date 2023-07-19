@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
-import { Text, useColorModeValue } from 'native-base';
+import { Text, useColorModeValue, Icon } from 'native-base';
+import { Platform } from 'react-native';
 
 // Pages
 import Home from '../pages/Home';
@@ -19,7 +20,7 @@ const getTabOptions = (text, icon) => ({
     </Text>
   ),
   tabBarIcon: ({ color, focused }) => (
-    <AntDesign name={icon} color={color} size={focused ? 25 : 20} />
+    <Icon as={<AntDesign name={icon} />} color={color} size={focused ? 6 : 5} />
   ),
 });
 
@@ -31,7 +32,11 @@ const AppRoutes = () => (
         fontFamily: 'montserrat-regular',
       },
       tabBarStyle: {
-        height: 60,
+        height: Platform.OS === 'android' ? 60 : 90,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
       },
       tabBarItemStyle: {
         paddingVertical: 8,

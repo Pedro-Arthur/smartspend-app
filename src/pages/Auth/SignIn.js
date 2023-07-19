@@ -216,8 +216,13 @@ const SignIn = ({ navigation }) => {
     if (await AsyncStorage.getItem('@token')) {
       const available = await LocalAuthentication.hasHardwareAsync();
       const enroll = await LocalAuthentication.isEnrolledAsync();
+      const supportedTypes = await LocalAuthentication.supportedAuthenticationTypesAsync();
 
-      if (available && enroll) {
+      if (
+        available &&
+        enroll &&
+        supportedTypes.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)
+      ) {
         setIsAvailableBiometricAuthenticate(true);
         await handleBiometricAuthenticate();
       }
