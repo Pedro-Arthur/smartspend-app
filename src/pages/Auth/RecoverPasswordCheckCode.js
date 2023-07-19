@@ -10,8 +10,10 @@ import {
   Input,
   IconButton,
   Icon,
+  KeyboardAvoidingView,
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
+import { Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import api from '../../services/api';
 
@@ -59,43 +61,45 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
 
   return (
     <Center bg={bg} flex={1} w="100%">
-      <Box p="2" py="8" w="90%">
-        <IconButton
-          variant="unstyled"
-          _icon={{
-            as: Feather,
-            name: 'chevron-left',
-            size: 'lg',
-            color: useColorModeValue('black', 'white'),
-          }}
-          onPress={() => navigation.goBack()}
-          width="0"
-        />
-        <Heading size="lg" fontWeight="600">
-          Verificar código
-        </Heading>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} w="90%">
+        <Box p="2" py="8">
+          <IconButton
+            variant="unstyled"
+            _icon={{
+              as: Feather,
+              name: 'chevron-left',
+              size: 'lg',
+              color: useColorModeValue('black', 'white'),
+            }}
+            onPress={() => navigation.goBack()}
+            width="0"
+          />
+          <Heading size="lg" fontWeight="600">
+            Verificar código
+          </Heading>
 
-        <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={formErrors.code}>
-            <FormControl.Label>Código</FormControl.Label>
-            <Input
-              InputLeftElement={
-                <Icon as={<AntDesign name="lock" />} size={4} ml="3" color="muted.400" />
-              }
-              placeholder="******"
-              onChangeText={(value) => setFormData({ ...formData, code: value })}
-              value={formData.code}
-            />
-            {'code' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.code}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+          <VStack space={3} mt="5">
+            <FormControl isRequired isInvalid={formErrors.code}>
+              <FormControl.Label>Código</FormControl.Label>
+              <Input
+                InputLeftElement={
+                  <Icon as={<AntDesign name="lock" />} size={4} ml="3" color="muted.400" />
+                }
+                placeholder="******"
+                onChangeText={(value) => setFormData({ ...formData, code: value })}
+                value={formData.code}
+              />
+              {'code' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.code}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
-          <Button isLoading={isLoading} onPress={handleRecoverPasswordCheckCode} mt="2">
-            Verificar
-          </Button>
-        </VStack>
-      </Box>
+            <Button isLoading={isLoading} onPress={handleRecoverPasswordCheckCode} mt="2">
+              Verificar
+            </Button>
+          </VStack>
+        </Box>
+      </KeyboardAvoidingView>
     </Center>
   );
 };
