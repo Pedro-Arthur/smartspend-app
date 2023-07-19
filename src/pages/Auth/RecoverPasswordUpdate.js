@@ -11,9 +11,11 @@ import {
   IconButton,
   Icon,
   Pressable,
+  KeyboardAvoidingView,
 } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
+import { Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import api from '../../services/api';
 
@@ -88,74 +90,76 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
 
   return (
     <Center bg={bg} flex={1} w="100%">
-      <Box p="2" py="8" w="90%">
-        <IconButton
-          variant="unstyled"
-          _icon={{
-            as: Feather,
-            name: 'chevron-left',
-            size: 'lg',
-            color: useColorModeValue('black', 'white'),
-          }}
-          onPress={() => navigation.goBack()}
-          width="0"
-        />
-        <Heading size="lg" fontWeight="600">
-          Alterar senha
-        </Heading>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} w="90%">
+        <Box p="2" py="8">
+          <IconButton
+            variant="unstyled"
+            _icon={{
+              as: Feather,
+              name: 'chevron-left',
+              size: 'lg',
+              color: useColorModeValue('black', 'white'),
+            }}
+            onPress={() => navigation.goBack()}
+            width="0"
+          />
+          <Heading size="lg" fontWeight="600">
+            Alterar senha
+          </Heading>
 
-        <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={formErrors.newPassword}>
-            <FormControl.Label>Nova senha</FormControl.Label>
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              InputRightElement={
-                <Pressable onPress={() => setShowPassword(!showPassword)}>
-                  <Icon
-                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
-                    size={4}
-                    mr="3"
-                    color="muted.400"
-                  />
-                </Pressable>
-              }
-              placeholder="******"
-              onChangeText={(value) => setFormData({ ...formData, newPassword: value })}
-              value={formData.newPassword}
-            />
-            {'newPassword' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.newPassword}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+          <VStack space={3} mt="5">
+            <FormControl isRequired isInvalid={formErrors.newPassword}>
+              <FormControl.Label>Nova senha</FormControl.Label>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                InputRightElement={
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                    <Icon
+                      as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                      size={4}
+                      mr="3"
+                      color="muted.400"
+                    />
+                  </Pressable>
+                }
+                placeholder="******"
+                onChangeText={(value) => setFormData({ ...formData, newPassword: value })}
+                value={formData.newPassword}
+              />
+              {'newPassword' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.newPassword}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
-          <FormControl isRequired isInvalid={formErrors.confirmPassword}>
-            <FormControl.Label>Confirme a nova senha</FormControl.Label>
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              InputRightElement={
-                <Pressable onPress={() => setShowPassword(!showPassword)}>
-                  <Icon
-                    as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
-                    size={4}
-                    mr="3"
-                    color="muted.400"
-                  />
-                </Pressable>
-              }
-              placeholder="******"
-              onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
-              value={formData.confirmPassword}
-            />
-            {'confirmPassword' in formErrors && (
-              <FormControl.ErrorMessage>{formErrors.confirmPassword}</FormControl.ErrorMessage>
-            )}
-          </FormControl>
+            <FormControl isRequired isInvalid={formErrors.confirmPassword}>
+              <FormControl.Label>Confirme a nova senha</FormControl.Label>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                InputRightElement={
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                    <Icon
+                      as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
+                      size={4}
+                      mr="3"
+                      color="muted.400"
+                    />
+                  </Pressable>
+                }
+                placeholder="******"
+                onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
+                value={formData.confirmPassword}
+              />
+              {'confirmPassword' in formErrors && (
+                <FormControl.ErrorMessage>{formErrors.confirmPassword}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
 
-          <Button isLoading={isLoading} onPress={handleRecoverPasswordUpdate} mt="2">
-            Salvar
-          </Button>
-        </VStack>
-      </Box>
+            <Button isLoading={isLoading} onPress={handleRecoverPasswordUpdate} mt="2">
+              Salvar
+            </Button>
+          </VStack>
+        </Box>
+      </KeyboardAvoidingView>
     </Center>
   );
 };
