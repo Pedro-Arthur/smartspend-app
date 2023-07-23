@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
-import * as Splash from 'expo-splash-screen';
 import 'react-native-gesture-handler';
 
 import theme from './src/theme';
@@ -14,8 +13,6 @@ import StatusBar from './src/components/StatusBar';
 import { ToastProvider } from './src/contexts/ToastContext';
 import { FetchLoadingProvider } from './src/contexts/FetchLoadingContext';
 import { AuthProvider } from './src/contexts/AuthContext';
-
-Splash.preventAutoHideAsync();
 
 export default () => {
   const [appLoaded, setAppLoaded] = useState(false);

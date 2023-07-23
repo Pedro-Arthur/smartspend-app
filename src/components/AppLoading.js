@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
-import * as Splash from 'expo-splash-screen';
+import { View, Animated, StyleSheet, Easing } from 'react-native';
 import * as Font from 'expo-font';
 
 const fonts = {
@@ -32,36 +31,59 @@ const fonts = {
   'montserrat-black-italic': require('../assets/fonts/Montserrat-BlackItalic.ttf'),
 };
 
+const logoOpacityAnimationTime = 2000;
+const circleScaleItemAnimationTime = 500;
+const circleScaleLoopTime = 2000;
+
 const AppLoading = ({ onFinish }) => {
   const logoOpacity = new Animated.Value(0);
+  const circleScale = new Animated.Value(1);
 
-  const load = async () => {
-    try {
-      await Font.loadAsync(fonts);
-      await Splash.hideAsync();
-      setTimeout(() => onFinish(), 4000);
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-    }
+  const handleLoad = () => {
+    Font.loadAsync(fonts);
+
+    Animated.sequence([
+      Animated.timing(logoOpacity, {
+        toValue: 1,
+        duration: logoOpacityAnimationTime,
+        useNativeDriver: true,
+      }),
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(circleScale, {
+            toValue: 1.2,
+            duration: circleScaleItemAnimationTime,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          }),
+          Animated.timing(circleScale, {
+            toValue: 1,
+            duration: circleScaleItemAnimationTime,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          }),
+        ])
+      ),
+    ]).start();
+
+    setTimeout(
+      () => onFinish(),
+      logoOpacityAnimationTime + circleScaleItemAnimationTime + circleScaleLoopTime
+    );
   };
 
   useEffect(() => {
-    load();
-
-    Animated.timing(logoOpacity, {
-      toValue: 1,
-      duration: 3000,
-      useNativeDriver: true,
-    }).start();
+    handleLoad();
   }, []);
 
   return (
     <View style={styles.container}>
-      <Animated.Image
-        source={require('../assets/images/outline-icon.png')}
-        style={[styles.logo, { opacity: logoOpacity }]}
-      />
+      <Animated.View style={[styles.circleContainer, { transform: [{ scale: circleScale }] }]}>
+        <Animated.Image
+          source={require('../assets/images/outline-icon.png')}
+          style={[styles.logo, { opacity: logoOpacity }]}
+        />
+      </Animated.View>
     </View>
   );
 };
@@ -74,8 +96,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#d97706',
   },
   logo: {
-    width: 150,
+    width: 70,
     resizeMode: 'contain',
+  },
+  circleContainer: {
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 100,
+    padding: 10,
   },
 });
 
