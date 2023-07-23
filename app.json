@@ -9,7 +9,7 @@
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#5E17EB"
+      "backgroundColor": "#d97706"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -22,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
-        "backgroundColor": "#5E17EB"
+        "backgroundColor": "#d97706"
       },
       "permissions": ["android.permission.USE_BIOMETRIC", "android.permission.USE_FINGERPRINT"],
       "package": "com.anonymous.smartspendapp"

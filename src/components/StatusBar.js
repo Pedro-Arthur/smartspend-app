@@ -5,14 +5,14 @@ import { StatusBar as StatusBarC } from 'expo-status-bar';
 
 const StatusBar = () => (
   <View style={styles.StatusBar}>
-    <StatusBarC translucent backgroundColor="#5E17EB" barStyle="light-content" />
+    <StatusBarC translucent backgroundColor="#d97706" barStyle="light-content" />
   </View>
 );
 
 const styles = StyleSheet.create({
   StatusBar: {
     height: Constants.statusBarHeight,
-    backgroundColor: '#5E17EB',
+    backgroundColor: '#d97706',
   },
 });
 

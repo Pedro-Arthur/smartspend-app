@@ -14,7 +14,7 @@ const Routes = () => {
       theme={{
         dark: useColorModeValue(false, true),
         colors: {
-          primary: '#5E17EB',
+          primary: '#d97706',
           background: useColorModeValue('#fafaf9', '#1f2937'),
           text: useColorModeValue('#000', '#fff'),
           card: useColorModeValue('#fafaf9', '#1f2937'),
