@@ -33,13 +33,13 @@ const fonts = {
 
 const logoOpacityAnimationTime = 2000;
 const circleScaleItemAnimationTime = 500;
-const circleScaleLoopTime = 2000;
+const circleScaleLoopTime = 3000;
 
 const AppLoading = ({ onFinish }) => {
   const logoOpacity = new Animated.Value(0);
   const circleScale = new Animated.Value(1);
 
-  const handleLoad = () => {
+  useEffect(() => {
     Font.loadAsync(fonts);
 
     Animated.sequence([
@@ -66,14 +66,7 @@ const AppLoading = ({ onFinish }) => {
       ),
     ]).start();
 
-    setTimeout(
-      () => onFinish(),
-      logoOpacityAnimationTime + circleScaleItemAnimationTime + circleScaleLoopTime
-    );
-  };
-
-  useEffect(() => {
-    handleLoad();
+    setTimeout(() => onFinish(), logoOpacityAnimationTime + circleScaleLoopTime);
   }, []);
 
   return (

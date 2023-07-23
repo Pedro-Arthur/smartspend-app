@@ -18,7 +18,6 @@
     "expo-auth-session": "~4.0.3",
     "expo-crypto": "~12.2.1",
     "expo-local-authentication": "~13.3.0",
-    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-system-ui": "~2.2.1",
     "expo-web-browser": "~12.1.1",
