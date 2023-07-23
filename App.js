@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
-import { preventAutoHideAsync } from 'expo-splash-screen';
+import * as Splash from 'expo-splash-screen';
 import 'react-native-gesture-handler';
 
 import theme from './src/theme';
 import colorModeManager from './src/theme/colorModeManager';
 
-import AppLoadingFonts from './src/components/AppLoadingFonts';
+import AppLoading from './src/components/AppLoading';
 import FetchLoading from './src/components/FetchLoading';
 import Main from './src/components/Main';
 import StatusBar from './src/components/StatusBar';
@@ -15,23 +15,17 @@ import { ToastProvider } from './src/contexts/ToastContext';
 import { FetchLoadingProvider } from './src/contexts/FetchLoadingContext';
 import { AuthProvider } from './src/contexts/AuthContext';
 
+Splash.preventAutoHideAsync();
+
 export default () => {
-  const [fontLoaded, setFontLoaded] = useState(false);
+  const [appLoaded, setAppLoaded] = useState(false);
 
-  const callPreventAutoHideAsync = async () => {
-    await preventAutoHideAsync();
-  };
-
-  const handleFinishFontsLoading = useCallback(() => {
-    setFontLoaded(true);
+  const handleFinishAppLoading = useCallback(() => {
+    setAppLoaded(true);
   }, []);
 
-  useEffect(() => {
-    callPreventAutoHideAsync();
-  }, []);
-
-  if (!fontLoaded) {
-    return <AppLoadingFonts onFinish={handleFinishFontsLoading} />;
+  if (!appLoaded) {
+    return <AppLoading onFinish={handleFinishAppLoading} />;
   }
 
   return (

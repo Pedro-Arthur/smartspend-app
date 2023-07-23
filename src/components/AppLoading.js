@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
-import { hideAsync } from 'expo-splash-screen';
-import { loadAsync } from 'expo-font';
+import React, { useEffect } from 'react';
+import { View, Animated, StyleSheet } from 'react-native';
+import * as Splash from 'expo-splash-screen';
+import * as Font from 'expo-font';
 
 const fonts = {
   'montserrat-thin': require('../assets/fonts/Montserrat-Thin.ttf'),
@@ -31,22 +32,51 @@ const fonts = {
   'montserrat-black-italic': require('../assets/fonts/Montserrat-BlackItalic.ttf'),
 };
 
-const AppLoadingFonts = ({ onFinish }) => {
-  const loadFonts = async () => {
+const AppLoading = ({ onFinish }) => {
+  const logoOpacity = new Animated.Value(0);
+
+  const load = async () => {
     try {
-      await loadAsync(fonts);
-      await hideAsync();
-      onFinish();
+      await Font.loadAsync(fonts);
+      await Splash.hideAsync();
+      setTimeout(() => onFinish(), 4000);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   };
 
   useEffect(() => {
-    loadFonts();
+    load();
+
+    Animated.timing(logoOpacity, {
+      toValue: 1,
+      duration: 3000,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
-  return null;
+  return (
+    <View style={styles.container}>
+      <Animated.Image
+        source={require('../assets/images/outline-icon.png')}
+        style={[styles.logo, { opacity: logoOpacity }]}
+      />
+    </View>
+  );
 };
 
-export default AppLoadingFonts;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#d97706',
+  },
+  logo: {
+    width: 150,
+    resizeMode: 'contain',
+  },
+});
+
+export default AppLoading;
