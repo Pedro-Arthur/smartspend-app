@@ -18,7 +18,7 @@ import { ToastContext } from '../../contexts/ToastContext';
 import api from '../../services/api';
 
 const RecoverPasswordCheckCode = ({ navigation }) => {
-  const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+  const bg = useColorModeValue('warmGray.100', 'dark.50');
   const { showToast } = useContext(ToastContext);
 
   const [formData, setFormData] = useState({

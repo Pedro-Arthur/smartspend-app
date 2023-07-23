@@ -15,9 +15,9 @@ const Routes = () => {
         dark: useColorModeValue(false, true),
         colors: {
           primary: '#d97706',
-          background: useColorModeValue('#fafaf9', '#1f2937'),
+          background: useColorModeValue('#f5f5f4', '#18181b'),
           text: useColorModeValue('#000', '#fff'),
-          card: useColorModeValue('#fafaf9', '#1f2937'),
+          card: useColorModeValue('#f5f5f4', '#18181b'),
           border: 'transparent',
         },
       }}

@@ -40,7 +40,7 @@ const AppRoutes = () => (
       },
       tabBarItemStyle: {
         paddingVertical: 8,
-        backgroundColor: useColorModeValue('#fff', '#111827'),
+        backgroundColor: useColorModeValue('#fff', '#27272a'),
       },
       tabBarActiveTintColor: '#d97706',
       tabBarInactiveTintColor: '#a1a1aa',

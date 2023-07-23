@@ -33,7 +33,7 @@ const SignUp = ({ navigation }) => {
     expoClientId: GOOGLE_WEB_CLIENT_ID,
   });
 
-  const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+  const bg = useColorModeValue('warmGray.100', 'dark.50');
   const sucessMessage =
     'Cadastro do usuário realizado com sucesso. Por favor, verifique sua caixa de entrada de e-mails para concluir a confirmação.';
   const { showToast } = useContext(ToastContext);

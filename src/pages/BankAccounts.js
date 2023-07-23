@@ -2,7 +2,7 @@ import React from 'react';
 import { useColorModeValue, Heading, Center } from 'native-base';
 
 const BankAccounts = () => {
-  const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+  const bg = useColorModeValue('warmGray.100', 'dark.50');
 
   return (
     <Center flex="1" bg={bg}>

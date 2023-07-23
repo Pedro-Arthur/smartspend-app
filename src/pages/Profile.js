@@ -27,8 +27,8 @@ const SettingsIcon = ({ triggerProps }) => (
 );
 
 const Profile = () => {
-  const bg = useColorModeValue('warmGray.50', 'coolGray.800');
-  const boxColor = useColorModeValue('white', 'coolGray.900');
+  const bg = useColorModeValue('warmGray.100', 'dark.50');
+  const boxColor = useColorModeValue('white', 'dark.100');
   const { colorMode, toggleColorMode } = useColorMode();
   const settingsIcon = (triggerProps) => <SettingsIcon triggerProps={triggerProps} />;
 
