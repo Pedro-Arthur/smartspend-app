@@ -31,11 +31,13 @@ const fonts = {
   'montserrat-black-italic': require('../assets/fonts/Montserrat-BlackItalic.ttf'),
 };
 
+const logoGifDuration = 3000;
+
 const AppLoading = ({ onFinish }) => {
   const handleLoad = async () => {
     try {
-      await Font.loadAsync(fonts);
-      onFinish();
+      Font.loadAsync(fonts);
+      setTimeout(() => onFinish(), logoGifDuration);
     } catch (e) {
       console.error(e);
     }
@@ -47,7 +49,7 @@ const AppLoading = ({ onFinish }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/images/logo.gif')} style={[styles.logo]} />
+      <Image style={styles.logo} source={require('../assets/images/logo.gif')} />
     </View>
   );
 };
