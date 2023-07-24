@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Animated, StyleSheet, Easing } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import * as Font from 'expo-font';
 
 const fonts = {
@@ -31,52 +31,23 @@ const fonts = {
   'montserrat-black-italic': require('../assets/fonts/Montserrat-BlackItalic.ttf'),
 };
 
-const logoOpacityAnimationTime = 2000;
-const circleScaleItemAnimationTime = 500;
-const circleScaleLoopTime = 3000;
-
 const AppLoading = ({ onFinish }) => {
-  const logoOpacity = new Animated.Value(0);
-  const circleScale = new Animated.Value(1);
+  const handleLoad = async () => {
+    try {
+      await Font.loadAsync(fonts);
+      onFinish();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
-    Font.loadAsync(fonts);
-
-    Animated.sequence([
-      Animated.timing(logoOpacity, {
-        toValue: 1,
-        duration: logoOpacityAnimationTime,
-        useNativeDriver: true,
-      }),
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(circleScale, {
-            toValue: 1.2,
-            duration: circleScaleItemAnimationTime,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-          Animated.timing(circleScale, {
-            toValue: 1,
-            duration: circleScaleItemAnimationTime,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-        ])
-      ),
-    ]).start();
-
-    setTimeout(() => onFinish(), logoOpacityAnimationTime + circleScaleLoopTime);
+    handleLoad();
   }, []);
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.circleContainer, { transform: [{ scale: circleScale }] }]}>
-        <Animated.Image
-          source={require('../assets/images/outline-icon.png')}
-          style={[styles.logo, { opacity: logoOpacity }]}
-        />
-      </Animated.View>
+      <Image source={require('../assets/images/logo.gif')} style={[styles.logo]} />
     </View>
   );
 };
@@ -86,17 +57,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#d97706',
+    backgroundColor: '#fff',
   },
   logo: {
-    width: 70,
+    width: '100%',
     resizeMode: 'contain',
-  },
-  circleContainer: {
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 100,
-    padding: 10,
   },
 });
 
