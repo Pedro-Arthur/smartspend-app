@@ -282,7 +282,7 @@ const TermsModal = () => {
   const acceptTerms = async () => {
     try {
       await api.patch(
-        `/users/${user.id}`,
+        '/users',
         {
           hasAcceptedTerms: true,
         },

@@ -60,7 +60,7 @@ const Profile = () => {
         setIsLoading(true);
 
         await api.patch(
-          `/users/${user.id}`,
+          '/users',
           { name: formData.name },
           {
             headers: {
