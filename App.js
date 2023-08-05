@@ -13,6 +13,7 @@ import StatusBar from './src/components/StatusBar';
 import { ToastProvider } from './src/contexts/ToastContext';
 import { FetchLoadingProvider } from './src/contexts/FetchLoadingContext';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { DataProvider } from './src/contexts/DataContext';
 
 export default () => {
   const [appLoaded, setAppLoaded] = useState(false);
@@ -34,7 +35,9 @@ export default () => {
 
         <ToastProvider>
           <AuthProvider>
-            <Main />
+            <DataProvider>
+              <Main />
+            </DataProvider>
           </AuthProvider>
         </ToastProvider>
       </FetchLoadingProvider>
