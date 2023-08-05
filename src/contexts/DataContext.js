@@ -13,12 +13,14 @@ export const DataProvider = ({ children }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [banks, setBanks] = useState([]);
+  const [bankAccounts, setBankAccounts] = useState([]);
 
   const contextValue = useMemo(
     () => ({
       banks,
+      bankAccounts,
     }),
-    [banks]
+    [banks, bankAccounts]
   );
 
   const bg = useColorModeValue('warmGray.100', 'dark.50');
@@ -27,8 +29,13 @@ export const DataProvider = ({ children }) => {
     const token = await AsyncStorage.getItem('@token');
 
     try {
-      const [banksRes] = await Promise.all([
+      const [banksRes, bankAccountsRes] = await Promise.all([
         api.get('/banks', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        api.get('/bankAccounts', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -36,6 +43,7 @@ export const DataProvider = ({ children }) => {
       ]);
 
       setBanks(banksRes);
+      setBankAccounts(bankAccountsRes);
     } catch (error) {
       showToast({
         title: 'Ops!',

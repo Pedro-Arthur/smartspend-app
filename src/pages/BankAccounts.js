@@ -4,12 +4,13 @@ import { DataContext } from '../contexts/DataContext';
 
 const BankAccounts = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
-  const { banks } = useContext(DataContext);
+  const { banks, bankAccounts } = useContext(DataContext);
 
   return (
     <Center flex="1" bg={bg}>
       <Heading>BANK ACCOUNTS</Heading>
       <Text>Bancos: {banks.length}</Text>
+      <Text>Contas: {bankAccounts.length}</Text>
     </Center>
   );
 };
