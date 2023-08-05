@@ -104,9 +104,9 @@ const BankAccounts = () => {
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor}>
             <VStack>
               <Text>ID: {item.id}</Text>
-              <Text>NUMERO: {item.number}</Text>
-              <Text>DIGITO: {item.digit}</Text>
-              <Text>AGENCIA: {item.agency}</Text>
+              <Text>NÚMERO: {item.number}</Text>
+              <Text>DÍGITO: {item.digit}</Text>
+              <Text>AGÊNCIA: {item.agency}</Text>
               <Text>BANCO: {item.bank.name}</Text>
             </VStack>
 
@@ -157,17 +157,30 @@ const BankAccounts = () => {
         pb={isKeyboardVisible ? keyboardHeight : 0}
         justifyContent="flex-end"
         bottom="4"
-        size="lg"
+        size="xl"
       >
         <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>Forgot Password?</Modal.Header>
+          <Modal.Header>Salvar conta</Modal.Header>
           <Modal.Body>
-            Enter email address and we ll send a link to reset your password.
-            <FormControl mt="3">
-              <FormControl.Label>Email</FormControl.Label>
-              <Input />
-            </FormControl>
+            <VStack space={3}>
+              <FormControl>
+                <FormControl.Label>Número</FormControl.Label>
+                <Input />
+              </FormControl>
+              <FormControl>
+                <FormControl.Label>Dígito</FormControl.Label>
+                <Input />
+              </FormControl>
+              <FormControl>
+                <FormControl.Label>Agência</FormControl.Label>
+                <Input />
+              </FormControl>
+              <FormControl>
+                <FormControl.Label>Banco</FormControl.Label>
+                <Input />
+              </FormControl>
+            </VStack>
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -176,7 +189,7 @@ const BankAccounts = () => {
                 setSaveBankAccountModalVisible(false);
               }}
             >
-              Proceed
+              Salvar
             </Button>
           </Modal.Footer>
         </Modal.Content>
