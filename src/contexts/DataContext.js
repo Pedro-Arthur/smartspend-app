@@ -15,12 +15,34 @@ export const DataProvider = ({ children }) => {
   const [banks, setBanks] = useState([]);
   const [bankAccounts, setBankAccounts] = useState([]);
 
+  const addBankAccount = (data) => {
+    setBankAccounts(...bankAccounts, data);
+  };
+
+  const updateBankAccount = (id, data) => {
+    const indexToUpdate = bankAccounts.findIndex((i) => i.id === id);
+
+    if (indexToUpdate !== -1) {
+      const updatedBankAccounts = [...bankAccounts];
+      updatedBankAccounts[indexToUpdate] = data;
+      setBankAccounts(updatedBankAccounts);
+    }
+  };
+
+  const removeBankAccount = (id) => {
+    const filteredBankAccounts = bankAccounts.filter((i) => i.id !== id);
+    setBankAccounts(filteredBankAccounts);
+  };
+
   const contextValue = useMemo(
     () => ({
       banks,
       bankAccounts,
+      addBankAccount,
+      removeBankAccount,
+      updateBankAccount,
     }),
-    [banks, bankAccounts]
+    [banks, bankAccounts, addBankAccount, removeBankAccount, updateBankAccount]
   );
 
   const bg = useColorModeValue('warmGray.100', 'dark.50');
