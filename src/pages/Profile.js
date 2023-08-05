@@ -135,7 +135,7 @@ const Profile = () => {
             {user.email}
           </Text>
 
-          <Button colorScheme="error" onPress={() => handleLogout()} mt="4" w="100%">
+          <Button colorScheme="danger" onPress={() => handleLogout()} mt="4" w="100%">
             Sair
           </Button>
         </Center>
