@@ -99,7 +99,7 @@ const BankAccounts = () => {
                         onPress={() => deleteAccount(item.id)}
                         colorScheme="danger"
                       >
-                        Delete
+                        Deletar
                       </Button>
                     </Button.Group>
                   </Popover.Footer>
