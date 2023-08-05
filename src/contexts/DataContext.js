@@ -9,7 +9,7 @@ export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const { showToast } = useContext(ToastContext);
-  const { removeAuthIsLoggedIn } = useContext(AuthContext);
+  const { removeAuthIsLoggedIn, isLoggedIn } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(true);
   const [banks, setBanks] = useState([]);
@@ -23,7 +23,9 @@ export const DataProvider = ({ children }) => {
 
   const bg = useColorModeValue('warmGray.100', 'dark.50');
 
-  const loadAuthenticatedData = async (token) => {
+  const loadAuthenticatedData = async () => {
+    const token = await AsyncStorage.getItem('@token');
+
     try {
       const [banksRes] = await Promise.all([
         api.get('/banks', {
@@ -47,19 +49,13 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const handleLoadData = async () => {
-    const [storageIsLoggedIn, storageToken] = await Promise.all([
-      AsyncStorage.getItem('@isLoggedIn'),
-      AsyncStorage.getItem('@token'),
-    ]);
-
-    if (storageIsLoggedIn) loadAuthenticatedData(storageToken);
-    else setIsLoading(false);
-  };
-
   useEffect(() => {
-    handleLoadData();
-  }, []);
+    if (isLoggedIn) {
+      loadAuthenticatedData();
+    } else {
+      setIsLoading(false);
+    }
+  }, [isLoggedIn]);
 
   // Axios response interceptor
   api.interceptors.response.use(
