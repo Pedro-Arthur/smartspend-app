@@ -48,6 +48,7 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     if (isLoggedIn) loadAuthenticatedData();
+    else setIsLoading(false);
   }, []);
 
   if (isLoading) {
