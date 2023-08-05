@@ -11,12 +11,16 @@ import {
   Popover,
   Button,
   Image,
+  Modal,
+  FormControl,
+  Input,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../contexts/DataContext';
 import api from '../services/api';
 import { ToastContext } from '../contexts/ToastContext';
 import { AuthContext } from '../contexts/AuthContext';
+import useKeyboard from '../hooks/useKeyboard';
 
 const customTrigger = (triggerProps) => (
   <Button {...triggerProps} colorScheme="danger">
@@ -25,13 +29,29 @@ const customTrigger = (triggerProps) => (
 );
 
 const BankAccounts = () => {
+  const { isKeyboardVisible, keyboardHeight } = useKeyboard();
+
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
-  const [isLoading, setIsLoading] = useState(false);
 
   const { banks, bankAccounts, removeBankAccount } = useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
+
+  const [formData, setFormData] = useState({
+    number: null,
+    digit: null,
+    agency: null,
+    bankId: null,
+  });
+  const [formErrors, setFormErrors] = useState({
+    number: null,
+    digit: null,
+    agency: null,
+    bankId: null,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [saveBankAccountModalVisible, setSaveBankAccountModalVisible] = useState(false);
 
   const deleteAccount = async (id) => {
     try {
@@ -121,12 +141,46 @@ const BankAccounts = () => {
 
       <Box position="relative" h={100} w="100%">
         <Fab
+          onPress={() => {
+            setSaveBankAccountModalVisible(true);
+          }}
           mb={16}
           position="absolute"
           size="sm"
           icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
         />
       </Box>
+
+      <Modal
+        isOpen={saveBankAccountModalVisible}
+        onClose={() => setSaveBankAccountModalVisible(false)}
+        pb={isKeyboardVisible ? keyboardHeight : 0}
+        justifyContent="flex-end"
+        bottom="4"
+        size="lg"
+      >
+        <Modal.Content>
+          <Modal.CloseButton />
+          <Modal.Header>Forgot Password?</Modal.Header>
+          <Modal.Body>
+            Enter email address and we ll send a link to reset your password.
+            <FormControl mt="3">
+              <FormControl.Label>Email</FormControl.Label>
+              <Input />
+            </FormControl>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              flex="1"
+              onPress={() => {
+                setSaveBankAccountModalVisible(false);
+              }}
+            >
+              Proceed
+            </Button>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </Box>
   );
 };
