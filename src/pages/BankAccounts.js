@@ -10,6 +10,7 @@ import {
   Icon,
   Popover,
   Button,
+  Image,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../contexts/DataContext';
@@ -69,6 +70,13 @@ const BankAccounts = () => {
       <Center my="4">
         <Text>CONTAS</Text>
       </Center>
+
+      {bankAccounts.length === 0 && (
+        <Center h="100%">
+          <Image w="100" h="100" source={require('../assets/images/empty.png')} alt="empty" />
+          <Text mt="2">Nenhuma conta encontrada...</Text>
+        </Center>
+      )}
 
       <FlatList
         data={bankAccounts}
