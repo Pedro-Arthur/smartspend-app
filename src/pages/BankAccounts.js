@@ -92,7 +92,7 @@ const BankAccounts = () => {
       </Center>
 
       {bankAccounts.length === 0 && (
-        <Center h="100%">
+        <Center position="absolute" alignSelf="center" h="100%">
           <Image w="100" h="100" source={require('../assets/images/empty.png')} alt="empty" />
           <Text mt="2">Nenhuma conta encontrada...</Text>
         </Center>
