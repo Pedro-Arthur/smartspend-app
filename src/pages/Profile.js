@@ -20,7 +20,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import api from '../services/api';
 import { ToastContext } from '../contexts/ToastContext';
 
-const SettingsIcon = ({ triggerProps }) => (
+const SettingsIcon = (triggerProps) => (
   <Pressable accessibilityLabel="Menu de configurações" {...triggerProps}>
     <Icon as={<AntDesign name="setting" />} size="md" color="muted.400" />
   </Pressable>
@@ -30,7 +30,6 @@ const Profile = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
   const { colorMode, toggleColorMode } = useColorMode();
-  const settingsIcon = (triggerProps) => <SettingsIcon triggerProps={triggerProps} />;
 
   const { showToast } = useContext(ToastContext);
   const { user, token, removeAuthIsLoggedIn, removeAuthUser, removeAuthToken, setAuthUser } =
@@ -104,7 +103,7 @@ const Profile = () => {
 
       <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor}>
         <HStack justifyContent="flex-end">
-          <Menu w="190" trigger={settingsIcon}>
+          <Menu placement="left top" w="190" trigger={SettingsIcon}>
             <Menu.Item>
               <HStack alignItems="center" space={4}>
                 <Text>Tema escuro</Text>

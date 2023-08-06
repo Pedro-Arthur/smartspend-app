@@ -16,6 +16,8 @@ import {
   Input,
   Select,
   CheckIcon,
+  HStack,
+  Divider,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../contexts/DataContext';
@@ -24,8 +26,8 @@ import { ToastContext } from '../contexts/ToastContext';
 import { AuthContext } from '../contexts/AuthContext';
 import useKeyboard from '../hooks/useKeyboard';
 
-const customTrigger = (triggerProps) => (
-  <Button {...triggerProps} colorScheme="danger" mt={3}>
+const DeleteButton = (triggerProps) => (
+  <Button {...triggerProps} colorScheme="danger">
     Deletar
   </Button>
 );
@@ -35,6 +37,7 @@ const BankAccounts = () => {
 
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
+  const customCardText = useColorModeValue('black', 'white');
 
   const { banks, bankAccounts, removeBankAccount, addBankAccount, updateBankAccount } =
     useContext(DataContext);
@@ -220,47 +223,75 @@ const BankAccounts = () => {
         renderItem={({ item }) => (
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>
             <VStack>
-              <Text>ID: {item.id}</Text>
-              <Text>NÚMERO: {item.number}</Text>
-              <Text>DÍGITO: {item.digit}</Text>
-              <Text>AGÊNCIA: {item.agency}</Text>
-              <Text>BANCO: {item.bank.name}</Text>
+              <Text fontWeight="semibold" fontSize="md" color="primary.600">
+                {item.bank.name}
+              </Text>
+
+              <Divider my={4} />
+
+              <HStack justifyContent="space-between">
+                <Text fontSize="xs" color="muted.400">
+                  Número:{' '}
+                  <Text fontWeight="semibold" color={customCardText}>
+                    {item.number}
+                  </Text>
+                </Text>
+
+                <Text fontSize="xs" color="muted.400">
+                  Dígito:{' '}
+                  <Text fontWeight="semibold" color={customCardText}>
+                    {item.digit}
+                  </Text>
+                </Text>
+              </HStack>
+
+              <Text fontSize="xs" color="muted.400">
+                Agência:{' '}
+                <Text fontWeight="semibold" color={customCardText}>
+                  {item.agency}
+                </Text>
+              </Text>
             </VStack>
 
-            <Box w="100%" alignItems="center">
+            <Divider my={4} />
+
+            <HStack justifyContent="space-between" alignItems="center">
               <Button
                 colorScheme="primary"
-                mt={3}
                 onPress={() => {
                   setFormData({ ...item, bankId: item.bank.id });
                   setSaveBankAccountModalVisible(true);
                 }}
+                width="48%"
               >
                 Editar
               </Button>
-              <Popover trigger={customTrigger}>
-                <Popover.Content accessibilityLabel="Deletar conta" w="56">
-                  <Popover.Arrow />
-                  <Popover.CloseButton />
-                  <Popover.Header>Deletar conta</Popover.Header>
-                  <Popover.Body>
-                    Isso removerá os dados relacionados à conta. Esta ação não pode ser revertida.
-                    Os dados excluídos não podem ser recuperados.
-                  </Popover.Body>
-                  <Popover.Footer justifyContent="flex-end">
-                    <Button.Group>
-                      <Button
-                        isLoading={isLoading}
-                        onPress={() => deleteAccount(item.id)}
-                        colorScheme="danger"
-                      >
-                        Deletar
-                      </Button>
-                    </Button.Group>
-                  </Popover.Footer>
-                </Popover.Content>
-              </Popover>
-            </Box>
+
+              <Box width="48%">
+                <Popover trigger={DeleteButton}>
+                  <Popover.Content accessibilityLabel="Deletar conta" w="56">
+                    <Popover.Arrow />
+                    <Popover.CloseButton />
+                    <Popover.Header>Deletar conta</Popover.Header>
+                    <Popover.Body>
+                      Isso removerá os dados relacionados à conta. Esta ação não pode ser revertida.
+                      Os dados excluídos não podem ser recuperados.
+                    </Popover.Body>
+                    <Popover.Footer justifyContent="flex-end">
+                      <Button.Group>
+                        <Button
+                          isLoading={isLoading}
+                          onPress={() => deleteAccount(item.id)}
+                          colorScheme="danger"
+                        >
+                          Deletar
+                        </Button>
+                      </Button.Group>
+                    </Popover.Footer>
+                  </Popover.Content>
+                </Popover>
+              </Box>
+            </HStack>
           </Box>
         )}
         keyExtractor={(item) => item.id}
