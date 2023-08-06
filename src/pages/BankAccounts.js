@@ -56,6 +56,19 @@ const BankAccounts = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [saveBankAccountModalVisible, setSaveBankAccountModalVisible] = useState(false);
   const [search, setSearch] = useState('');
+  const [filteredBankAccounts, setFilteredBankAccounts] = useState(bankAccounts);
+
+  const handleSearch = (searchText) => {
+    setSearch(searchText);
+    setFilteredBankAccounts(
+      bankAccounts.filter(
+        (i) =>
+          i.number.match(searchText) ||
+          i.agency.match(searchText) ||
+          i.bank.name.toLowerCase().match(searchText.toLowerCase())
+      )
+    );
+  };
 
   const onCloseSaveBankAccountModal = () => {
     setSaveBankAccountModalVisible(false);
@@ -187,10 +200,10 @@ const BankAccounts = () => {
         mb={4}
         placeholder="Pesquisa..."
         value={search}
-        onChangeText={(value) => setSearch(value)}
+        onChangeText={handleSearch}
       />
 
-      {bankAccounts.length === 0 && (
+      {filteredBankAccounts.length === 0 && (
         <Center position="absolute" alignSelf="center" h="100%">
           <Image w="100" h="100" source={require('../assets/images/empty.png')} alt="empty" />
           <Text mt="2">Nenhuma conta encontrada...</Text>
@@ -198,7 +211,7 @@ const BankAccounts = () => {
       )}
 
       <FlatList
-        data={bankAccounts}
+        data={filteredBankAccounts}
         renderItem={({ item }) => (
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>
             <VStack>
