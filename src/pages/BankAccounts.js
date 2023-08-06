@@ -36,7 +36,8 @@ const BankAccounts = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
 
-  const { banks, bankAccounts, removeBankAccount, addBankAccount } = useContext(DataContext);
+  const { banks, bankAccounts, removeBankAccount, addBankAccount, updateBankAccount } =
+    useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
 
@@ -98,13 +99,23 @@ const BankAccounts = () => {
       try {
         setIsLoading(true);
 
-        const bankAccount = await api.post('/bankAccounts', formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        if (!formData.id) {
+          const bankAccount = await api.post('/bankAccounts', formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        addBankAccount(bankAccount);
+          addBankAccount(bankAccount);
+        } else {
+          await api.patch(`/bankAccounts/${formData.id}`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          updateBankAccount(formData.id, formData);
+        }
 
         showToast({
           title: 'Sucesso!',
@@ -187,6 +198,16 @@ const BankAccounts = () => {
             </VStack>
 
             <Box w="100%" alignItems="center">
+              <Button
+                colorScheme="primary"
+                mt={3}
+                onPress={() => {
+                  setFormData({ ...item, bankId: item.bank.id });
+                  setSaveBankAccountModalVisible(true);
+                }}
+              >
+                Editar
+              </Button>
               <Popover trigger={customTrigger}>
                 <Popover.Content accessibilityLabel="Deletar conta" w="56">
                   <Popover.Arrow />
