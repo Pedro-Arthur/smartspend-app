@@ -201,7 +201,6 @@ const BankAccounts = () => {
         placeholder="Pesquisa..."
         value={search}
         onChangeText={handleSearch}
-        zIndex={1}
       />
 
       {filteredBankAccounts.length === 0 && (
@@ -262,17 +261,14 @@ const BankAccounts = () => {
         keyExtractor={(item) => item.id}
       />
 
-      <Box position="absolute" h={100} w="100%">
-        <Fab
-          onPress={() => {
-            setSaveBankAccountModalVisible(true);
-          }}
-          mb={16}
-          position="absolute"
-          size="sm"
-          icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
-        />
-      </Box>
+      <Fab
+        onPress={() => {
+          setSaveBankAccountModalVisible(true);
+        }}
+        mb={16}
+        size="sm"
+        icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
+      />
 
       <Modal
         isOpen={saveBankAccountModalVisible}
