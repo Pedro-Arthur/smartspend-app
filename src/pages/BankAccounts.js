@@ -201,6 +201,7 @@ const BankAccounts = () => {
         placeholder="Pesquisa..."
         value={search}
         onChangeText={handleSearch}
+        zIndex={1}
       />
 
       {filteredBankAccounts.length === 0 && (
