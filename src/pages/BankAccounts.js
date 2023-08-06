@@ -215,7 +215,7 @@ const BankAccounts = () => {
         keyExtractor={(item) => item.id}
       />
 
-      <Box position="relative" h={100} w="100%">
+      <Box position="absolute" h={100} w="100%">
         <Fab
           onPress={() => {
             setSaveBankAccountModalVisible(true);
