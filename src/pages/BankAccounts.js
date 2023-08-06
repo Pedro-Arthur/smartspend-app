@@ -108,13 +108,13 @@ const BankAccounts = () => {
 
           addBankAccount(bankAccount);
         } else {
-          await api.patch(`/bankAccounts/${formData.id}`, formData, {
+          const bankAccount = await api.patch(`/bankAccounts/${formData.id}`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
 
-          updateBankAccount(formData.id, formData);
+          updateBankAccount(formData.id, bankAccount);
         }
 
         showToast({
