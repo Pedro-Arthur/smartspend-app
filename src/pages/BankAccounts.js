@@ -14,6 +14,7 @@ import {
   Modal,
   FormControl,
   Input,
+  Select,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../contexts/DataContext';
@@ -164,21 +165,62 @@ const BankAccounts = () => {
           <Modal.Header>Salvar conta</Modal.Header>
           <Modal.Body>
             <VStack space={3}>
-              <FormControl>
+              <FormControl isRequired isInvalid={formErrors.number}>
                 <FormControl.Label>Número</FormControl.Label>
-                <Input />
+                <Input
+                  keyboardType="numeric"
+                  onChangeText={(value) => setFormData({ ...formData, number: value })}
+                  value={formData.number}
+                  maxLength={10}
+                  placeholder="Número da sua conta"
+                />
+                {'number' in formErrors && (
+                  <FormControl.ErrorMessage>{formErrors.number}</FormControl.ErrorMessage>
+                )}
               </FormControl>
-              <FormControl>
+
+              <FormControl isRequired isInvalid={formErrors.digit}>
                 <FormControl.Label>Dígito</FormControl.Label>
-                <Input />
+                <Input
+                  keyboardType="numeric"
+                  onChangeText={(value) => setFormData({ ...formData, digit: value })}
+                  value={formData.digit}
+                  maxLength={1}
+                  placeholder="Dígito da sua conta"
+                />
+                {'digit' in formErrors && (
+                  <FormControl.ErrorMessage>{formErrors.digit}</FormControl.ErrorMessage>
+                )}
               </FormControl>
-              <FormControl>
+
+              <FormControl isRequired isInvalid={formErrors.agency}>
                 <FormControl.Label>Agência</FormControl.Label>
-                <Input />
+                <Input
+                  keyboardType="numeric"
+                  onChangeText={(value) => setFormData({ ...formData, agency: value })}
+                  value={formData.agency}
+                  maxLength={4}
+                  placeholder="Agência da sua conta"
+                />
+                {'agency' in formErrors && (
+                  <FormControl.ErrorMessage>{formErrors.agency}</FormControl.ErrorMessage>
+                )}
               </FormControl>
-              <FormControl>
+
+              <FormControl isRequired isInvalid={formErrors.bankId}>
                 <FormControl.Label>Banco</FormControl.Label>
-                <Input />
+                <Select accessibilityLabel="Banco da conta" placeholder="Banco da conta">
+                  {banks.map((bank) => (
+                    <Select.Item
+                      key={bank.id}
+                      label={`${bank.name} (${bank.code})`}
+                      value={bank.id}
+                    />
+                  ))}
+                </Select>
+                {'bankId' in formErrors && (
+                  <FormControl.ErrorMessage>{formErrors.bankId}</FormControl.ErrorMessage>
+                )}
               </FormControl>
             </VStack>
           </Modal.Body>
