@@ -55,6 +55,7 @@ const BankAccounts = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [saveBankAccountModalVisible, setSaveBankAccountModalVisible] = useState(false);
+  const [search, setSearch] = useState('');
 
   const onCloseSaveBankAccountModal = () => {
     setSaveBankAccountModalVisible(false);
@@ -177,6 +178,17 @@ const BankAccounts = () => {
       <Center my="4">
         <Text>CONTAS</Text>
       </Center>
+
+      <Input
+        InputRightElement={
+          <Icon as={<AntDesign name="search1" />} size={5} mr="2" color="muted.400" />
+        }
+        mx={4}
+        mb={4}
+        placeholder="Pesquisa..."
+        value={search}
+        onChangeText={(value) => setSearch(value)}
+      />
 
       {bankAccounts.length === 0 && (
         <Center position="absolute" alignSelf="center" h="100%">
