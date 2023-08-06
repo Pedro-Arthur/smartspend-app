@@ -226,7 +226,7 @@ const BankAccounts = () => {
                   <Popover.CloseButton />
                   <Popover.Header>Deletar conta</Popover.Header>
                   <Popover.Body>
-                    Isso removerá os dados relacionados a conta. Esta ação não pode ser revertida.
+                    Isso removerá os dados relacionados à conta. Esta ação não pode ser revertida.
                     Os dados excluídos não podem ser recuperados.
                   </Popover.Body>
                   <Popover.Footer justifyContent="flex-end">
