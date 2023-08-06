@@ -16,7 +16,9 @@ export const DataProvider = ({ children }) => {
   const [bankAccounts, setBankAccounts] = useState([]);
 
   const addBankAccount = (data) => {
-    setBankAccounts(...bankAccounts, data);
+    const currentBankAccounts = [...bankAccounts];
+    currentBankAccounts.push(data);
+    setBankAccounts(currentBankAccounts);
   };
 
   const updateBankAccount = (id, data) => {

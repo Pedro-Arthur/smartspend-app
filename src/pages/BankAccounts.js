@@ -15,6 +15,7 @@ import {
   FormControl,
   Input,
   Select,
+  CheckIcon,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../contexts/DataContext';
@@ -35,7 +36,7 @@ const BankAccounts = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
 
-  const { banks, bankAccounts, removeBankAccount } = useContext(DataContext);
+  const { banks, bankAccounts, removeBankAccount, addBankAccount } = useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
 
@@ -53,6 +54,80 @@ const BankAccounts = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [saveBankAccountModalVisible, setSaveBankAccountModalVisible] = useState(false);
+
+  const onCloseSaveBankAccountModal = () => {
+    setSaveBankAccountModalVisible(false);
+    setFormData({
+      number: null,
+      digit: null,
+      agency: null,
+      bankId: null,
+    });
+    setFormErrors({
+      number: null,
+      digit: null,
+      agency: null,
+      bankId: null,
+    });
+  };
+
+  const saveBankAccount = async () => {
+    const errors = {
+      number: null,
+      digit: null,
+      agency: null,
+      bankId: null,
+    };
+
+    if (!formData.number) {
+      errors.number = 'Número é obrigatório!';
+    }
+    if (!formData.digit) {
+      errors.digit = 'Dígito é obrigatório!';
+    }
+    if (!formData.agency) {
+      errors.agency = 'Agência é obrigatória!';
+    }
+    if (!formData.bankId) {
+      errors.bankId = 'Banco é obrigatório!';
+    }
+
+    setFormErrors(errors);
+
+    if (!errors.number && !errors.digit && !errors.agency && !errors.bankId) {
+      try {
+        setIsLoading(true);
+
+        const bankAccount = await api.post('/bankAccounts', formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        addBankAccount(bankAccount);
+
+        showToast({
+          title: 'Sucesso!',
+          description: 'Conta salva com sucesso!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
+
+        onCloseSaveBankAccountModal();
+      } catch (error) {
+        showToast({
+          title: 'Ops!',
+          description: error?.response?.data?.message || 'Erro ao salvar conta!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
 
   const deleteAccount = async (id) => {
     try {
@@ -154,7 +229,7 @@ const BankAccounts = () => {
 
       <Modal
         isOpen={saveBankAccountModalVisible}
-        onClose={() => setSaveBankAccountModalVisible(false)}
+        onClose={() => onCloseSaveBankAccountModal()}
         pb={isKeyboardVisible ? keyboardHeight : 0}
         justifyContent="flex-end"
         bottom="4"
@@ -209,7 +284,16 @@ const BankAccounts = () => {
 
               <FormControl isRequired isInvalid={formErrors.bankId}>
                 <FormControl.Label>Banco</FormControl.Label>
-                <Select accessibilityLabel="Banco da conta" placeholder="Banco da conta">
+                <Select
+                  _selectedItem={{
+                    bg: 'primary.600',
+                    endIcon: <CheckIcon size="5" color="white" />,
+                  }}
+                  selectedValue={formData.bankId}
+                  accessibilityLabel="Banco da conta"
+                  placeholder="Banco da conta"
+                  onValueChange={(value) => setFormData({ ...formData, bankId: value })}
+                >
                   {banks.map((bank) => (
                     <Select.Item
                       key={bank.id}
@@ -228,8 +312,9 @@ const BankAccounts = () => {
             <Button
               flex="1"
               onPress={() => {
-                setSaveBankAccountModalVisible(false);
+                saveBankAccount();
               }}
+              isLoading={isLoading}
             >
               Salvar
             </Button>
