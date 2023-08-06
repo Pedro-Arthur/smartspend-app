@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   useColorModeValue,
   Center,
@@ -185,6 +185,11 @@ const BankAccounts = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    setSearch('');
+    setFilteredBankAccounts(bankAccounts);
+  }, [bankAccounts]);
 
   return (
     <Box flex="1" bg={bg}>
