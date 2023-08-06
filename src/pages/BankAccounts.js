@@ -25,7 +25,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import useKeyboard from '../hooks/useKeyboard';
 
 const customTrigger = (triggerProps) => (
-  <Button {...triggerProps} colorScheme="danger">
+  <Button {...triggerProps} colorScheme="danger" mt={3}>
     Deletar
   </Button>
 );
@@ -177,7 +177,7 @@ const BankAccounts = () => {
       <FlatList
         data={bankAccounts}
         renderItem={({ item }) => (
-          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor}>
+          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>
             <VStack>
               <Text>ID: {item.id}</Text>
               <Text>NÚMERO: {item.number}</Text>
