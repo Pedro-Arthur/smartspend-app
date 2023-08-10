@@ -14,6 +14,7 @@ export const DataProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [banks, setBanks] = useState([]);
   const [bankAccounts, setBankAccounts] = useState([]);
+  const [bankCards, setBankCards] = useState([]);
 
   const addBankAccount = (data) => {
     const currentBankAccounts = [...bankAccounts];
@@ -36,6 +37,27 @@ export const DataProvider = ({ children }) => {
     setBankAccounts(filteredBankAccounts);
   };
 
+  const addBankCard = (data) => {
+    const currentBankCards = [...bankCards];
+    currentBankCards.push(data);
+    setBankCards(currentBankCards);
+  };
+
+  const updateBankCard = (id, data) => {
+    const indexToUpdate = bankCards.findIndex((i) => i.id === id);
+
+    if (indexToUpdate !== -1) {
+      const updatedBankCards = [...bankCards];
+      updatedBankCards[indexToUpdate] = data;
+      setBankCards(updatedBankCards);
+    }
+  };
+
+  const removeBankCard = (id) => {
+    const filteredBankCards = bankCards.filter((i) => i.id !== id);
+    setBankCards(filteredBankCards);
+  };
+
   const contextValue = useMemo(
     () => ({
       banks,
@@ -43,8 +65,22 @@ export const DataProvider = ({ children }) => {
       addBankAccount,
       removeBankAccount,
       updateBankAccount,
+      bankCards,
+      addBankCard,
+      updateBankCard,
+      removeBankCard,
     }),
-    [banks, bankAccounts, addBankAccount, removeBankAccount, updateBankAccount]
+    [
+      banks,
+      bankAccounts,
+      addBankAccount,
+      removeBankAccount,
+      updateBankAccount,
+      bankCards,
+      addBankCard,
+      updateBankCard,
+      removeBankCard,
+    ]
   );
 
   const bg = useColorModeValue('warmGray.100', 'dark.50');
@@ -53,7 +89,7 @@ export const DataProvider = ({ children }) => {
     const token = await AsyncStorage.getItem('@token');
 
     try {
-      const [banksRes, bankAccountsRes] = await Promise.all([
+      const [banksRes, bankAccountsRes, bankCardsRes] = await Promise.all([
         api.get('/banks', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,10 +100,16 @@ export const DataProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         }),
+        api.get('/bankCards', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       setBanks(banksRes);
       setBankAccounts(bankAccountsRes);
+      setBankCards(bankCardsRes);
     } catch (error) {
       showToast({
         title: 'Ops!',
