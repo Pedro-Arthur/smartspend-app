@@ -317,9 +317,9 @@ const BankCards = () => {
         onPress={() => {
           setSaveBankCardModalVisible(true);
         }}
-        mb={16}
         size="sm"
         icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
+        renderInPortal={false}
       />
 
       <Modal
