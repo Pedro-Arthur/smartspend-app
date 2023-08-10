@@ -18,6 +18,7 @@ import {
   CheckIcon,
   HStack,
   Divider,
+  IconButton,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../contexts/DataContext';
@@ -30,6 +31,21 @@ const DeleteButton = (triggerProps) => (
   <Button {...triggerProps} colorScheme="danger">
     Deletar
   </Button>
+);
+
+const InfoIconButton = (triggerProps) => (
+  <IconButton
+    {...triggerProps}
+    variant="unstyled"
+    _icon={{
+      as: AntDesign,
+      name: 'infocirlceo',
+      size: 'sm',
+      color: 'muted.400',
+      ml: 2,
+    }}
+    width="0"
+  />
 );
 
 const BankCards = () => {
@@ -320,7 +336,22 @@ const BankCards = () => {
           <Modal.Body>
             <VStack space={3}>
               <FormControl isRequired isInvalid={formErrors.lastFourNumbers}>
-                <FormControl.Label>Últimos 4 números</FormControl.Label>
+                <HStack alignItems="center">
+                  <FormControl.Label>Últimos 4 números</FormControl.Label>
+
+                  <Popover trigger={InfoIconButton}>
+                    <Popover.Content accessibilityLabel="Deletar conta" w="56">
+                      <Popover.Arrow />
+                      <Popover.CloseButton />
+                      <Popover.Header>Números do cartão</Popover.Header>
+                      <Popover.Body>
+                        Por razões de segurança, apenas mantemos os últimos 4 dígitos do cartão
+                        armazenados.
+                      </Popover.Body>
+                    </Popover.Content>
+                  </Popover>
+                </HStack>
+
                 <Input
                   keyboardType="numeric"
                   onChangeText={(value) => setFormData({ ...formData, lastFourNumbers: value })}
