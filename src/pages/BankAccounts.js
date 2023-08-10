@@ -100,12 +100,17 @@ const BankAccounts = () => {
     if (!formData.number) {
       errors.number = 'Número é obrigatório!';
     }
+
     if (!formData.digit) {
       errors.digit = 'Dígito é obrigatório!';
     }
+
     if (!formData.agency) {
       errors.agency = 'Agência é obrigatória!';
+    } else if (formData.agency.length < 4) {
+      errors.agency = 'Agência deve possuir 4 caracteres!';
     }
+
     if (!formData.bankId) {
       errors.bankId = 'Banco é obrigatório!';
     }
