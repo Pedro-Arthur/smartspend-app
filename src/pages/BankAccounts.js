@@ -108,7 +108,7 @@ const BankAccounts = () => {
     if (!formData.agency) {
       errors.agency = 'Agência é obrigatória!';
     } else if (formData.agency.length < 4) {
-      errors.agency = 'Agência deve possuir 4 caracteres!';
+      errors.agency = 'Agência deve possuir 4 números!';
     }
 
     if (!formData.bankId) {

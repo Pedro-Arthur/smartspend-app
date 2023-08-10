@@ -107,12 +107,14 @@ const BankCards = () => {
       bankAccountId: null,
     };
 
-    if (!formData.lastFourNumbers) {
+    if (!formData.lastFourNumbers || formData.lastFourNumbers.length < 4) {
       errors.lastFourNumbers = 'Os últimos 4 números são obrigatórios!';
     }
+
     if (!formData.type) {
       errors.type = 'Tipo do cartão é obrigatório!';
     }
+
     if (!formData.bankAccountId) {
       errors.bankAccountId = 'Conta bancária é obrigatória!';
     }
