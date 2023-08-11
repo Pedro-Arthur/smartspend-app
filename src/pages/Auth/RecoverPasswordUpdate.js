@@ -42,7 +42,7 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
 
     const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
     if (!formData.newPassword) {
-      errors.newPassword = 'Senha é obrigatório!';
+      errors.newPassword = 'Senha é obrigatória!';
     } else if (formData.newPassword.length < 8 || !regexPass.test(formData.newPassword)) {
       errors.newPassword =
         'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.';

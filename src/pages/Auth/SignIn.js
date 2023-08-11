@@ -78,7 +78,7 @@ const SignIn = ({ navigation }) => {
     }
 
     if (!formData.password) {
-      errors.password = 'Senha é obrigatório!';
+      errors.password = 'Senha é obrigatória!';
     }
 
     setFormErrors(errors);

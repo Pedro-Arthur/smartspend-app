@@ -68,7 +68,7 @@ const SignUp = ({ navigation }) => {
 
     const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
     if (!formData.password) {
-      errors.password = 'Senha é obrigatório!';
+      errors.password = 'Senha é obrigatória!';
     } else if (formData.password.length < 8 || !regexPass.test(formData.password)) {
       errors.password =
         'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.';
