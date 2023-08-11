@@ -7,7 +7,9 @@
     "icon": "./src/assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {},
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -20,7 +22,10 @@
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#d97706"
       },
-      "permissions": ["android.permission.USE_BIOMETRIC", "android.permission.USE_FINGERPRINT"],
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ],
       "package": "com.anonymous.smartspendapp"
     },
     "web": {
@@ -50,6 +55,11 @@
         "svg"
       ]
     },
-    "scheme": "smartspend"
+    "scheme": "smartspend",
+    "extra": {
+      "eas": {
+        "projectId": "675a6b02-c226-45e0-80d2-6e466404d942"
+      }
+    }
   }
 }
