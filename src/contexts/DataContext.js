@@ -7,6 +7,27 @@ import api from '../services/api';
 
 export const DataContext = createContext();
 
+const addItem = (data, list, setList) => {
+  const currentList = [...list];
+  currentList.unshift(data);
+  setList(currentList);
+};
+
+const updateItem = (id, data, list, setList) => {
+  const indexToUpdate = list.findIndex((i) => i.id === id);
+
+  if (indexToUpdate !== -1) {
+    const updatedList = [...list];
+    updatedList[indexToUpdate] = data;
+    setList(updatedList);
+  }
+};
+
+const removeItem = (id, list, setList) => {
+  const filteredList = list.filter((i) => i.id !== id);
+  setList(filteredList);
+};
+
 export const DataProvider = ({ children }) => {
   const { showToast } = useContext(ToastContext);
   const { removeAuthIsLoggedIn, isLoggedIn } = useContext(AuthContext);
@@ -17,68 +38,17 @@ export const DataProvider = ({ children }) => {
   const [bankCards, setBankCards] = useState([]);
   const [goals, setGoals] = useState([]);
 
-  const addBankAccount = (data) => {
-    const currentBankAccounts = [...bankAccounts];
-    currentBankAccounts.unshift(data);
-    setBankAccounts(currentBankAccounts);
-  };
+  const addBankAccount = (data) => addItem(data, bankAccounts, setBankAccounts);
+  const updateBankAccount = (id, data) => updateItem(id, data, bankAccounts, setBankAccounts);
+  const removeBankAccount = (id) => removeItem(id, bankAccounts, setBankAccounts);
 
-  const updateBankAccount = (id, data) => {
-    const indexToUpdate = bankAccounts.findIndex((i) => i.id === id);
+  const addBankCard = (data) => addItem(data, bankCards, setBankCards);
+  const updateBankCard = (id, data) => updateItem(id, data, bankCards, setBankCards);
+  const removeBankCard = (id) => removeItem(id, bankCards, setBankCards);
 
-    if (indexToUpdate !== -1) {
-      const updatedBankAccounts = [...bankAccounts];
-      updatedBankAccounts[indexToUpdate] = data;
-      setBankAccounts(updatedBankAccounts);
-    }
-  };
-
-  const removeBankAccount = (id) => {
-    const filteredBankAccounts = bankAccounts.filter((i) => i.id !== id);
-    setBankAccounts(filteredBankAccounts);
-  };
-
-  const addBankCard = (data) => {
-    const currentBankCards = [...bankCards];
-    currentBankCards.unshift(data);
-    setBankCards(currentBankCards);
-  };
-
-  const updateBankCard = (id, data) => {
-    const indexToUpdate = bankCards.findIndex((i) => i.id === id);
-
-    if (indexToUpdate !== -1) {
-      const updatedBankCards = [...bankCards];
-      updatedBankCards[indexToUpdate] = data;
-      setBankCards(updatedBankCards);
-    }
-  };
-
-  const removeBankCard = (id) => {
-    const filteredBankCards = bankCards.filter((i) => i.id !== id);
-    setBankCards(filteredBankCards);
-  };
-
-  const addGoal = (data) => {
-    const currentGoals = [...goals];
-    currentGoals.unshift(data);
-    setGoals(currentGoals);
-  };
-
-  const updateGoal = (id, data) => {
-    const indexToUpdate = goals.findIndex((i) => i.id === id);
-
-    if (indexToUpdate !== -1) {
-      const updatedGoals = [...goals];
-      updatedGoals[indexToUpdate] = data;
-      setGoals(updatedGoals);
-    }
-  };
-
-  const removeGoal = (id) => {
-    const filteredGoals = goals.filter((i) => i.id !== id);
-    setGoals(filteredGoals);
-  };
+  const addGoal = (data) => addItem(data, goals, setGoals);
+  const updateGoal = (id, data) => updateItem(id, data, goals, setGoals);
+  const removeGoal = (id) => removeItem(id, goals, setGoals);
 
   const contextValue = useMemo(
     () => ({
