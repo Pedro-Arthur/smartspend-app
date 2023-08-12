@@ -18,7 +18,7 @@ export const DataProvider = ({ children }) => {
 
   const addBankAccount = (data) => {
     const currentBankAccounts = [...bankAccounts];
-    currentBankAccounts.push(data);
+    currentBankAccounts.unshift(data);
     setBankAccounts(currentBankAccounts);
   };
 
@@ -39,7 +39,7 @@ export const DataProvider = ({ children }) => {
 
   const addBankCard = (data) => {
     const currentBankCards = [...bankCards];
-    currentBankCards.push(data);
+    currentBankCards.unshift(data);
     setBankCards(currentBankCards);
   };
 
