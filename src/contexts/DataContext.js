@@ -15,6 +15,7 @@ export const DataProvider = ({ children }) => {
   const [banks, setBanks] = useState([]);
   const [bankAccounts, setBankAccounts] = useState([]);
   const [bankCards, setBankCards] = useState([]);
+  const [goals, setGoals] = useState([]);
 
   const addBankAccount = (data) => {
     const currentBankAccounts = [...bankAccounts];
@@ -58,6 +59,27 @@ export const DataProvider = ({ children }) => {
     setBankCards(filteredBankCards);
   };
 
+  const addGoal = (data) => {
+    const currentGoals = [...goals];
+    currentGoals.unshift(data);
+    setGoals(currentGoals);
+  };
+
+  const updateGoal = (id, data) => {
+    const indexToUpdate = goals.findIndex((i) => i.id === id);
+
+    if (indexToUpdate !== -1) {
+      const updatedGoals = [...goals];
+      updatedGoals[indexToUpdate] = data;
+      setGoals(updatedGoals);
+    }
+  };
+
+  const removeGoal = (id) => {
+    const filteredGoals = goals.filter((i) => i.id !== id);
+    setGoals(filteredGoals);
+  };
+
   const contextValue = useMemo(
     () => ({
       banks,
@@ -69,6 +91,10 @@ export const DataProvider = ({ children }) => {
       addBankCard,
       updateBankCard,
       removeBankCard,
+      goals,
+      addGoal,
+      updateGoal,
+      removeGoal,
     }),
     [
       banks,
@@ -80,6 +106,10 @@ export const DataProvider = ({ children }) => {
       addBankCard,
       updateBankCard,
       removeBankCard,
+      goals,
+      addGoal,
+      updateGoal,
+      removeGoal,
     ]
   );
 
@@ -89,7 +119,7 @@ export const DataProvider = ({ children }) => {
     const token = await AsyncStorage.getItem('@token');
 
     try {
-      const [banksRes, bankAccountsRes, bankCardsRes] = await Promise.all([
+      const [banksRes, bankAccountsRes, bankCardsRes, goalsRes] = await Promise.all([
         api.get('/banks', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -105,11 +135,17 @@ export const DataProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         }),
+        api.get('/goals', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       setBanks(banksRes);
       setBankAccounts(bankAccountsRes);
       setBankCards(bankCardsRes);
+      setGoals(goalsRes);
     } catch (error) {
       showToast({
         title: 'Ops!',
