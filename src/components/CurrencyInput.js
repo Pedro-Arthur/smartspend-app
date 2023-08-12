@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input, Icon } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const CurrencyInput = ({ onChangeText }) => {
+const CurrencyInput = ({ onChangeText, maxValue }) => {
   const [formattedValue, setFormattedValue] = useState('R$ 0,00');
 
   const formatCurrency = (value) => {
@@ -18,10 +18,16 @@ const CurrencyInput = ({ onChangeText }) => {
     if (text) {
       const numericValue = parseFloat(text.replace(/[^\d]/g, '')) / 100;
 
-      setFormattedValue(formatCurrency(numericValue));
-
-      if (onChangeText) {
-        onChangeText(numericValue);
+      if (maxValue !== undefined && numericValue > maxValue) {
+        setFormattedValue(formatCurrency(maxValue));
+        if (onChangeText) {
+          onChangeText(maxValue);
+        }
+      } else {
+        setFormattedValue(formatCurrency(numericValue));
+        if (onChangeText) {
+          onChangeText(numericValue);
+        }
       }
     }
   };
