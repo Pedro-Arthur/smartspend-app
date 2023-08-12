@@ -11,17 +11,20 @@ const formatCurrency = (v) => {
   return `R$ ${formatted}`;
 };
 
-const CurrencyInput = ({ value, onChangeText, maxValue }) => {
-  const [formattedValue, setFormattedValue] = useState(formatCurrency(value));
+const CurrencyInput = ({ value, onChangeText, maxDigits }) => {
+  const [formattedValue, setFormattedValue] = useState(formatCurrency(value || 0));
 
   const handleTextChange = (text) => {
     if (text) {
       const numericValue = parseFloat(text.replace(/[^\d]/g, '')) / 100;
 
-      if (maxValue !== undefined && numericValue > maxValue) {
-        setFormattedValue(formatCurrency(maxValue));
+      if (maxDigits !== undefined && text.replace(/[^\d]/g, '').length > maxDigits) {
+        const truncatedValue = text.slice(0, maxDigits);
+        const truncatedNumericValue = parseFloat(truncatedValue.replace(/[^\d]/g, '')) / 100;
+
+        setFormattedValue(formatCurrency(truncatedNumericValue));
         if (onChangeText) {
-          onChangeText(maxValue);
+          onChangeText(truncatedNumericValue);
         }
       } else {
         setFormattedValue(formatCurrency(numericValue));
