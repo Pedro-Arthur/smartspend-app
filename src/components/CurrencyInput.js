@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { Input, Icon } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const CurrencyInput = ({ onChangeText, maxValue }) => {
-  const [formattedValue, setFormattedValue] = useState('R$ 0,00');
+const formatCurrency = (v) => {
+  const formatted = parseFloat(v)
+    .toFixed(2)
+    .replace('.', ',')
+    .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-  const formatCurrency = (value) => {
-    const formatted = parseFloat(value)
-      .toFixed(2)
-      .replace('.', ',')
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return `R$ ${formatted}`;
+};
 
-    return `R$ ${formatted}`;
-  };
+const CurrencyInput = ({ value, onChangeText, maxValue }) => {
+  const [formattedValue, setFormattedValue] = useState(formatCurrency(value));
 
   const handleTextChange = (text) => {
     if (text) {
