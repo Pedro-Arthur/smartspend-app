@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Input, Icon, useColorModeValue } from 'native-base';
+import { Input, Icon, useColorModeValue, Modal } from 'native-base';
 import DatePicker from 'react-native-modern-datepicker';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -28,6 +28,11 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
     inputRef.current.blur();
   };
 
+  const onCloseModal = () => {
+    setShowDatePicker(false);
+    inputRef.current.blur();
+  };
+
   return (
     <>
       <Input
@@ -41,16 +46,22 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
         placeholder={placeholder}
       />
 
-      {showDatePicker && (
-        <DatePicker
-          options={datePickerOptions}
-          mode="calendar"
-          style={{ borderRadius: 8 }}
-          minimumDate={minimumDate}
-          maximumDate={maximumDate}
-          onSelectedChange={onSelectedChange}
-        />
-      )}
+      <Modal isOpen={showDatePicker} onClose={onCloseModal} size="xl">
+        <Modal.Content>
+          <Modal.Header>{placeholder}</Modal.Header>
+          <Modal.CloseButton />
+          <Modal.Body>
+            <DatePicker
+              options={datePickerOptions}
+              mode="calendar"
+              style={{ borderRadius: 8 }}
+              minimumDate={minimumDate}
+              maximumDate={maximumDate}
+              onSelectedChange={onSelectedChange}
+            />
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
     </>
   );
 };
