@@ -88,8 +88,21 @@ const Goals = () => {
       errors.endDate = 'A data final é obrigatória!';
     }
 
+    if (formData.startDate && formData.endDate) {
+      if (formData.startDate > formData.endDate) {
+        errors.endDate = 'Data final deve ser maior que a data inicial.';
+      }
+      if (formData.startDate - formData.endDate === 0) {
+        errors.endDate = 'Data final e data inicial não podem ser iguais.';
+      }
+    }
+
     if (!formData.maxValue) {
-      errors.maxValue = 'O valor é obrigatório!';
+      errors.maxValue = 'O valor máximo é obrigatório!';
+    } else if (formData.maxValue < 1) {
+      errors.maxValue = 'O valor máximo precisa ser maior que R$ 1,00!';
+    } else if (formData.maxValue > 9999999) {
+      errors.maxValue = 'O valor máximo precisa ser menor que R$ 9.999.999,99!';
     }
 
     setFormErrors(errors);
