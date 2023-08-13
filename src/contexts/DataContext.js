@@ -47,7 +47,6 @@ export const DataProvider = ({ children }) => {
   const removeBankCard = (id) => removeItem(id, bankCards, setBankCards);
 
   const addGoal = (data) => addItem(data, goals, setGoals);
-  const updateGoal = (id, data) => updateItem(id, data, goals, setGoals);
   const removeGoal = (id) => removeItem(id, goals, setGoals);
 
   const contextValue = useMemo(
@@ -63,7 +62,6 @@ export const DataProvider = ({ children }) => {
       removeBankCard,
       goals,
       addGoal,
-      updateGoal,
       removeGoal,
     }),
     [
@@ -78,7 +76,6 @@ export const DataProvider = ({ children }) => {
       removeBankCard,
       goals,
       addGoal,
-      updateGoal,
       removeGoal,
     ]
   );

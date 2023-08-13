@@ -42,7 +42,7 @@ const Goals = () => {
   const boxColor = useColorModeValue('white', 'dark.100');
   const customCardText = useColorModeValue('black', 'white');
 
-  const { goals, removeGoal, addGoal, updateGoal } = useContext(DataContext);
+  const { goals, removeGoal, addGoal } = useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
 
@@ -117,23 +117,13 @@ const Goals = () => {
           endDate: formatDate(formData.endDate, 'YYYY-MM-DD'),
         };
 
-        if (!formData.id) {
-          const goal = await api.post('/goals', customFormData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+        const goal = await api.post('/goals', customFormData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-          addGoal(goal);
-        } else {
-          const goal = await api.patch(`/goals/${formData.id}`, customFormData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          updateGoal(formData.id, goal);
-        }
+        addGoal(goal);
 
         showToast({
           title: 'Sucesso!',
@@ -236,43 +226,30 @@ const Goals = () => {
 
             <Divider my={4} />
 
-            <HStack justifyContent="space-between" alignItems="center">
-              <Button
-                colorScheme="primary"
-                onPress={() => {
-                  setFormData(item);
-                  setSaveGoalModalVisible(true);
-                }}
-                width="48%"
-              >
-                Editar
-              </Button>
-
-              <Box width="48%">
-                <Popover trigger={DeleteButton}>
-                  <Popover.Content accessibilityLabel="Deletar conta" w="56">
-                    <Popover.Arrow />
-                    <Popover.CloseButton />
-                    <Popover.Header>Deletar meta</Popover.Header>
-                    <Popover.Body>
-                      Isso removerá os dados relacionados a meta. Esta ação não pode ser revertida.
-                      Os dados excluídos não podem ser recuperados.
-                    </Popover.Body>
-                    <Popover.Footer justifyContent="flex-end">
-                      <Button.Group>
-                        <Button
-                          isLoading={isLoading}
-                          onPress={() => deleteGoal(item.id)}
-                          colorScheme="danger"
-                        >
-                          Deletar
-                        </Button>
-                      </Button.Group>
-                    </Popover.Footer>
-                  </Popover.Content>
-                </Popover>
-              </Box>
-            </HStack>
+            <Box width="100%">
+              <Popover trigger={DeleteButton}>
+                <Popover.Content accessibilityLabel="Deletar conta" w="56">
+                  <Popover.Arrow />
+                  <Popover.CloseButton />
+                  <Popover.Header>Deletar meta</Popover.Header>
+                  <Popover.Body>
+                    Isso removerá os dados relacionados a meta. Esta ação não pode ser revertida. Os
+                    dados excluídos não podem ser recuperados.
+                  </Popover.Body>
+                  <Popover.Footer justifyContent="flex-end">
+                    <Button.Group>
+                      <Button
+                        isLoading={isLoading}
+                        onPress={() => deleteGoal(item.id)}
+                        colorScheme="danger"
+                      >
+                        Deletar
+                      </Button>
+                    </Button.Group>
+                  </Popover.Footer>
+                </Popover.Content>
+              </Popover>
+            </Box>
           </Box>
         )}
         keyExtractor={(item) => item.id}
