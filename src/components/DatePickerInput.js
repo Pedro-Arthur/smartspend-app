@@ -8,7 +8,7 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
   const inputRef = useRef(null);
 
   const datePickerOptions = {
-    backgroundColor: useColorModeValue('#f3f4f6', '#090C08'),
+    backgroundColor: useColorModeValue('#fafafa', '#090C08'),
     textHeaderColor: '#d97706',
     textDefaultColor: useColorModeValue('#737373', '#F6E7C1'),
     selectedTextColor: '#fff',
@@ -50,7 +50,7 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
         <Modal.Content>
           <Modal.Header>{placeholder}</Modal.Header>
           <Modal.CloseButton />
-          <Modal.Body>
+          <Modal.Body p={0}>
             <DatePicker
               options={datePickerOptions}
               mode="calendar"
