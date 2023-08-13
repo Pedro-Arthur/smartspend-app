@@ -16,6 +16,7 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
     textSecondaryColor: '#737373',
     borderColor: useColorModeValue('#e5e5e5', 'rgba(122, 146, 165, 0.1)'),
     defaultFont: 'montserrat-regular',
+    headerFont: 'montserrat-regular',
   };
 
   const datePickerConfigs = {
