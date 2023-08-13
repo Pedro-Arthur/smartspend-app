@@ -8,12 +8,12 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
   const inputRef = useRef(null);
 
   const datePickerOptions = {
-    backgroundColor: useColorModeValue('#fafafa', '#090C08'),
+    backgroundColor: useColorModeValue('#fafafa', '#27272a'),
     textHeaderColor: '#d97706',
-    textDefaultColor: useColorModeValue('#737373', '#F6E7C1'),
+    textDefaultColor: useColorModeValue('#000', '#fff'),
     selectedTextColor: '#fff',
     mainColor: '#d97706',
-    textSecondaryColor: useColorModeValue('#a1a1aa', '#D6C7A1'),
+    textSecondaryColor: '#737373',
     borderColor: useColorModeValue('#e5e5e5', 'rgba(122, 146, 165, 0.1)'),
     defaultFont: 'montserrat-regular',
   };
@@ -54,7 +54,6 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
             <DatePicker
               options={datePickerOptions}
               mode="calendar"
-              style={{ borderRadius: 8 }}
               minimumDate={minimumDate}
               maximumDate={maximumDate}
               onSelectedChange={onSelectedChange}
