@@ -18,6 +18,25 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
     defaultFont: 'montserrat-regular',
   };
 
+  const datePickerConfigs = {
+    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+    monthNames: [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ],
+  };
+
   const onSelectedChange = (selectedValue) => {
     const dateArray = selectedValue.split('/');
     const year = parseInt(dateArray[0], 10);
@@ -52,6 +71,7 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
           <Modal.CloseButton />
           <Modal.Body p={0}>
             <DatePicker
+              configs={datePickerConfigs}
               options={datePickerOptions}
               mode="calendar"
               minimumDate={minimumDate}
