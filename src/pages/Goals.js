@@ -25,7 +25,6 @@ const Goals = () => {
         onChange={(v) => setDate(v)}
         maximumDate={maximumDate}
         minimumDate={todayDate}
-        current={todayDate}
         placeholder="Data 1"
       />
 
@@ -34,7 +33,6 @@ const Goals = () => {
         onChange={(v) => setDate2(v)}
         maximumDate={maximumDate}
         minimumDate={todayDate}
-        current={todayDate}
         placeholder="Data 2"
       />
     </Center>

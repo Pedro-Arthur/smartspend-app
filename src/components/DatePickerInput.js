@@ -3,18 +3,18 @@ import { Input, Icon, useColorModeValue } from 'native-base';
 import DatePicker from 'react-native-modern-datepicker';
 import { AntDesign } from '@expo/vector-icons';
 
-const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, current, placeholder }) => {
+const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholder }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const inputRef = useRef(null);
 
   const datePickerOptions = {
-    backgroundColor: useColorModeValue('#d6d3d1', '#090C08'),
+    backgroundColor: useColorModeValue('#f3f4f6', '#090C08'),
     textHeaderColor: '#d97706',
-    textDefaultColor: '#F6E7C1',
-    selectedTextColor: useColorModeValue('#000', '#fff'),
+    textDefaultColor: useColorModeValue('#737373', '#F6E7C1'),
+    selectedTextColor: '#fff',
     mainColor: '#d97706',
-    textSecondaryColor: '#D6C7A1',
-    borderColor: useColorModeValue('rgba(122, 146, 165, 0.1)', 'rgba(122, 146, 165, 0.1)'),
+    textSecondaryColor: useColorModeValue('#a1a1aa', '#D6C7A1'),
+    borderColor: useColorModeValue('#e5e5e5', 'rgba(122, 146, 165, 0.1)'),
     defaultFont: 'montserrat-regular',
   };
 
@@ -44,7 +44,6 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, current, p
       {showDatePicker && (
         <DatePicker
           options={datePickerOptions}
-          current={current}
           mode="calendar"
           style={{ borderRadius: 8 }}
           minimumDate={minimumDate}
