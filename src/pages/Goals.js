@@ -8,6 +8,7 @@ const Goals = () => {
 
   const [maxValue, setMaxValue] = useState(0);
   const [date, setDate] = useState(new Date());
+  const [date2, setDate2] = useState(new Date());
 
   return (
     <Center flex="1" bg={bg}>
@@ -20,6 +21,15 @@ const Goals = () => {
       <DatePickerInput
         value={date}
         onChange={(v) => setDate(v)}
+        maximumDate={new Date(2030, 0, 1)}
+        minimumDate={new Date()}
+      />
+
+      <Text my={4}>Data 2: {date2.toLocaleDateString()}</Text>
+
+      <DatePickerInput
+        value={date2}
+        onChange={(v) => setDate2(v)}
         maximumDate={new Date(2030, 0, 1)}
         minimumDate={new Date()}
       />

@@ -38,7 +38,6 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate }) => {
           display="default"
           themeVariant={themeVariant}
           mode="date"
-          textColor="#d97706"
         />
       )}
     </>
