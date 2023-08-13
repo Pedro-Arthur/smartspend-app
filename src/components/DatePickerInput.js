@@ -8,7 +8,7 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
   const inputRef = useRef(null);
 
   const datePickerOptions = {
-    backgroundColor: useColorModeValue('#fafafa', '#27272a'),
+    backgroundColor: useColorModeValue('#fafafa', '#262626'),
     textHeaderColor: '#d97706',
     textDefaultColor: useColorModeValue('#000', '#fff'),
     selectedTextColor: '#fff',
