@@ -1,11 +1,19 @@
-export const formatDate = (date) => {
+export const formatDate = (date, type) => {
   if (!date) {
     return date;
   }
 
-  return date
-    .toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    .split('/')
-    .reverse()
-    .join('-');
+  if (type === 'YYYY-MM-DD') {
+    return date
+      .toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+      .split('/')
+      .reverse()
+      .join('-');
+  }
+
+  if (type === 'DD/MM/YYYY') {
+    return date.split('-').reverse().join('/');
+  }
+
+  return null;
 };
