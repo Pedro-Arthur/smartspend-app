@@ -16,9 +16,9 @@ import {
   Button,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { AuthContext } from '../contexts/AuthContext';
-import api from '../services/api';
-import { ToastContext } from '../contexts/ToastContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import api from '../../services/api';
+import { ToastContext } from '../../contexts/ToastContext';
 
 const SettingsIcon = (triggerProps) => (
   <Pressable accessibilityLabel="Menu de configurações" {...triggerProps}>

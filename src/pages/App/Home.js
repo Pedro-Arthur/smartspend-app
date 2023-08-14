@@ -1,6 +1,6 @@
 import React from 'react';
 import { useColorModeValue, Heading, Center } from 'native-base';
-import TermsModal from '../components/TermsModal';
+import TermsModal from '../../components/TermsModal';
 
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');

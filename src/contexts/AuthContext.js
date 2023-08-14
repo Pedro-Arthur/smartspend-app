@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [hasFirstAccess, setHasFirstAccess] = useState(false);
 
   const setAuthIsLoggedIn = async (value) => {
     await AsyncStorage.setItem('@isLoggedIn', JSON.stringify(value));
@@ -40,6 +41,11 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
   };
 
+  const setAuthHasFirstAccess = async (value) => {
+    await AsyncStorage.setItem('@hasFirstAccess', JSON.stringify(value));
+    setHasFirstAccess(value);
+  };
+
   const contextValue = useMemo(
     () => ({
       isLoggedIn,
@@ -51,6 +57,8 @@ export const AuthProvider = ({ children }) => {
       token,
       setAuthToken,
       removeAuthToken,
+      hasFirstAccess,
+      setAuthHasFirstAccess,
     }),
     [
       isLoggedIn,
@@ -62,17 +70,22 @@ export const AuthProvider = ({ children }) => {
       token,
       setAuthToken,
       removeAuthToken,
+      hasFirstAccess,
+      setAuthHasFirstAccess,
     ]
   );
 
   const bg = useColorModeValue('warmGray.100', 'dark.50');
 
   const loadStorage = async () => {
-    const [storageUser, storageIsLoggedIn, storageToken] = await Promise.all([
-      AsyncStorage.getItem('@user'),
-      AsyncStorage.getItem('@isLoggedIn'),
-      AsyncStorage.getItem('@token'),
-    ]);
+    const [storageUser, storageIsLoggedIn, storageToken, storageHasFirstAccess] = await Promise.all(
+      [
+        AsyncStorage.getItem('@user'),
+        AsyncStorage.getItem('@isLoggedIn'),
+        AsyncStorage.getItem('@token'),
+        AsyncStorage.getItem('@hasFirstAccess'),
+      ]
+    );
 
     const parsedUser = storageUser ? JSON.parse(storageUser) : null;
     const currentTime = Date.now() / 1000;
@@ -90,6 +103,10 @@ export const AuthProvider = ({ children }) => {
 
     if (storageToken) {
       setToken(storageToken);
+    }
+
+    if (storageHasFirstAccess) {
+      setHasFirstAccess(JSON.parse(storageHasFirstAccess));
     }
 
     setIsLoading(false);

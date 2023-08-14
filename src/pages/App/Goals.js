@@ -17,14 +17,14 @@ import {
   FormControl,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { DataContext } from '../contexts/DataContext';
-import api from '../services/api';
-import { ToastContext } from '../contexts/ToastContext';
-import { AuthContext } from '../contexts/AuthContext';
-import useKeyboard from '../hooks/useKeyboard';
-import { formatDate } from '../utils/helpers';
-import CurrencyInput from '../components/CurrencyInput';
-import DatePickerInput from '../components/DatePickerInput';
+import { DataContext } from '../../contexts/DataContext';
+import api from '../../services/api';
+import { ToastContext } from '../../contexts/ToastContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import useKeyboard from '../../hooks/useKeyboard';
+import { formatDate } from '../../utils/helpers';
+import CurrencyInput from '../../components/CurrencyInput';
+import DatePickerInput from '../../components/DatePickerInput';
 
 const DeleteButton = (triggerProps) => (
   <Button {...triggerProps} colorScheme="danger">
@@ -188,7 +188,7 @@ const Goals = () => {
 
       {goals.length === 0 && (
         <Center position="absolute" alignSelf="center" h="100%">
-          <Image w="100" h="100" source={require('../assets/images/empty.png')} alt="empty" />
+          <Image w="100" h="100" source={require('../../assets/images/empty.png')} alt="empty" />
           <Text mt="2">Nenhuma meta encontrada...</Text>
         </Center>
       )}

@@ -5,11 +5,11 @@ import { Text, useColorModeValue, Icon } from 'native-base';
 import { Platform } from 'react-native';
 
 // Pages
-import Home from '../pages/Home';
-import Profile from '../pages/Profile';
-import BankAccounts from '../pages/BankAccounts';
-import BankCards from '../pages/BankCards';
-import Goals from '../pages/Goals';
+import Home from '../pages/App/Home';
+import Profile from '../pages/App/Profile';
+import BankAccounts from '../pages/App/BankAccounts';
+import BankCards from '../pages/App/BankCards';
+import Goals from '../pages/App/Goals';
 
 const Tab = createBottomTabNavigator();
 

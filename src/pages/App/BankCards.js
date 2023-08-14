@@ -21,11 +21,11 @@ import {
   IconButton,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { DataContext } from '../contexts/DataContext';
-import api from '../services/api';
-import { ToastContext } from '../contexts/ToastContext';
-import { AuthContext } from '../contexts/AuthContext';
-import useKeyboard from '../hooks/useKeyboard';
+import { DataContext } from '../../contexts/DataContext';
+import api from '../../services/api';
+import { ToastContext } from '../../contexts/ToastContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import useKeyboard from '../../hooks/useKeyboard';
 
 const DeleteButton = (triggerProps) => (
   <Button {...triggerProps} colorScheme="danger">
@@ -222,7 +222,7 @@ const BankCards = () => {
 
       {filteredBankCards.length === 0 && (
         <Center position="absolute" alignSelf="center" h="100%">
-          <Image w="100" h="100" source={require('../assets/images/empty.png')} alt="empty" />
+          <Image w="100" h="100" source={require('../../assets/images/empty.png')} alt="empty" />
           <Text mt="2">Nenhum cartão encontrado...</Text>
         </Center>
       )}
