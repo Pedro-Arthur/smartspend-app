@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { Icon, Text, Box, IconButton, Heading, Image } from 'native-base';
+import { Icon, Text, Box, Heading, Image, Center } from 'native-base';
 import { CommonActions } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -27,19 +27,15 @@ const slides = [
 ];
 
 const NextButton = () => (
-  <IconButton
-    bgColor="primary.600"
-    borderRadius="full"
-    icon={<Icon size="md" as={<Feather name="chevron-right" />} color="white" />}
-  />
+  <Center bgColor="primary.600" borderRadius="full" w={10} h={10}>
+    <Icon size="md" as={<Feather name="chevron-right" />} color="white" />
+  </Center>
 );
 
 const DoneButton = () => (
-  <IconButton
-    bgColor="primary.600"
-    borderRadius="full"
-    icon={<Icon size="md" as={<Feather name="check" />} color="white" />}
-  />
+  <Center bgColor="primary.600" borderRadius="full" w={10} h={10}>
+    <Icon size="md" as={<Feather name="check" />} color="white" />
+  </Center>
 );
 
 const Item = ({ item }) => (
