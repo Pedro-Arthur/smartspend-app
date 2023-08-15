@@ -14,7 +14,7 @@ import Goals from '../pages/App/Goals';
 const Tab = createBottomTabNavigator();
 
 const HomeButton = () => (
-  <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-6">
+  <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-6" shadow="3">
     <Icon as={<AntDesign name="home" />} size={6} color="white" />
   </Center>
 );
@@ -41,7 +41,7 @@ const AppRoutes = () => {
           fontFamily: 'montserrat-regular',
         },
         tabBarStyle: {
-          height: Platform.OS === 'android' ? 60 : 90,
+          height: Platform.OS === 'android' ? 55 : 85,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.3,
