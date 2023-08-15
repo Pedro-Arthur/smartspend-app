@@ -14,7 +14,7 @@ import Goals from '../pages/App/Goals';
 const Tab = createBottomTabNavigator();
 
 const HomeButton = () => (
-  <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-6" shadow="3">
+  <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-6" shadow={2}>
     <Icon as={<AntDesign name="home" />} size={6} color="white" />
   </Center>
 );
