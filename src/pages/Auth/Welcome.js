@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { Icon, Text, Box, Heading, Image, Center } from 'native-base';
+import { Icon, Text, Box, Heading, Image, Center, useColorModeValue } from 'native-base';
 import { CommonActions } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -9,19 +9,19 @@ const slides = [
   {
     key: 's1',
     title: 'Gerencie seus gastos!',
-    text: 'SmartSpend te auxilia no controle e gestão das finanças',
+    text: 'SmartSpend te auxilia no controle e gestão das finanças.',
     image: require('../../assets/images/slides/1.png'),
   },
   {
     key: 's2',
     title: 'Aprenda mais!',
-    text: 'Estude com dicas sobre investimentos e economia',
+    text: 'Estude com dicas sobre investimentos e economia.',
     image: require('../../assets/images/slides/2.png'),
   },
   {
     key: 's3',
     title: 'Defina metas!',
-    text: 'Economize com nosso sistema de meta de gastos',
+    text: 'Economize com nosso sistema de meta de gastos.',
     image: require('../../assets/images/slides/3.png'),
   },
 ];
@@ -38,8 +38,8 @@ const DoneButton = () => (
   </Center>
 );
 
-const Item = ({ item }) => (
-  <Box flex={1} bg="warmGray.100" alignItems="center" justifyContent="space-around" pb={100}>
+const Item = ({ item, bg }) => (
+  <Box flex={1} bg={bg} alignItems="center" justifyContent="space-around" pb={100}>
     <Heading size="lg" fontWeight="600">
       {item.title}
     </Heading>
@@ -53,6 +53,7 @@ const Item = ({ item }) => (
 );
 
 const Welcome = ({ navigation }) => {
+  const bg = useColorModeValue('warmGray.100', 'dark.50');
   const { setAuthHasFirstAccess } = useContext(AuthContext);
 
   const onDone = () => {
@@ -68,7 +69,7 @@ const Welcome = ({ navigation }) => {
   return (
     <AppIntroSlider
       data={slides}
-      renderItem={Item}
+      renderItem={(props) => <Item {...props} bg={bg} />}
       onDone={onDone}
       renderDoneButton={DoneButton}
       renderNextButton={NextButton}
