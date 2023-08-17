@@ -13,7 +13,6 @@ import {
   Image,
   Modal,
   HStack,
-  Divider,
   FormControl,
   IconButton,
 } from 'native-base';
@@ -28,8 +27,8 @@ import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
 
 const DeleteButton = (triggerProps) => (
-  <Button {...triggerProps} colorScheme="danger">
-    Deletar
+  <Button {...triggerProps} colorScheme="danger" variant="outline">
+    DELETAR
   </Button>
 );
 
@@ -221,28 +220,28 @@ const Goals = () => {
                 }).format(item.maxValue)}
               </Text>
 
-              <Divider my={4} />
-
-              <HStack justifyContent="space-between">
-                <Text fontSize="xs" color="muted.400">
-                  Início:{' '}
+              <HStack mt={4} justifyContent="space-between">
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Início
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {formatDate(item.startDate, 'DD/MM/YYYY')}
                   </Text>
-                </Text>
+                </VStack>
 
-                <Text fontSize="xs" color="muted.400">
-                  Fim:{' '}
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Fim
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {formatDate(item.endDate, 'DD/MM/YYYY')}
                   </Text>
-                </Text>
+                </VStack>
               </HStack>
             </VStack>
 
-            <Divider my={4} />
-
-            <Box width="100%">
+            <Box mt={4} width="100%">
               <Popover trigger={DeleteButton}>
                 <Popover.Content accessibilityLabel="Deletar meta" w="56">
                   <Popover.Arrow />
