@@ -83,9 +83,11 @@ export const DataProvider = ({ children }) => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
 
   const loadAuthenticatedData = async () => {
-    const token = await AsyncStorage.getItem('@token');
+    setIsLoading(true);
 
     try {
+      const token = await AsyncStorage.getItem('@token');
+
       const [banksRes, bankAccountsRes, bankCardsRes, goalsRes] = await Promise.all([
         api.get('/banks', {
           headers: {

@@ -17,7 +17,6 @@ import {
   Select,
   CheckIcon,
   HStack,
-  Divider,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../../contexts/DataContext';
@@ -27,8 +26,8 @@ import { AuthContext } from '../../contexts/AuthContext';
 import useKeyboard from '../../hooks/useKeyboard';
 
 const DeleteButton = (triggerProps) => (
-  <Button {...triggerProps} colorScheme="danger">
-    Deletar
+  <Button {...triggerProps} colorScheme="danger" variant="outline">
+    DELETAR
   </Button>
 );
 
@@ -232,35 +231,35 @@ const BankAccounts = () => {
                 {item.bank.name}
               </Text>
 
-              <Divider my={4} />
-
-              <HStack justifyContent="space-between">
-                <Text fontSize="xs" color="muted.400">
-                  Número:{' '}
+              <HStack mt={4} justifyContent="space-between">
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Número
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {item.number}
                   </Text>
-                </Text>
+                </VStack>
 
-                <Text fontSize="xs" color="muted.400">
-                  Dígito:{' '}
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Dígito
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {item.digit}
                   </Text>
-                </Text>
+                </VStack>
               </HStack>
 
-              <Text fontSize="xs" color="muted.400">
-                Agência:{' '}
-                <Text fontWeight="semibold" color={customCardText}>
-                  {item.agency}
-                </Text>
+              <Text mt={4} fontSize="xs" color="muted.400">
+                Agência
+              </Text>
+              <Text fontWeight="semibold" color={customCardText}>
+                {item.agency}
               </Text>
             </VStack>
 
-            <Divider my={4} />
-
-            <HStack justifyContent="space-between" alignItems="center">
+            <HStack mt={4} justifyContent="space-between" alignItems="center">
               <Button
                 colorScheme="primary"
                 onPress={() => {
@@ -268,8 +267,9 @@ const BankAccounts = () => {
                   setSaveBankAccountModalVisible(true);
                 }}
                 width="48%"
+                variant="outline"
               >
-                Editar
+                EDITAR
               </Button>
 
               <Box width="48%">
