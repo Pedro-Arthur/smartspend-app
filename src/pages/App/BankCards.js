@@ -17,7 +17,6 @@ import {
   Select,
   CheckIcon,
   HStack,
-  Divider,
   IconButton,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
@@ -28,8 +27,8 @@ import { AuthContext } from '../../contexts/AuthContext';
 import useKeyboard from '../../hooks/useKeyboard';
 
 const DeleteButton = (triggerProps) => (
-  <Button {...triggerProps} colorScheme="danger">
-    Deletar
+  <Button {...triggerProps} colorScheme="danger" variant="outline">
+    DELETAR
   </Button>
 );
 
@@ -236,44 +235,48 @@ const BankCards = () => {
                 {item.bankAccount.bank.name}
               </Text>
 
-              <Divider my={4} />
-
-              <HStack justifyContent="space-between">
-                <Text fontSize="xs" color="muted.400">
-                  Últimos 4 números:{' '}
+              <HStack mt={4} justifyContent="space-between">
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Últimos 4 números
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {item.lastFourNumbers}
                   </Text>
-                </Text>
+                </VStack>
 
-                <Text fontSize="xs" color="muted.400">
-                  Tipo:{' '}
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Tipo
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {item.type === 'credit' ? 'Crédito' : 'Débito'}
                   </Text>
-                </Text>
+                </VStack>
               </HStack>
 
-              <HStack justifyContent="space-between">
-                <Text fontSize="xs" color="muted.400">
-                  Conta:{' '}
+              <HStack mt={4} justifyContent="space-between">
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Conta
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {item.bankAccount.number}-{item.bankAccount.digit}
                   </Text>
-                </Text>
+                </VStack>
 
-                <Text fontSize="xs" color="muted.400">
-                  Agência:{' '}
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Agência
+                  </Text>
                   <Text fontWeight="semibold" color={customCardText}>
                     {item.bankAccount.agency}
                   </Text>
-                </Text>
+                </VStack>
               </HStack>
             </VStack>
 
-            <Divider my={4} />
-
-            <HStack justifyContent="space-between" alignItems="center">
+            <HStack mt={4} justifyContent="space-between" alignItems="center">
               <Button
                 colorScheme="primary"
                 onPress={() => {
@@ -281,13 +284,14 @@ const BankCards = () => {
                   setSaveBankCardModalVisible(true);
                 }}
                 width="48%"
+                variant="outline"
               >
-                Editar
+                EDITAR
               </Button>
 
               <Box width="48%">
                 <Popover trigger={DeleteButton}>
-                  <Popover.Content accessibilityLabel="Deletar conta" w="56">
+                  <Popover.Content accessibilityLabel="Deletar cartão" w="56">
                     <Popover.Arrow />
                     <Popover.CloseButton />
                     <Popover.Header>Deletar cartão</Popover.Header>
@@ -342,7 +346,7 @@ const BankCards = () => {
                   <FormControl.Label>Últimos 4 números</FormControl.Label>
 
                   <Popover trigger={InfoIconButton}>
-                    <Popover.Content accessibilityLabel="Deletar conta" w="56">
+                    <Popover.Content accessibilityLabel="Números do cartão" w="56">
                       <Popover.Arrow />
                       <Popover.CloseButton />
                       <Popover.Header>Números do cartão</Popover.Header>

@@ -15,6 +15,7 @@ import {
   HStack,
   Divider,
   FormControl,
+  IconButton,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../../contexts/DataContext';
@@ -30,6 +31,21 @@ const DeleteButton = (triggerProps) => (
   <Button {...triggerProps} colorScheme="danger">
     Deletar
   </Button>
+);
+
+const InfoIconButton = (triggerProps) => (
+  <IconButton
+    {...triggerProps}
+    variant="unstyled"
+    _icon={{
+      as: AntDesign,
+      name: 'infocirlceo',
+      size: 'sm',
+      color: 'muted.400',
+      ml: 2,
+    }}
+    width="0"
+  />
 );
 
 const Goals = () => {
@@ -228,7 +244,7 @@ const Goals = () => {
 
             <Box width="100%">
               <Popover trigger={DeleteButton}>
-                <Popover.Content accessibilityLabel="Deletar conta" w="56">
+                <Popover.Content accessibilityLabel="Deletar meta" w="56">
                   <Popover.Arrow />
                   <Popover.CloseButton />
                   <Popover.Header>Deletar meta</Popover.Header>
@@ -306,7 +322,24 @@ const Goals = () => {
               </FormControl>
 
               <FormControl isRequired isInvalid={formErrors.maxValue}>
-                <FormControl.Label>Valor máximo</FormControl.Label>
+                <HStack alignItems="center">
+                  <FormControl.Label>Valor máximo</FormControl.Label>
+
+                  <Popover trigger={InfoIconButton}>
+                    <Popover.Content accessibilityLabel="Valor máximo" w="56">
+                      <Popover.Arrow />
+                      <Popover.CloseButton />
+                      <Popover.Header>Valor máximo</Popover.Header>
+                      <Popover.Body>
+                        O valor máximo representa o limite que você deve gastar para alcançar com
+                        sucesso a sua meta. No entanto, é importante notar que quanto mais próximo
+                        desse valor máximo você estiver, maior será o risco de não conseguir atingir
+                        a meta desejada.
+                      </Popover.Body>
+                    </Popover.Content>
+                  </Popover>
+                </HStack>
+
                 <CurrencyInput
                   onChangeText={(value) => setFormData({ ...formData, maxValue: value })}
                   value={formData.maxValue}
