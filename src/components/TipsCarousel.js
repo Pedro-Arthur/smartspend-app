@@ -41,7 +41,7 @@ const TipsCarousel = () => {
     <Carousel
       data={tips}
       renderItem={({ item }) => (
-        <Box shadow={2} m={4} p={4} borderRadius={8} bg={boxColor}>
+        <Box shadow={2} mx={4} mb={4} mt={2} p={4} borderRadius={8} bg={boxColor}>
           <Text>{item}</Text>
         </Box>
       )}
