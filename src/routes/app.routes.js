@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign } from '@expo/vector-icons';
-import { Text, useColorModeValue, Icon, Center } from 'native-base';
+import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useColorModeValue, Icon, Center, Avatar } from 'native-base';
 import { Platform } from 'react-native';
+import { AuthContext } from '../contexts/AuthContext';
 
 // Pages
 import Home from '../pages/App/Home';
@@ -13,25 +14,48 @@ import Goals from '../pages/App/Goals';
 
 const Tab = createBottomTabNavigator();
 
-const HomeButton = () => (
-  <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-6" shadow={2}>
-    <Icon as={<AntDesign name="home" />} size={6} color="white" />
-  </Center>
-);
-
-const getTabOptions = (text, icon) => ({
-  tabBarLabel: ({ color, focused }) => (
-    <Text fontSize={10} fontWeight={focused ? 600 : 400} color={color}>
-      {text}
-    </Text>
-  ),
-  tabBarIcon: ({ color, focused }) => (
-    <Icon as={<AntDesign name={icon} />} color={color} size={focused ? 6 : 5} />
-  ),
-});
-
 const AppRoutes = () => {
-  const homeTabBarIcon = () => <HomeButton />;
+  const { user } = useContext(AuthContext);
+
+  const homeIcon = () => (
+    <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-7" shadow={2}>
+      <Icon as={<AntDesign name="home" />} size={6} color="white" />
+    </Center>
+  );
+
+  const bankCardsIcon = ({ color, focused }) => (
+    <Icon as={<Ionicons name={focused ? 'card-sharp' : 'card-outline'} />} color={color} size={6} />
+  );
+
+  const bankAccountsIcon = ({ color, focused }) => (
+    <Icon
+      as={<MaterialCommunityIcons name={focused ? 'bank' : 'bank-outline'} />}
+      color={color}
+      size={6}
+    />
+  );
+
+  const goalsIcon = ({ color, focused }) => (
+    <Icon
+      as={<Ionicons name={focused ? 'ios-calendar' : 'ios-calendar-outline'} />}
+      color={color}
+      size={6}
+    />
+  );
+
+  const profileIcon = () =>
+    user.pictureUrl ? (
+      <Avatar
+        size="27px"
+        source={{
+          uri: user.pictureUrl,
+        }}
+      />
+    ) : (
+      <Avatar size="27px" bg="primary.600" _text={{ color: 'white', fontSize: 11 }}>
+        {user.name.charAt(0)}
+      </Avatar>
+    );
 
   return (
     <Tab.Navigator
@@ -41,7 +65,7 @@ const AppRoutes = () => {
           fontFamily: 'montserrat-regular',
         },
         tabBarStyle: {
-          height: Platform.OS === 'android' ? 55 : 85,
+          height: Platform.OS === 'android' ? 45 : 75,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.3,
@@ -59,27 +83,47 @@ const AppRoutes = () => {
       <Tab.Screen
         name="BankAccounts"
         component={BankAccounts}
-        options={getTabOptions('Contas', 'wallet')}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: bankAccountsIcon,
+        }}
       />
 
       <Tab.Screen
         name="BankCards"
         component={BankCards}
-        options={getTabOptions('Cartões', 'creditcard')}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: bankCardsIcon,
+        }}
       />
 
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: '',
-          tabBarIcon: homeTabBarIcon,
+          tabBarLabel: () => null,
+          tabBarIcon: homeIcon,
         }}
       />
 
-      <Tab.Screen name="Goals" component={Goals} options={getTabOptions('Metas', 'calendar')} />
+      <Tab.Screen
+        name="Goals"
+        component={Goals}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: goalsIcon,
+        }}
+      />
 
-      <Tab.Screen name="Profile" component={Profile} options={getTabOptions('Perfil', 'user')} />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: profileIcon,
+        }}
+      />
     </Tab.Navigator>
   );
 };
