@@ -1,15 +1,18 @@
 import React from 'react';
-import { useColorModeValue, Heading, Center } from 'native-base';
+import { useColorModeValue, Box } from 'native-base';
 import TermsModal from '../../components/TermsModal';
+import TipsCarousel from '../../components/TipsCarousel';
 
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
 
   return (
     <>
-      <Center flex="1" bg={bg}>
-        <Heading>HOME</Heading>
-      </Center>
+      <Box flex="1" bg={bg}>
+        <Box mt={4}>
+          <TipsCarousel />
+        </Box>
+      </Box>
 
       <TermsModal />
     </>
