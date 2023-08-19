@@ -44,7 +44,7 @@ const AppRoutes = () => {
   );
 
   const profileIcon = () =>
-    user.pictureUrl ? (
+    user && user.pictureUrl ? (
       <Avatar
         size="27px"
         source={{
@@ -53,7 +53,7 @@ const AppRoutes = () => {
       />
     ) : (
       <Avatar size="27px" bg="primary.600" _text={{ color: 'white', fontSize: 11 }}>
-        {user.name.charAt(0)}
+        {user && user.name.charAt(0)}
       </Avatar>
     );
 
