@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { useColorModeValue, Box, Text } from 'native-base';
+import { useColorModeValue, Box, Text, Icon, HStack } from 'native-base';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import financeTips from '../utils/financeTips';
 
 const { width } = Dimensions.get('window');
@@ -42,7 +43,15 @@ const TipsCarousel = () => {
       data={tips}
       renderItem={({ item }) => (
         <Box shadow={2} mx={4} mb={4} mt={2} p={4} borderRadius={8} bg={boxColor}>
-          <Text>{item}</Text>
+          <HStack mr="10" alignItems="center">
+            <Icon
+              size="md"
+              color="primary.600"
+              as={<MaterialCommunityIcons name="lightbulb-on-outline" />}
+              mr={4}
+            />
+            <Text>{item}</Text>
+          </HStack>
         </Box>
       )}
       sliderWidth={width}
