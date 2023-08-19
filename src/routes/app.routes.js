@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { useColorModeValue, Icon, Center, Avatar } from 'native-base';
 import { Platform } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
@@ -23,24 +23,16 @@ const AppRoutes = () => {
     </Center>
   );
 
-  const bankCardsIcon = ({ color, focused }) => (
-    <Icon as={<Ionicons name={focused ? 'card-sharp' : 'card-outline'} />} color={color} size={6} />
+  const bankCardsIcon = ({ color }) => (
+    <Icon as={<AntDesign name="creditcard" />} color={color} size={6} />
   );
 
-  const bankAccountsIcon = ({ color, focused }) => (
-    <Icon
-      as={<MaterialCommunityIcons name={focused ? 'bank' : 'bank-outline'} />}
-      color={color}
-      size={6}
-    />
+  const bankAccountsIcon = ({ color }) => (
+    <Icon as={<AntDesign name="bank" />} color={color} size={6} />
   );
 
-  const goalsIcon = ({ color, focused }) => (
-    <Icon
-      as={<Ionicons name={focused ? 'ios-calendar' : 'ios-calendar-outline'} />}
-      color={color}
-      size={6}
-    />
+  const goalsIcon = ({ color }) => (
+    <Icon as={<AntDesign name="calendar" />} color={color} size={6} />
   );
 
   const profileIcon = () =>
