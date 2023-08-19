@@ -9,9 +9,7 @@ const Home = () => {
   return (
     <>
       <Box flex="1" bg={bg}>
-        <Box mt={4}>
-          <TipsCarousel />
-        </Box>
+        <TipsCarousel />
       </Box>
 
       <TermsModal />
