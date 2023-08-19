@@ -38,6 +38,11 @@ const TipsCarousel = () => {
       autoplay
       autoplayInterval={interval}
       scrollEnabled={false}
+      onScrollIndexChanged={(index) => {
+        if (index === 0) {
+          setTips(getRandomTips());
+        }
+      }}
     />
   );
 };
