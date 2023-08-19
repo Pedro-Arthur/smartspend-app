@@ -14,7 +14,7 @@ const Home = () => {
     <>
       <Box flex="1" bg={bg}>
         <Heading size="lg" fontWeight="600" mx={4} mt={4}>
-          {greeting}, {user.name}!
+          {greeting}, {user && user.name}!
         </Heading>
 
         <Text fontWeight="semibold" fontSize="md" mx={4} mt={4}>
