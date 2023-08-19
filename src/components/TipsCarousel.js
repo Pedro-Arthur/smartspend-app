@@ -24,6 +24,19 @@ const TipsCarousel = () => {
   const boxColor = useColorModeValue('white', 'dark.100');
   const [tips, setTips] = useState(getRandomTips());
 
+  let lastFetchTips = new Date();
+
+  const onChangeIndex = (index) => {
+    if (index === 0) {
+      const newDate = new Date();
+
+      if (newDate - lastFetchTips > 1000) {
+        lastFetchTips = newDate;
+        setTips(getRandomTips());
+      }
+    }
+  };
+
   return (
     <Carousel
       data={tips}
@@ -38,11 +51,7 @@ const TipsCarousel = () => {
       autoplay
       autoplayInterval={interval}
       scrollEnabled={false}
-      onScrollIndexChanged={(index) => {
-        if (index === 0) {
-          setTips(getRandomTips());
-        }
-      }}
+      onScrollIndexChanged={onChangeIndex}
     />
   );
 };
