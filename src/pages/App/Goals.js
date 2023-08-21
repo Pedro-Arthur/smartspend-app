@@ -117,7 +117,7 @@ const Goals = () => {
     } else if (formData.maxValue < 1) {
       errors.maxValue = 'O valor máximo precisa ser maior que R$ 1,00!';
     } else if (formData.maxValue > 9999999) {
-      errors.maxValue = 'O valor máximo precisa ser menor que R$ 9.999.999,99!';
+      errors.maxValue = 'O valor máximo precisa ser menor que R$ 9.999.999,00!';
     }
 
     setFormErrors(errors);
