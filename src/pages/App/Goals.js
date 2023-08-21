@@ -15,6 +15,7 @@ import {
   HStack,
   FormControl,
   IconButton,
+  Progress,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { DataContext } from '../../contexts/DataContext';
@@ -195,6 +196,18 @@ const Goals = () => {
     }
   };
 
+  const getProgressColor = (percent) => {
+    if (percent <= 33) {
+      return 'success';
+    }
+    if (percent > 33 && percent <= 66) {
+      return 'warning';
+    }
+    if (percent > 66) {
+      return 'error';
+    }
+  };
+
   return (
     <Box flex="1" bg={bg}>
       <Center my="4">
@@ -239,6 +252,31 @@ const Goals = () => {
                   </Text>
                 </VStack>
               </HStack>
+
+              <HStack my={4} justifyContent="space-between">
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Total gasto
+                  </Text>
+                  <Text fontWeight="semibold" color={customCardText}>
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(item.totalSpent)}
+                  </Text>
+                </VStack>
+
+                <VStack>
+                  <Text fontSize="xs" color="muted.400">
+                    Percentual
+                  </Text>
+                  <Text fontWeight="semibold" color={customCardText}>
+                    {item.percent}%
+                  </Text>
+                </VStack>
+              </HStack>
+
+              <Progress colorScheme={getProgressColor(item.percent)} value={item.percent} />
             </VStack>
 
             <Box mt={4} width="100%">
