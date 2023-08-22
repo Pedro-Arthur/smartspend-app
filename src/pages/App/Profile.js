@@ -152,7 +152,7 @@ const Profile = () => {
                 {bankCards.length}
               </Text>
               <Text fontSize="xs" color="muted.400">
-                CARTÕES
+                {bankCards.length > 1 ? 'CARTÕES' : 'CARTÃO'}
               </Text>
             </VStack>
 
@@ -161,7 +161,7 @@ const Profile = () => {
                 {bankAccounts.length}
               </Text>
               <Text fontSize="xs" color="muted.400">
-                CONTAS
+                {bankAccounts.length > 1 ? 'CONTAS' : 'CONTA'}
               </Text>
             </VStack>
 
