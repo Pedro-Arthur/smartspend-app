@@ -33,6 +33,8 @@ const DeleteButton = (triggerProps) => (
   <Pressable
     {...triggerProps}
     px={4}
+    borderTopRightRadius={8}
+    borderBottomRightRadius={8}
     height="full"
     bgColor="danger.600"
     justifyContent="center"
@@ -300,8 +302,10 @@ const Goals = () => {
         )}
         keyExtractor={(item) => item.id}
         renderHiddenItem={(data, rowMap) => (
-          <HStack flex={1} pl={2}>
+          <HStack mx={4} mb={4} flex={1} pl={2}>
             <Pressable
+              borderTopLeftRadius={8}
+              borderBottomLeftRadius={8}
               px={4}
               ml="auto"
               bg="dark.500"
