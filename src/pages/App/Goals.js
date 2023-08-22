@@ -4,7 +4,6 @@ import {
   Center,
   Text,
   Box,
-  FlatList,
   VStack,
   Fab,
   Icon,
@@ -16,9 +15,11 @@ import {
   FormControl,
   IconButton,
   Progress,
+  Pressable,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { RefreshControl } from 'react-native';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
 import { ToastContext } from '../../contexts/ToastContext';
@@ -29,9 +30,17 @@ import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
 
 const DeleteButton = (triggerProps) => (
-  <Button {...triggerProps} colorScheme="danger" variant="outline">
-    DELETAR
-  </Button>
+  <Pressable
+    {...triggerProps}
+    px={4}
+    bgColor="danger.600"
+    justifyContent="center"
+    _pressed={{
+      opacity: 0.5,
+    }}
+  >
+    <Icon as={<AntDesign name="delete" />} color="white" />
+  </Pressable>
 );
 
 const InfoIconButton = (triggerProps) => (
@@ -219,6 +228,12 @@ const Goals = () => {
     }
   };
 
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+
   return (
     <Box flex="1" bg={bg}>
       <Center my="4">
@@ -232,7 +247,7 @@ const Goals = () => {
         </Center>
       )}
 
-      <FlatList
+      <SwipeListView
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={goals}
         renderItem={({ item }) => (
@@ -280,34 +295,51 @@ const Goals = () => {
 
               <Progress colorScheme={getProgressColor(item.percent)} value={item.percent} />
             </VStack>
-
-            <Box mt={4} width="100%">
-              <Popover trigger={DeleteButton}>
-                <Popover.Content accessibilityLabel="Deletar meta" w="56">
-                  <Popover.Arrow />
-                  <Popover.CloseButton />
-                  <Popover.Header>Deletar meta</Popover.Header>
-                  <Popover.Body>
-                    Isso removerá os dados relacionados a meta. Esta ação não pode ser revertida. Os
-                    dados excluídos não podem ser recuperados.
-                  </Popover.Body>
-                  <Popover.Footer justifyContent="flex-end">
-                    <Button.Group>
-                      <Button
-                        isLoading={isLoading}
-                        onPress={() => deleteGoal(item.id)}
-                        colorScheme="danger"
-                      >
-                        Deletar
-                      </Button>
-                    </Button.Group>
-                  </Popover.Footer>
-                </Popover.Content>
-              </Popover>
-            </Box>
           </Box>
         )}
         keyExtractor={(item) => item.id}
+        renderHiddenItem={(data, rowMap) => (
+          <HStack flex={1} pl={2}>
+            <Pressable
+              px={4}
+              ml="auto"
+              bg="dark.500"
+              justifyContent="center"
+              onPress={() => closeRow(rowMap, data.item.id)}
+              _pressed={{
+                opacity: 0.5,
+              }}
+            >
+              <Icon as={<AntDesign name="close" />} color="white" />
+            </Pressable>
+            <Popover trigger={DeleteButton}>
+              <Popover.Content accessibilityLabel="Deletar meta" w="56">
+                <Popover.Arrow />
+                <Popover.CloseButton />
+                <Popover.Header>Deletar meta</Popover.Header>
+                <Popover.Body>
+                  Isso removerá os dados relacionados a meta. Esta ação não pode ser revertida. Os
+                  dados excluídos não podem ser recuperados.
+                </Popover.Body>
+                <Popover.Footer justifyContent="flex-end">
+                  <Button.Group>
+                    <Button
+                      isLoading={isLoading}
+                      onPress={() => deleteGoal(data.item.id)}
+                      colorScheme="danger"
+                    >
+                      Deletar
+                    </Button>
+                  </Button.Group>
+                </Popover.Footer>
+              </Popover.Content>
+            </Popover>
+          </HStack>
+        )}
+        rightOpenValue={-130}
+        previewRowKey="0"
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
       />
 
       <Fab

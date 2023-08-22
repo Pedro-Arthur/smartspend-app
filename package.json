@@ -34,6 +34,7 @@
     "react-native-snap-carousel": "^4.0.0-beta.6",
     "react-native-svg": "13.4.0",
     "react-native-svg-transformer": "^1.0.0",
+    "react-native-swipe-list-view": "^3.2.9",
     "react-native-tab-view": "^3.5.2"
   },
   "devDependencies": {
