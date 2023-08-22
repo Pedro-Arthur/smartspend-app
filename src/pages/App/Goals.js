@@ -341,10 +341,7 @@ const Goals = () => {
             </Popover>
           </HStack>
         )}
-        rightOpenValue={-130}
-        previewRowKey="0"
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
+        rightOpenValue={-100}
       />
 
       <Fab
