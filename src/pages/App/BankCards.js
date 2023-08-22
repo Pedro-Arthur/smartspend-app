@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import {
   useColorModeValue,
   Center,
@@ -20,6 +20,7 @@ import {
   IconButton,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
+import { RefreshControl } from 'react-native';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
 import { ToastContext } from '../../contexts/ToastContext';
@@ -54,7 +55,7 @@ const BankCards = () => {
   const boxColor = useColorModeValue('white', 'dark.100');
   const customCardText = useColorModeValue('black', 'white');
 
-  const { bankAccounts, bankCards, removeBankCard, addBankCard, updateBankCard } =
+  const { bankAccounts, bankCards, removeBankCard, addBankCard, updateBankCard, refreshBankCards } =
     useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
@@ -73,6 +74,13 @@ const BankCards = () => {
   const [saveBankCardModalVisible, setSaveBankCardModalVisible] = useState(false);
   const [search, setSearch] = useState('');
   const [filteredBankCards, setFilteredBankCards] = useState(bankCards);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refreshBankCards();
+    setRefreshing(false);
+  }, []);
 
   const handleSearch = (searchText) => {
     setSearch(searchText);
@@ -227,6 +235,7 @@ const BankCards = () => {
       )}
 
       <FlatList
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={filteredBankCards}
         renderItem={({ item }) => (
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>

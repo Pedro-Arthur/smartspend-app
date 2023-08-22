@@ -41,10 +41,28 @@ export const DataProvider = ({ children }) => {
   const addBankAccount = (data) => addItem(data, bankAccounts, setBankAccounts);
   const updateBankAccount = (id, data) => updateItem(id, data, bankAccounts, setBankAccounts);
   const removeBankAccount = (id) => removeItem(id, bankAccounts, setBankAccounts);
+  const refreshBankAccounts = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    const bankAccountsRes = await api.get('/bankAccounts', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setGoals(bankAccountsRes);
+  };
 
   const addBankCard = (data) => addItem(data, bankCards, setBankCards);
   const updateBankCard = (id, data) => updateItem(id, data, bankCards, setBankCards);
   const removeBankCard = (id) => removeItem(id, bankCards, setBankCards);
+  const refreshBankCards = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    const bankCardsRes = await api.get('/bankCards', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setGoals(bankCardsRes);
+  };
 
   const addGoal = (data) => addItem(data, goals, setGoals);
   const removeGoal = (id) => removeItem(id, goals, setGoals);
@@ -73,6 +91,8 @@ export const DataProvider = ({ children }) => {
       addGoal,
       removeGoal,
       refreshGoals,
+      refreshBankCards,
+      refreshBankAccounts,
     }),
     [
       banks,
@@ -88,6 +108,8 @@ export const DataProvider = ({ children }) => {
       addGoal,
       removeGoal,
       refreshGoals,
+      refreshBankCards,
+      refreshBankAccounts,
     ]
   );
 
