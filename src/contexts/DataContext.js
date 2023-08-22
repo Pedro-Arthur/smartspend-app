@@ -48,7 +48,7 @@ export const DataProvider = ({ children }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    setGoals(bankAccountsRes);
+    setBankAccounts(bankAccountsRes);
   };
 
   const addBankCard = (data) => addItem(data, bankCards, setBankCards);
@@ -61,7 +61,7 @@ export const DataProvider = ({ children }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    setGoals(bankCardsRes);
+    setBankCards(bankCardsRes);
   };
 
   const addGoal = (data) => addItem(data, goals, setGoals);
