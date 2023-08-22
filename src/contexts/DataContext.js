@@ -48,6 +48,15 @@ export const DataProvider = ({ children }) => {
 
   const addGoal = (data) => addItem(data, goals, setGoals);
   const removeGoal = (id) => removeItem(id, goals, setGoals);
+  const refreshGoals = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    const goalsRes = await api.get('/goals', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setGoals(goalsRes);
+  };
 
   const contextValue = useMemo(
     () => ({
@@ -63,6 +72,7 @@ export const DataProvider = ({ children }) => {
       goals,
       addGoal,
       removeGoal,
+      refreshGoals,
     }),
     [
       banks,
@@ -77,6 +87,7 @@ export const DataProvider = ({ children }) => {
       goals,
       addGoal,
       removeGoal,
+      refreshGoals,
     ]
   );
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import {
   useColorModeValue,
   Center,
@@ -18,6 +18,7 @@ import {
   Progress,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
+import { RefreshControl } from 'react-native';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
 import { ToastContext } from '../../contexts/ToastContext';
@@ -58,7 +59,7 @@ const Goals = () => {
   const boxColor = useColorModeValue('white', 'dark.100');
   const customCardText = useColorModeValue('black', 'white');
 
-  const { goals, removeGoal, addGoal } = useContext(DataContext);
+  const { goals, removeGoal, addGoal, refreshGoals } = useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
 
@@ -74,6 +75,13 @@ const Goals = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [saveGoalModalVisible, setSaveGoalModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refreshGoals();
+    setRefreshing(false);
+  }, []);
 
   const onCloseSaveGoalModal = () => {
     setSaveGoalModalVisible(false);
@@ -225,6 +233,7 @@ const Goals = () => {
       )}
 
       <FlatList
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={goals}
         renderItem={({ item }) => (
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>
