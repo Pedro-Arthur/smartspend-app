@@ -302,7 +302,7 @@ const Goals = () => {
         )}
         keyExtractor={(item) => item.id}
         renderHiddenItem={(data, rowMap) => (
-          <HStack mx={4} mb={4} flex={1} pl={2}>
+          <HStack mx={4} mb={4}>
             <Pressable
               borderTopLeftRadius={8}
               borderBottomLeftRadius={8}
