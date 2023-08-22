@@ -196,14 +196,17 @@ const Goals = () => {
     }
   };
 
-  const getProgressColor = (percent) => {
+  const getProgressColor = (percent, isText) => {
     if (percent <= 33) {
+      if (isText) return 'success.400';
       return 'success';
     }
     if (percent > 33 && percent <= 66) {
+      if (isText) return 'warning.400';
       return 'warning';
     }
     if (percent > 66) {
+      if (isText) return 'error.400';
       return 'error';
     }
   };
@@ -253,28 +256,18 @@ const Goals = () => {
                 </VStack>
               </HStack>
 
-              <HStack my={4} justifyContent="space-between">
-                <VStack>
-                  <Text fontSize="xs" color="muted.400">
-                    Total gasto
-                  </Text>
-                  <Text fontWeight="semibold" color={customCardText}>
-                    {new Intl.NumberFormat('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL',
-                    }).format(item.totalSpent)}
-                  </Text>
-                </VStack>
-
-                <VStack>
-                  <Text fontSize="xs" color="muted.400">
-                    Percentual
-                  </Text>
-                  <Text fontWeight="semibold" color={customCardText}>
-                    {item.percent}%
-                  </Text>
-                </VStack>
-              </HStack>
+              <VStack my={4}>
+                <Text fontSize="xs" color="muted.400">
+                  Total gasto
+                </Text>
+                <Text fontWeight="semibold" color={customCardText}>
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(item.totalSpent)}{' '}
+                  <Text color={getProgressColor(item.percent, true)}>({item.percent}%)</Text>
+                </Text>
+              </VStack>
 
               <Progress colorScheme={getProgressColor(item.percent)} value={item.percent} />
             </VStack>
