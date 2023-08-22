@@ -4,7 +4,6 @@ import {
   Center,
   Text,
   Box,
-  FlatList,
   VStack,
   Fab,
   Icon,
@@ -18,9 +17,11 @@ import {
   CheckIcon,
   HStack,
   IconButton,
+  Pressable,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { RefreshControl } from 'react-native';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
 import { ToastContext } from '../../contexts/ToastContext';
@@ -28,9 +29,20 @@ import { AuthContext } from '../../contexts/AuthContext';
 import useKeyboard from '../../hooks/useKeyboard';
 
 const DeleteButton = (triggerProps) => (
-  <Button {...triggerProps} colorScheme="danger" variant="outline">
-    DELETAR
-  </Button>
+  <Pressable
+    {...triggerProps}
+    px={4}
+    borderTopRightRadius={8}
+    borderBottomRightRadius={8}
+    height="full"
+    bgColor="danger.600"
+    justifyContent="center"
+    _pressed={{
+      opacity: 0.5,
+    }}
+  >
+    <Icon as={<AntDesign name="delete" />} color="white" />
+  </Pressable>
 );
 
 const InfoIconButton = (triggerProps) => (
@@ -205,6 +217,12 @@ const BankCards = () => {
     }
   };
 
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+
   useEffect(() => {
     setSearch('');
     setFilteredBankCards(bankCards);
@@ -234,7 +252,7 @@ const BankCards = () => {
         </Center>
       )}
 
-      <FlatList
+      <SwipeListView
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={filteredBankCards}
         renderItem={({ item }) => (
@@ -284,48 +302,64 @@ const BankCards = () => {
                 </VStack>
               </HStack>
             </VStack>
-
-            <HStack mt={4} justifyContent="space-between" alignItems="center">
-              <Button
-                colorScheme="primary"
-                onPress={() => {
-                  setFormData({ ...item, bankAccountId: item.bankAccount.id });
-                  setSaveBankCardModalVisible(true);
-                }}
-                width="48%"
-                variant="outline"
-              >
-                EDITAR
-              </Button>
-
-              <Box width="48%">
-                <Popover trigger={DeleteButton}>
-                  <Popover.Content accessibilityLabel="Deletar cartão" w="56">
-                    <Popover.Arrow />
-                    <Popover.CloseButton />
-                    <Popover.Header>Deletar cartão</Popover.Header>
-                    <Popover.Body>
-                      Isso removerá os dados relacionados ao cartão. Esta ação não pode ser
-                      revertida. Os dados excluídos não podem ser recuperados.
-                    </Popover.Body>
-                    <Popover.Footer justifyContent="flex-end">
-                      <Button.Group>
-                        <Button
-                          isLoading={isLoading}
-                          onPress={() => deleteCard(item.id)}
-                          colorScheme="danger"
-                        >
-                          Deletar
-                        </Button>
-                      </Button.Group>
-                    </Popover.Footer>
-                  </Popover.Content>
-                </Popover>
-              </Box>
-            </HStack>
           </Box>
         )}
         keyExtractor={(item) => item.id}
+        renderHiddenItem={(data, rowMap) => (
+          <HStack mx={4} mb={4}>
+            <Pressable
+              borderTopLeftRadius={8}
+              borderBottomLeftRadius={8}
+              px={4}
+              ml="auto"
+              bg="dark.500"
+              justifyContent="center"
+              onPress={() => closeRow(rowMap, data.item.id)}
+              _pressed={{
+                opacity: 0.5,
+              }}
+            >
+              <Icon as={<AntDesign name="close" />} color="white" />
+            </Pressable>
+            <Pressable
+              px={4}
+              bg="primary.600"
+              justifyContent="center"
+              onPress={() => {
+                setFormData({ ...data.item, bankAccountId: data.item.bankAccount.id });
+                setSaveBankCardModalVisible(true);
+              }}
+              _pressed={{
+                opacity: 0.5,
+              }}
+            >
+              <Icon as={<AntDesign name="edit" />} color="white" />
+            </Pressable>
+            <Popover trigger={DeleteButton}>
+              <Popover.Content accessibilityLabel="Deletar cartão" w="56">
+                <Popover.Arrow />
+                <Popover.CloseButton />
+                <Popover.Header>Deletar cartão</Popover.Header>
+                <Popover.Body>
+                  Isso removerá os dados relacionados ao cartão. Esta ação não pode ser revertida.
+                  Os dados excluídos não podem ser recuperados.
+                </Popover.Body>
+                <Popover.Footer justifyContent="flex-end">
+                  <Button.Group>
+                    <Button
+                      isLoading={isLoading}
+                      onPress={() => deleteCard(data.item.id)}
+                      colorScheme="danger"
+                    >
+                      Deletar
+                    </Button>
+                  </Button.Group>
+                </Popover.Footer>
+              </Popover.Content>
+            </Popover>
+          </HStack>
+        )}
+        rightOpenValue={-147}
       />
 
       <Fab
