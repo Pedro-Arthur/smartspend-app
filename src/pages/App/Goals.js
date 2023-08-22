@@ -33,6 +33,7 @@ const DeleteButton = (triggerProps) => (
   <Pressable
     {...triggerProps}
     px={4}
+    height="full"
     bgColor="danger.600"
     justifyContent="center"
     _pressed={{
@@ -215,15 +216,15 @@ const Goals = () => {
 
   const getProgressColor = (percent, isText) => {
     if (percent <= 33) {
-      if (isText) return 'success.400';
+      if (isText) return 'success.500';
       return 'success';
     }
     if (percent > 33 && percent <= 66) {
-      if (isText) return 'warning.400';
+      if (isText) return 'warning.500';
       return 'warning';
     }
     if (percent > 66) {
-      if (isText) return 'error.400';
+      if (isText) return 'error.500';
       return 'error';
     }
   };
