@@ -37,6 +37,9 @@ export const DataProvider = ({ children }) => {
   const [bankAccounts, setBankAccounts] = useState([]);
   const [bankCards, setBankCards] = useState([]);
   const [goals, setGoals] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [spends, setSpends] = useState([]);
+  const [spendMethods, setSpendMethods] = useState([]);
 
   const addBankAccount = (data) => addItem(data, bankAccounts, setBankAccounts);
   const updateBankAccount = (id, data) => updateItem(id, data, bankAccounts, setBankAccounts);
@@ -76,6 +79,21 @@ export const DataProvider = ({ children }) => {
     setGoals(goalsRes);
   };
 
+  const addCategory = (data) => addItem(data, categories, setCategories);
+
+  const addSpend = (data) => addItem(data, spends, setSpends);
+  const updateSpend = (id, data) => updateItem(id, data, spends, setSpends);
+  const removeSpend = (id) => removeItem(id, spends, setSpends);
+  const refreshSpends = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    const spendsRes = await api.get('/spends', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setSpends(spendsRes);
+  };
+
   const contextValue = useMemo(
     () => ({
       banks,
@@ -93,6 +111,14 @@ export const DataProvider = ({ children }) => {
       refreshGoals,
       refreshBankCards,
       refreshBankAccounts,
+      categories,
+      addCategory,
+      spendMethods,
+      spends,
+      addSpend,
+      removeSpend,
+      updateSpend,
+      refreshSpends,
     }),
     [
       banks,
@@ -110,6 +136,14 @@ export const DataProvider = ({ children }) => {
       refreshGoals,
       refreshBankCards,
       refreshBankAccounts,
+      categories,
+      addCategory,
+      spendMethods,
+      spends,
+      addSpend,
+      removeSpend,
+      updateSpend,
+      refreshSpends,
     ]
   );
 
@@ -121,7 +155,15 @@ export const DataProvider = ({ children }) => {
     try {
       const token = await AsyncStorage.getItem('@token');
 
-      const [banksRes, bankAccountsRes, bankCardsRes, goalsRes] = await Promise.all([
+      const [
+        banksRes,
+        bankAccountsRes,
+        bankCardsRes,
+        goalsRes,
+        categoriesRes,
+        spendsRes,
+        spendMethodsRes,
+      ] = await Promise.all([
         api.get('/banks', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -142,12 +184,30 @@ export const DataProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         }),
+        api.get('/categories', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        api.get('/spends', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        api.get('/spendMethods', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       setBanks(banksRes);
       setBankAccounts(bankAccountsRes);
       setBankCards(bankCardsRes);
       setGoals(goalsRes);
+      setCategories(categoriesRes);
+      setSpends(spendsRes);
+      setSpendMethods(spendMethodsRes);
     } catch (error) {
       showToast({
         title: 'Ops!',
