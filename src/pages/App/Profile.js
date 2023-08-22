@@ -14,9 +14,12 @@ import {
   FormControl,
   Input,
   Button,
+  VStack,
+  Divider,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { AuthContext } from '../../contexts/AuthContext';
+import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
 import { ToastContext } from '../../contexts/ToastContext';
 
@@ -28,12 +31,19 @@ const SettingsIcon = (triggerProps) => (
 
 const Profile = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
+  const customCardText = useColorModeValue('black', 'white');
   const boxColor = useColorModeValue('white', 'dark.100');
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { showToast } = useContext(ToastContext);
   const { user, token, removeAuthIsLoggedIn, removeAuthUser, removeAuthToken, setAuthUser } =
     useContext(AuthContext);
+  const { bankCards, bankAccounts, spends } = useContext(DataContext);
+
+  const totalSpent = spends.reduce((total, obj) => {
+    const numberValue = parseFloat(`${obj.value}`);
+    return total + numberValue;
+  }, 0);
 
   const [formData, setFormData] = useState({
     name: user.name,
@@ -134,7 +144,43 @@ const Profile = () => {
             {user.email}
           </Text>
 
-          <Button colorScheme="danger" onPress={() => handleLogout()} mt="4" w="100%">
+          <Divider my={4} />
+
+          <HStack justifyContent="space-between" width="full">
+            <VStack alignItems="center" width="1/3">
+              <Text fontWeight="semibold" color={customCardText}>
+                {bankCards.length}
+              </Text>
+              <Text fontSize="xs" color="muted.400">
+                CARTÕES
+              </Text>
+            </VStack>
+
+            <VStack alignItems="center" width="1/3">
+              <Text fontWeight="semibold" color={customCardText}>
+                {bankAccounts.length}
+              </Text>
+              <Text fontSize="xs" color="muted.400">
+                CONTAS
+              </Text>
+            </VStack>
+
+            <VStack alignItems="center" width="1/3">
+              <Text fontWeight="semibold" color={customCardText}>
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(totalSpent)}
+              </Text>
+              <Text fontSize="xs" color="muted.400">
+                GASTO TOTAL
+              </Text>
+            </VStack>
+          </HStack>
+
+          <Divider my={4} />
+
+          <Button colorScheme="danger" onPress={() => handleLogout()} w="100%">
             Sair
           </Button>
         </Center>
