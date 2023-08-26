@@ -150,7 +150,16 @@ const Home = () => {
   const { isKeyboardVisible, keyboardHeight } = useKeyboard();
 
   const { user } = useContext(AuthContext);
-  const { spends, removeSpend, addSpend } = useContext(DataContext);
+  const {
+    spends,
+    removeSpend,
+    addSpend,
+    bankAccounts,
+    bankCards,
+    categories,
+    addCategory,
+    spendMethods,
+  } = useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
 
@@ -524,6 +533,18 @@ const Home = () => {
                   />
                   {'value' in formErrors && (
                     <FormControl.ErrorMessage>{formErrors.value}</FormControl.ErrorMessage>
+                  )}
+                </FormControl>
+
+                <FormControl isRequired isInvalid={formErrors.date}>
+                  <FormControl.Label>Data</FormControl.Label>
+                  <DatePickerInput
+                    onChange={(value) => setFormData({ ...formData, date: value })}
+                    value={formData.date}
+                    placeholder="Data"
+                  />
+                  {'date' in formErrors && (
+                    <FormControl.ErrorMessage>{formErrors.date}</FormControl.ErrorMessage>
                   )}
                 </FormControl>
               </VStack>
