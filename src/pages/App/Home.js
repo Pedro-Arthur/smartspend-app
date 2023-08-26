@@ -29,6 +29,8 @@ import PixIcon from '../../assets/images/pix.svg';
 import DetailsSpend from '../../components/DetailsSpend';
 import AddSpendFab from '../../components/AddSpendFab';
 import useKeyboard from '../../hooks/useKeyboard';
+import CurrencyInput from '../../components/CurrencyInput';
+import DatePickerInput from '../../components/DatePickerInput';
 
 const DeleteButton = (triggerProps) => (
   <Pressable
@@ -506,10 +508,22 @@ const Home = () => {
                     onChangeText={(value) => setFormData({ ...formData, description: value })}
                     value={formData.description}
                     maxLength={100}
-                    placeholder="Descrição"
+                    placeholder="Compra dos materiais escolares"
                   />
                   {'description' in formErrors && (
                     <FormControl.ErrorMessage>{formErrors.description}</FormControl.ErrorMessage>
+                  )}
+                </FormControl>
+
+                <FormControl isRequired isInvalid={formErrors.value}>
+                  <FormControl.Label>Valor</FormControl.Label>
+                  <CurrencyInput
+                    onChangeText={(value) => setFormData({ ...formData, value })}
+                    value={formData.value}
+                    maxDigits={8}
+                  />
+                  {'value' in formErrors && (
+                    <FormControl.ErrorMessage>{formErrors.value}</FormControl.ErrorMessage>
                   )}
                 </FormControl>
               </VStack>
