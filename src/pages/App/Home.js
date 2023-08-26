@@ -97,13 +97,13 @@ const Home = () => {
             <FlatList
               data={sortedAndGroupedSpends}
               keyExtractor={(spendGroup) => spendGroup.date}
-              renderItem={({ item, index }) => (
-                <VStack mt={index > 0 ? 6 : 0}>
+              renderItem={({ item }) => (
+                <VStack>
                   <HStack justifyContent="space-between" alignItems="center">
-                    <Text mb={2} fontWeight="semibold" fontSize="md">
+                    <Text fontWeight="semibold" fontSize="md">
                       {formatDay(item.date)}
                     </Text>
-                    <Text mb={2} fontSize="xs">
+                    <Text fontSize="xs">
                       Total:{' '}
                       {new Intl.NumberFormat('pt-BR', {
                         style: 'currency',
@@ -117,14 +117,14 @@ const Home = () => {
                     keyExtractor={(spend) => spend.id}
                     // eslint-disable-next-line no-shadow
                     renderItem={({ item }) => (
-                      <HStack justifyContent="space-between" alignItems="center">
+                      <HStack mt={4} justifyContent="space-between" alignItems="center">
                         <HStack alignItems="center">
                           <Avatar mr={2} size="30px" bg="primary.600" _text={{ color: 'white' }}>
                             a
                           </Avatar>
                           <VStack>
                             <Text>{item.spendMethod.name}</Text>
-                            <Text>{item.category.name}</Text>
+                            <Text fontSize="xs">{item.category.name}</Text>
                           </VStack>
                         </HStack>
 
@@ -136,10 +136,10 @@ const Home = () => {
                         </Text>
                       </HStack>
                     )}
-                    ItemSeparatorComponent={<Divider my={2} />}
                   />
                 </VStack>
               )}
+              ItemSeparatorComponent={<Divider my={6} />}
             />
           </Box>
         </VStack>
