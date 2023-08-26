@@ -70,17 +70,17 @@ const formatDay = (dateString) => {
 
 const getIconBySpendMethod = (key) => {
   switch (key) {
-    case 'PIX':
+    case 'pix':
       return <PixIcon width={20} height={20} fill="#d97706" />;
-    case 'Boleto Bancário':
+    case 'ticket':
       return <MaterialCommunityIcons name="barcode-scan" />;
-    case 'Transferência Bancária':
+    case 'transfer':
       return <BankIcon width={20} height={20} fill="#d97706" />;
-    case 'Cartão de Débito':
+    case 'debit':
       return <AntDesign name="creditcard" />;
-    case 'Cartão de Crédito':
+    case 'credit':
       return <AntDesign name="creditcard" />;
-    case 'Dinheiro':
+    case 'money':
       return <MaterialIcons name="attach-money" />;
     default:
       return <MaterialIcons name="attach-money" />;
@@ -152,7 +152,7 @@ const Home = () => {
                             mr={2}
                             color="primary.600"
                             fontSize={20}
-                            as={getIconBySpendMethod(spend.spendMethod.name)}
+                            as={getIconBySpendMethod(spend.spendMethod.key)}
                           />
 
                           <VStack>
