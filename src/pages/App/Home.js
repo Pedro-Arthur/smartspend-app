@@ -110,6 +110,13 @@ const getIconBySpendMethod = (key) => {
   }
 };
 
+const getHistoricSpendsHeight = (spends) => {
+  if (spends.length > 5) {
+    return 500;
+  }
+  return 'auto';
+};
+
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
@@ -186,7 +193,15 @@ const Home = () => {
               <Text>Nenhum gasto encontrado...</Text>
             </Box>
           ) : (
-            <Box h={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+            <Box
+              h={getHistoricSpendsHeight(spends)}
+              shadow={2}
+              mx={4}
+              p={4}
+              borderRadius={8}
+              bg={boxColor}
+              mt={2}
+            >
               <FlatList
                 showsVerticalScrollIndicator={false}
                 data={sortedAndGroupedSpends}
