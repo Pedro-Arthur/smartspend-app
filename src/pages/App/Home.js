@@ -105,7 +105,6 @@ const Home = () => {
                       {formatDay(item.date)}
                     </Text>
                     <Text fontSize="xs">
-                      Total:{' '}
                       {new Intl.NumberFormat('pt-BR', {
                         style: 'currency',
                         currency: 'BRL',
