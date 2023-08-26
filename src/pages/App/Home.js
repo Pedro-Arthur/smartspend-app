@@ -194,6 +194,7 @@ const Home = () => {
       bankCardId: null,
       bankAccounId: null,
     });
+    setFormType(null);
   };
 
   const saveSpend = async () => {
