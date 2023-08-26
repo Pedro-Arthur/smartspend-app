@@ -2,7 +2,6 @@ import React from 'react';
 import { useDisclose, Stagger, IconButton, Icon, Fab, Box } from 'native-base';
 import { MaterialCommunityIcons, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import PixIcon from '../assets/images/pix.svg';
-import BankIcon from '../assets/images/bank.svg';
 
 const AddSpendFab = ({ openSaveModal }) => {
   const { isOpen, onToggle } = useDisclose();
@@ -49,7 +48,7 @@ const AddSpendFab = ({ openSaveModal }) => {
             bg="primary.600"
             colorScheme="primary"
             borderRadius="full"
-            icon={<Icon as={<BankIcon width={24} height={24} fill="#fff" />} />}
+            icon={<Icon as={MaterialCommunityIcons} color="white" size="6" name="bank-outline" />}
             onPress={() => openSaveModal('transfer')}
           />
           <IconButton

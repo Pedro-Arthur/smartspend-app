@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useColorModeValue, Icon, Center, Avatar } from 'native-base';
 import { Platform } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
-import BankIcon from '../assets/images/bank.svg';
 
 // Pages
 import Home from '../pages/App/Home';
@@ -29,7 +28,7 @@ const AppRoutes = () => {
   );
 
   const bankAccountsIcon = ({ color }) => (
-    <Icon as={<BankIcon width={24} height={24} fill={color} />} />
+    <Icon as={<MaterialCommunityIcons name="bank-outline" />} color={color} size={6} />
   );
 
   const goalsIcon = ({ color }) => (

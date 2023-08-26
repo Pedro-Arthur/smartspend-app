@@ -23,7 +23,6 @@ import { DataContext } from '../../contexts/DataContext';
 import { ToastContext } from '../../contexts/ToastContext';
 import api from '../../services/api';
 import PixIcon from '../../assets/images/pix.svg';
-import BankIcon from '../../assets/images/bank.svg';
 import DetailsSpend from '../../components/DetailsSpend';
 import AddSpendFab from '../../components/AddSpendFab';
 
@@ -116,11 +115,11 @@ const formatDay = (dateString) => {
 const getIconBySpendMethod = (key) => {
   switch (key) {
     case 'pix':
-      return <PixIcon width={20} height={20} fill="#d97706" />;
+      return <PixIcon width={16} height={16} fill="#d97706" />;
     case 'ticket':
       return <MaterialCommunityIcons name="barcode-scan" />;
     case 'transfer':
-      return <BankIcon width={20} height={20} fill="#d97706" />;
+      return <MaterialCommunityIcons name="bank-outline" />;
     case 'debit':
       return <AntDesign name="creditcard" />;
     case 'credit':
