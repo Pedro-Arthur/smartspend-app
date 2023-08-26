@@ -113,6 +113,7 @@ const Home = () => {
                   </HStack>
 
                   <FlatList
+                    scrollEnabled={false}
                     showsVerticalScrollIndicator={false}
                     data={item.values}
                     keyExtractor={(spend) => spend.id}
