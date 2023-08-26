@@ -5,16 +5,20 @@ import {
   Text,
   Heading,
   HStack,
-  Avatar,
   VStack,
   Divider,
   FlatList,
+  Icon,
 } from 'native-base';
+import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
 import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
+
+import PixIcon from '../../assets/images/historicSpends/pix.svg';
+import BankIcon from '../../assets/images/historicSpends/bank.svg';
 
 const groupAndSortSpends = (spends) => {
   const groupedSpends = spends.reduce((groups, spend) => {
@@ -64,6 +68,25 @@ const formatDay = (dateString) => {
   return dateString.split('-').reverse().join('/');
 };
 
+const getIconBySpendMethod = (key) => {
+  switch (key) {
+    case 'PIX':
+      return <PixIcon width={20} height={20} fill="#d97706" />;
+    case 'Boleto Bancário':
+      return <MaterialCommunityIcons name="barcode-scan" />;
+    case 'Transferência Bancária':
+      return <BankIcon width={20} height={20} fill="#d97706" />;
+    case 'Cartão de Débito':
+      return <AntDesign name="creditcard" />;
+    case 'Cartão de Crédito':
+      return <AntDesign name="creditcard" />;
+    case 'Dinheiro':
+      return <MaterialIcons name="attach-money" />;
+    default:
+      return <MaterialIcons name="attach-money" />;
+  }
+};
+
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
@@ -92,7 +115,7 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Histórico de gastos
           </Text>
-          <Box height={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+          <Box h={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
             {sortedAndGroupedSpends.length === 0 && <Text>Nenhum gasto encontrado...</Text>}
             <FlatList
               showsVerticalScrollIndicator={false}
@@ -113,11 +136,20 @@ const Home = () => {
                   </HStack>
 
                   {item.values.map((spend) => (
-                    <HStack mt={4} justifyContent="space-between" alignItems="center">
+                    <HStack
+                      key={spend.id}
+                      mt={4}
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
                       <HStack alignItems="center">
-                        <Avatar mr={2} size="30px" bg="primary.600" _text={{ color: 'white' }}>
-                          a
-                        </Avatar>
+                        <Icon
+                          mr={2}
+                          color="primary.600"
+                          fontSize={20}
+                          as={getIconBySpendMethod(spend.spendMethod.name)}
+                        />
+
                         <VStack>
                           <Text>{spend.spendMethod.name}</Text>
                           <Text fontSize="xs">{spend.category.name}</Text>
