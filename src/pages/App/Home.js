@@ -12,7 +12,6 @@ import {
   Pressable,
   Popover,
   Button,
-  Fab,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -23,10 +22,10 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
 import { ToastContext } from '../../contexts/ToastContext';
 import api from '../../services/api';
-
 import PixIcon from '../../assets/images/pix.svg';
 import BankIcon from '../../assets/images/bank.svg';
 import DetailsSpend from '../../components/DetailsSpend';
+import AddSpendFab from '../../components/AddSpendFab';
 
 const DeleteButton = (triggerProps) => (
   <Pressable
@@ -124,7 +123,7 @@ const Home = () => {
   const boxColor = useColorModeValue('white', 'dark.100');
 
   const { user } = useContext(AuthContext);
-  const { spends, removeSpend } = useContext(DataContext);
+  const { spends, removeSpend, addSpend } = useContext(DataContext);
   const { showToast } = useContext(ToastContext);
   const { token } = useContext(AuthContext);
 
@@ -132,6 +131,98 @@ const Home = () => {
   const [saveSpendModalVisible, setSaveSpendModalVisible] = useState(false);
   const [detailsSpendModalVisible, setDetailsSpendModalVisible] = useState(false);
   const [currentSpendDetails, setCurrentSpendDetails] = useState(null);
+  const [formData, setFormData] = useState({
+    description: null,
+    value: 0,
+    date: null,
+    categoryId: null,
+    spendMethodId: null,
+    bankCardId: null,
+    bankAccounId: null,
+  });
+  const [formErrors, setFormErrors] = useState({
+    description: null,
+    value: null,
+    date: null,
+    categoryId: null,
+    spendMethodId: null,
+    bankCardId: null,
+    bankAccounId: null,
+  });
+
+  const onCloseSaveSpendModal = () => {
+    setSaveSpendModalVisible(false);
+    setFormData({
+      description: null,
+      value: 0,
+      date: null,
+      categoryId: null,
+      spendMethodId: null,
+      bankCardId: null,
+      bankAccounId: null,
+    });
+    setFormErrors({
+      description: null,
+      value: null,
+      date: null,
+      categoryId: null,
+      spendMethodId: null,
+      bankCardId: null,
+      bankAccounId: null,
+    });
+  };
+
+  const saveSpend = async () => {
+    const errors = {
+      description: null,
+      value: null,
+      date: null,
+      categoryId: null,
+      spendMethodId: null,
+      bankCardId: null,
+      bankAccounId: null,
+    };
+
+    if (!formData.description) {
+      errors.description = 'Descrição é obrigatória!';
+    }
+
+    setFormErrors(errors);
+
+    if (!errors.description) {
+      try {
+        setIsLoading(true);
+
+        const spend = await api.post('/spends', formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        addSpend(spend);
+
+        showToast({
+          title: 'Sucesso!',
+          description: 'Gasto salvo com sucesso!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'success',
+        });
+
+        onCloseSaveSpendModal();
+      } catch (error) {
+        showToast({
+          title: 'Ops!',
+          description: error?.response?.data?.message || 'Erro ao salvar gasto!',
+          variant: 'solid',
+          isClosable: true,
+          status: 'error',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
 
   const greeting = getGreeting();
   const sortedAndGroupedSpends = groupAndSortSpends(spends);
@@ -324,15 +415,7 @@ const Home = () => {
           currentSpendDetails={currentSpendDetails}
         />
 
-        <Fab
-          onPress={() => {
-            setSaveSpendModalVisible(true);
-          }}
-          size="sm"
-          icon={<Icon color="white" as={<MaterialIcons name="attach-money" />} size="sm" />}
-          renderInPortal={false}
-          bgColor="success.600"
-        />
+        <AddSpendFab />
       </Box>
 
       <TermsModal />
