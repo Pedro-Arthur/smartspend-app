@@ -133,7 +133,7 @@ const getIconBySpendMethod = (key) => {
 };
 
 const getHistoricSpendsHeight = (spends) => {
-  if (spends.length > 5) {
+  if (spends.length > 8) {
     return 500;
   }
   return 'auto';
@@ -363,7 +363,9 @@ const Home = () => {
                             />
 
                             <VStack>
-                              <Text>{item.spendMethod.name}</Text>
+                              <Text fontWeight="semibold" fontSize="xs">
+                                {item.spendMethod.name}
+                              </Text>
                               <Text fontSize="xs">{item.category.name}</Text>
                             </VStack>
                           </HStack>
