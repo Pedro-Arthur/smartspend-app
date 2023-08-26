@@ -378,7 +378,7 @@ const Home = () => {
                       )}
                       keyExtractor={(spend) => spend.id}
                       renderHiddenItem={(data, rowMap) => (
-                        <HStack mb={4}>
+                        <HStack>
                           <Pressable
                             borderTopLeftRadius={8}
                             borderBottomLeftRadius={8}
@@ -424,11 +424,11 @@ const Home = () => {
                         </HStack>
                       )}
                       rightOpenValue={-100}
-                      ItemSeparatorComponent={<Box my={2} />}
+                      ItemSeparatorComponent={<Box mb={2} />}
                     />
                   </VStack>
                 )}
-                ItemSeparatorComponent={<Box my={4} />}
+                ItemSeparatorComponent={<Box mb={4} />}
               />
             </Box>
           )}
