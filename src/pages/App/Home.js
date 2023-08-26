@@ -211,7 +211,12 @@ const Home = () => {
                       data={item.values}
                       // eslint-disable-next-line no-shadow
                       renderItem={({ item }) => (
-                        <HStack mt={4} justifyContent="space-between" alignItems="center">
+                        <HStack
+                          bg={boxColor}
+                          mt={4}
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
                           <HStack alignItems="center">
                             <Icon
                               mr={2}
