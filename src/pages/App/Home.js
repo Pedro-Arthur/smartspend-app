@@ -344,11 +344,7 @@ const Home = () => {
   };
 
   const openSaveModal = (type) => {
-    let foundSpendMethod = null;
-
-    if (type === 'money') {
-      foundSpendMethod = spendMethods.find((s) => s.key === 'money');
-    }
+    const foundSpendMethod = spendMethods.find((s) => s.key === type);
 
     if (foundSpendMethod) {
       setFormType(type);
