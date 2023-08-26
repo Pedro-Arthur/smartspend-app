@@ -13,6 +13,8 @@ import {
   Popover,
   Button,
   Modal,
+  FormControl,
+  TextArea,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -497,7 +499,20 @@ const Home = () => {
             <Modal.CloseButton />
             <Modal.Header>Salvar gasto</Modal.Header>
             <Modal.Body>
-              <VStack space={3} />
+              <VStack space={3}>
+                <FormControl isRequired isInvalid={formErrors.description}>
+                  <FormControl.Label>Descrição</FormControl.Label>
+                  <TextArea
+                    onChangeText={(value) => setFormData({ ...formData, description: value })}
+                    value={formData.description}
+                    maxLength={100}
+                    placeholder="Descrição"
+                  />
+                  {'description' in formErrors && (
+                    <FormControl.ErrorMessage>{formErrors.description}</FormControl.ErrorMessage>
+                  )}
+                </FormControl>
+              </VStack>
             </Modal.Body>
             <Modal.Footer>
               <Button
