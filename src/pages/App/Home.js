@@ -13,6 +13,7 @@ import {
   Popover,
   Button,
   Fab,
+  Modal,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -121,6 +122,7 @@ const getHistoricSpendsHeight = (spends) => {
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
+  const customCardText = useColorModeValue('black', 'white');
 
   const { user } = useContext(AuthContext);
   const { spends, removeSpend } = useContext(DataContext);
@@ -129,6 +131,8 @@ const Home = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [saveSpendModalVisible, setSaveSpendModalVisible] = useState(false);
+  const [detailsSpendModalVisible, setDetailsSpendModalVisible] = useState(false);
+  const [currentSpendDetails, setCurrentSpendDetails] = useState(null);
 
   const greeting = getGreeting();
   const sortedAndGroupedSpends = groupAndSortSpends(spends);
@@ -266,22 +270,18 @@ const Home = () => {
                             ml="auto"
                             bg="dark.500"
                             justifyContent="center"
-                            onPress={() => closeRow(rowMap, data.item.id)}
                             _pressed={{
                               opacity: 0.5,
                             }}
-                          >
-                            <Icon as={<AntDesign name="close" />} color="white" />
-                          </Pressable>
-                          <Pressable
-                            px={4}
-                            bg="primary.600"
-                            justifyContent="center"
-                            _pressed={{
-                              opacity: 0.5,
+                            onPress={() => {
+                              setCurrentSpendDetails({
+                                ...data.item,
+                                rowMap,
+                              });
+                              setDetailsSpendModalVisible(true);
                             }}
                           >
-                            <Icon as={<AntDesign name="edit" />} color="white" />
+                            <Icon as={<AntDesign name="infocirlceo" />} color="white" />
                           </Pressable>
                           <Popover trigger={DeleteButton}>
                             <Popover.Content accessibilityLabel="Deletar gasto" w="56">
@@ -307,7 +307,7 @@ const Home = () => {
                           </Popover>
                         </HStack>
                       )}
-                      rightOpenValue={-147}
+                      rightOpenValue={-100}
                     />
                   </VStack>
                 )}
@@ -316,6 +316,148 @@ const Home = () => {
             </Box>
           )}
         </VStack>
+
+        <Modal
+          isOpen={detailsSpendModalVisible}
+          size="xl"
+          onClose={() => {
+            setDetailsSpendModalVisible(false);
+            closeRow(currentSpendDetails.rowMap, currentSpendDetails.id);
+            setCurrentSpendDetails(null);
+          }}
+        >
+          <Modal.Content>
+            <Modal.CloseButton />
+            <Modal.Header>Detalhes do gasto</Modal.Header>
+            <Modal.Body>
+              {currentSpendDetails && (
+                <>
+                  <HStack justifyContent="space-between">
+                    <VStack>
+                      <Text fontSize="xs" color="muted.400">
+                        Valor
+                      </Text>
+                      <Text fontWeight="semibold" color={customCardText}>
+                        {new Intl.NumberFormat('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        }).format(currentSpendDetails.value)}
+                      </Text>
+                    </VStack>
+
+                    <VStack>
+                      <Text fontSize="xs" color="muted.400">
+                        Data
+                      </Text>
+                      <Text fontWeight="semibold" color={customCardText}>
+                        {currentSpendDetails.date.split('-').reverse().join('/')}
+                      </Text>
+                    </VStack>
+                  </HStack>
+
+                  <HStack mt={4} justifyContent="space-between">
+                    <VStack>
+                      <Text fontSize="xs" color="muted.400">
+                        Categoria
+                      </Text>
+                      <Text fontWeight="semibold" color={customCardText}>
+                        {currentSpendDetails.category.name}
+                      </Text>
+                    </VStack>
+
+                    <VStack>
+                      <Text fontSize="xs" color="muted.400">
+                        Método
+                      </Text>
+                      <Text fontWeight="semibold" color={customCardText}>
+                        {currentSpendDetails.spendMethod.name}
+                      </Text>
+                    </VStack>
+                  </HStack>
+
+                  {currentSpendDetails.spendMethod.key !== 'money' &&
+                    currentSpendDetails.spendMethod.key !== 'ticket' && (
+                      <>
+                        {(currentSpendDetails.spendMethod.key === 'pix' ||
+                          currentSpendDetails.spendMethod.key === 'transfer') && (
+                          <>
+                            <HStack mt={4} justifyContent="space-between">
+                              <VStack>
+                                <Text fontSize="xs" color="muted.400">
+                                  Conta
+                                </Text>
+                                <Text fontWeight="semibold" color={customCardText}>
+                                  {currentSpendDetails.bankAccount.number}-
+                                  {currentSpendDetails.bankAccount.digit}
+                                </Text>
+                              </VStack>
+
+                              <VStack>
+                                <Text fontSize="xs" color="muted.400">
+                                  Agência
+                                </Text>
+                                <Text fontWeight="semibold" color={customCardText}>
+                                  {currentSpendDetails.bankAccount.agency}
+                                </Text>
+                              </VStack>
+                            </HStack>
+
+                            <HStack mt={4} justifyContent="space-between">
+                              <VStack>
+                                <Text fontSize="xs" color="muted.400">
+                                  Banco
+                                </Text>
+                                <Text fontWeight="semibold" color={customCardText}>
+                                  {currentSpendDetails.bankAccount.bank.name}
+                                </Text>
+                              </VStack>
+                            </HStack>
+                          </>
+                        )}
+
+                        {(currentSpendDetails.spendMethod.key === 'credit' ||
+                          currentSpendDetails.spendMethod.key === 'debit') && (
+                          <>
+                            <HStack mt={4} justifyContent="space-between">
+                              <VStack>
+                                <Text fontSize="xs" color="muted.400">
+                                  Cartão (Últimos 4 números)
+                                </Text>
+                                <Text fontWeight="semibold" color={customCardText}>
+                                  {currentSpendDetails.bankCard.lastFourNumbers}
+                                </Text>
+                              </VStack>
+                            </HStack>
+                            <HStack mt={4} justifyContent="space-between">
+                              <VStack>
+                                <Text fontSize="xs" color="muted.400">
+                                  Banco
+                                </Text>
+                                <Text fontWeight="semibold" color={customCardText}>
+                                  {currentSpendDetails.bankCard.bankAccount.bank.name}
+                                </Text>
+                              </VStack>
+                            </HStack>
+                          </>
+                        )}
+                      </>
+                    )}
+
+                  <HStack mt={4} justifyContent="space-between">
+                    <VStack>
+                      <Text fontSize="xs" color="muted.400">
+                        Descrição
+                      </Text>
+                      <Text fontWeight="semibold" color={customCardText}>
+                        {currentSpendDetails.description}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </>
+              )}
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
 
         <Fab
           onPress={() => {
