@@ -9,6 +9,7 @@ import {
   VStack,
   Divider,
   FlatList,
+  ScrollView,
 } from 'native-base';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
@@ -88,63 +89,65 @@ const Home = () => {
           <TipsCarousel />
         </VStack>
 
-        <VStack>
-          <Text fontWeight="semibold" fontSize="md" mx={4}>
-            Histórico de gastos
-          </Text>
-          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
-            {sortedAndGroupedSpends.length === 0 && <Text>Nenhum gasto encontrado...</Text>}
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={sortedAndGroupedSpends}
-              keyExtractor={(spendGroup) => spendGroup.date}
-              renderItem={({ item }) => (
-                <VStack>
-                  <HStack justifyContent="space-between" alignItems="center">
-                    <Text fontWeight="semibold" fontSize="md">
-                      {formatDay(item.date)}
-                    </Text>
-                    <Text fontSize="xs">
-                      {new Intl.NumberFormat('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      }).format(item.totalSpent)}
-                    </Text>
-                  </HStack>
+        <ScrollView>
+          <VStack mb={4}>
+            <Text fontWeight="semibold" fontSize="md" mx={4}>
+              Histórico de gastos
+            </Text>
+            <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+              {sortedAndGroupedSpends.length === 0 && <Text>Nenhum gasto encontrado...</Text>}
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={sortedAndGroupedSpends}
+                keyExtractor={(spendGroup) => spendGroup.date}
+                renderItem={({ item }) => (
+                  <VStack>
+                    <HStack justifyContent="space-between" alignItems="center">
+                      <Text fontWeight="semibold" fontSize="md">
+                        {formatDay(item.date)}
+                      </Text>
+                      <Text fontSize="xs">
+                        {new Intl.NumberFormat('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        }).format(item.totalSpent)}
+                      </Text>
+                    </HStack>
 
-                  <FlatList
-                    scrollEnabled={false}
-                    showsVerticalScrollIndicator={false}
-                    data={item.values}
-                    keyExtractor={(spend) => spend.id}
-                    // eslint-disable-next-line no-shadow
-                    renderItem={({ item }) => (
-                      <HStack mt={4} justifyContent="space-between" alignItems="center">
-                        <HStack alignItems="center">
-                          <Avatar mr={2} size="30px" bg="primary.600" _text={{ color: 'white' }}>
-                            a
-                          </Avatar>
-                          <VStack>
-                            <Text>{item.spendMethod.name}</Text>
-                            <Text fontSize="xs">{item.category.name}</Text>
-                          </VStack>
+                    <FlatList
+                      scrollEnabled={false}
+                      showsVerticalScrollIndicator={false}
+                      data={item.values}
+                      keyExtractor={(spend) => spend.id}
+                      // eslint-disable-next-line no-shadow
+                      renderItem={({ item }) => (
+                        <HStack mt={4} justifyContent="space-between" alignItems="center">
+                          <HStack alignItems="center">
+                            <Avatar mr={2} size="30px" bg="primary.600" _text={{ color: 'white' }}>
+                              a
+                            </Avatar>
+                            <VStack>
+                              <Text>{item.spendMethod.name}</Text>
+                              <Text fontSize="xs">{item.category.name}</Text>
+                            </VStack>
+                          </HStack>
+
+                          <Text>
+                            {new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(item.value)}
+                          </Text>
                         </HStack>
-
-                        <Text>
-                          {new Intl.NumberFormat('pt-BR', {
-                            style: 'currency',
-                            currency: 'BRL',
-                          }).format(item.value)}
-                        </Text>
-                      </HStack>
-                    )}
-                  />
-                </VStack>
-              )}
-              ItemSeparatorComponent={<Divider my={6} />}
-            />
-          </Box>
-        </VStack>
+                      )}
+                    />
+                  </VStack>
+                )}
+                ItemSeparatorComponent={<Divider my={6} />}
+              />
+            </Box>
+          </VStack>
+        </ScrollView>
       </Box>
 
       <TermsModal />
