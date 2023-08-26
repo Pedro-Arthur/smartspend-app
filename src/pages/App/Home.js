@@ -27,10 +27,20 @@ const groupAndSortSpends = (spends) => {
 
   const sortedDates = Object.keys(groupedSpends).sort((a, b) => b.localeCompare(a));
 
-  const finalList = sortedDates.map((date) => ({
-    date,
-    values: groupedSpends[date],
-  }));
+  const finalList = sortedDates.map((date) => {
+    const values = groupedSpends[date];
+
+    const totalSpent = values.reduce((total, obj) => {
+      const numberValue = parseFloat(`${obj.value}`);
+      return total + numberValue;
+    }, 0);
+
+    return {
+      totalSpent,
+      date,
+      values,
+    };
+  });
 
   return finalList;
 };
@@ -87,10 +97,19 @@ const Home = () => {
               data={sortedAndGroupedSpends}
               keyExtractor={(spendGroup) => spendGroup.date}
               renderItem={({ item, index }) => (
-                <VStack mt={index > 0 ? 4 : 0}>
-                  <Text mb={2} fontWeight="semibold" fontSize="md">
-                    {formatDay(item.date)}
-                  </Text>
+                <VStack mt={index > 0 ? 6 : 0}>
+                  <HStack justifyContent="space-between" alignItems="center">
+                    <Text mb={2} fontWeight="semibold" fontSize="md">
+                      {formatDay(item.date)}
+                    </Text>
+                    <Text mb={2} fontSize="xs">
+                      Total:{' '}
+                      {new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      }).format(item.totalSpent)}
+                    </Text>
+                  </HStack>
 
                   <FlatList
                     data={item.values}
@@ -98,8 +117,8 @@ const Home = () => {
                     // eslint-disable-next-line no-shadow
                     renderItem={({ item }) => (
                       <HStack justifyContent="space-between" alignItems="center">
-                        <HStack>
-                          <Avatar mr={2} size="40px" bg="primary.600" _text={{ color: 'white' }}>
+                        <HStack alignItems="center">
+                          <Avatar mr={2} size="30px" bg="primary.600" _text={{ color: 'white' }}>
                             {user.name.charAt(0)}
                           </Avatar>
                           <VStack>
