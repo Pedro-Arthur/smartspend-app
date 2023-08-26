@@ -6,6 +6,11 @@ import PixIcon from '../assets/images/pix.svg';
 const AddSpendFab = ({ openSaveModal }) => {
   const { isOpen, onToggle } = useDisclose();
 
+  const handlePress = (type) => {
+    openSaveModal(type);
+    onToggle();
+  };
+
   return (
     <>
       <Box position="absolute" right={5} bottom={63}>
@@ -49,7 +54,7 @@ const AddSpendFab = ({ openSaveModal }) => {
             colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={MaterialCommunityIcons} color="white" size="6" name="bank-outline" />}
-            onPress={() => openSaveModal('transfer')}
+            onPress={() => handlePress('transfer')}
           />
           <IconButton
             mb="4"
@@ -58,7 +63,7 @@ const AddSpendFab = ({ openSaveModal }) => {
             colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={<PixIcon width={24} height={24} fill="#fff" />} />}
-            onPress={() => openSaveModal('pix')}
+            onPress={() => handlePress('pix')}
           />
           <IconButton
             mb="4"
@@ -67,7 +72,7 @@ const AddSpendFab = ({ openSaveModal }) => {
             colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={AntDesign} color="white" size="6" name="creditcard" />}
-            onPress={() => openSaveModal('card')}
+            onPress={() => handlePress('card')}
           />
           <IconButton
             mb="4"
@@ -76,7 +81,7 @@ const AddSpendFab = ({ openSaveModal }) => {
             colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={MaterialCommunityIcons} size="6" name="barcode-scan" color="white" />}
-            onPress={() => openSaveModal('ticket')}
+            onPress={() => handlePress('ticket')}
           />
           <IconButton
             mb="4"
@@ -85,7 +90,7 @@ const AddSpendFab = ({ openSaveModal }) => {
             colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={MaterialIcons} size="6" name="attach-money" color="white" />}
-            onPress={() => openSaveModal('money')}
+            onPress={() => handlePress('money')}
           />
         </Stagger>
       </Box>
