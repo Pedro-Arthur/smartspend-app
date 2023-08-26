@@ -149,6 +149,7 @@ const Home = () => {
     bankCardId: null,
     bankAccounId: null,
   });
+  const [formType, setFormType] = useState(null);
 
   const onCloseSaveSpendModal = () => {
     setSaveSpendModalVisible(false);
@@ -266,7 +267,8 @@ const Home = () => {
   };
 
   const openSaveModal = (type) => {
-    console.log(type);
+    setFormType(type);
+    setSaveSpendModalVisible(true);
   };
 
   return (
