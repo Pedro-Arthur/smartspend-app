@@ -332,16 +332,20 @@ const Home = () => {
                 renderItem={({ item }) => (
                   <VStack>
                     <HStack justifyContent="space-between" alignItems="center">
-                      <Text fontWeight="semibold" fontSize="md">
-                        {formatDay(item.date)}
-                      </Text>
-                      <Text fontSize="xs">
-                        {new Intl.NumberFormat('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        }).format(item.totalSpent)}
-                      </Text>
+                      <Text fontSize="xs">{formatDay(item.date)}</Text>
+
+                      <HStack>
+                        <Text fontSize="xs">Gasto do dia: </Text>
+                        <Text fontSize="xs" fontWeight="semibold">
+                          {new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL',
+                          }).format(item.totalSpent)}
+                        </Text>
+                      </HStack>
                     </HStack>
+
+                    <Divider my={2} />
 
                     <SwipeListView
                       scrollEnabled={false}
@@ -349,12 +353,7 @@ const Home = () => {
                       data={item.values}
                       // eslint-disable-next-line no-shadow
                       renderItem={({ item }) => (
-                        <HStack
-                          bg={boxColor}
-                          mt={4}
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
+                        <HStack bg={boxColor} justifyContent="space-between" alignItems="center">
                           <HStack alignItems="center">
                             <Icon
                               mr={2}
@@ -379,7 +378,7 @@ const Home = () => {
                       )}
                       keyExtractor={(spend) => spend.id}
                       renderHiddenItem={(data, rowMap) => (
-                        <HStack mt={4}>
+                        <HStack mb={4}>
                           <Pressable
                             borderTopLeftRadius={8}
                             borderBottomLeftRadius={8}
@@ -425,10 +424,11 @@ const Home = () => {
                         </HStack>
                       )}
                       rightOpenValue={-100}
+                      ItemSeparatorComponent={<Box my={2} />}
                     />
                   </VStack>
                 )}
-                ItemSeparatorComponent={<Divider my={4} />}
+                ItemSeparatorComponent={<Box my={4} />}
               />
             </Box>
           )}
