@@ -212,9 +212,35 @@ const Home = () => {
       errors.description = 'Descrição é obrigatória!';
     }
 
+    if (!formData.value) {
+      errors.value = 'O valor é obrigatório!';
+    } else if (formData.value < 1) {
+      errors.value = 'O valor precisa ser maior que R$ 1,00!';
+    } else if (formData.value > 9999999) {
+      errors.value = 'O valor precisa ser menor que R$ 999.999,00!';
+    }
+
+    if (!formData.date) {
+      errors.date = 'Data é obrigatória!';
+    }
+
+    if (!formData.categoryId) {
+      errors.categoryId = 'Categoria é obrigatória!';
+    }
+
+    if (!formData.spendMethodId) {
+      errors.spendMethodId = 'Método é obrigatório!';
+    }
+
     setFormErrors(errors);
 
-    if (!errors.description) {
+    if (
+      !errors.description &&
+      !errors.value &&
+      !errors.date &&
+      !errors.categoryId &&
+      !errors.spendMethodId
+    ) {
       try {
         setIsLoading(true);
 
