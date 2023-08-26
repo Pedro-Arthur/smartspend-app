@@ -15,6 +15,8 @@ import {
   Modal,
   FormControl,
   TextArea,
+  Select,
+  CheckIcon,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -186,6 +188,7 @@ const Home = () => {
     bankAccounId: null,
   });
   const [formType, setFormType] = useState(null);
+  const [disableSpendMethodInput, setDisableSpendMethodInput] = useState(false);
 
   const onCloseSaveSpendModal = () => {
     setSaveSpendModalVisible(false);
@@ -208,6 +211,7 @@ const Home = () => {
       bankAccounId: null,
     });
     setFormType(null);
+    setDisableSpendMethodInput(false);
   };
 
   const saveSpend = async () => {
@@ -340,8 +344,21 @@ const Home = () => {
   };
 
   const openSaveModal = (type) => {
-    setFormType(type);
-    setSaveSpendModalVisible(true);
+    let foundSpendMethod = null;
+
+    if (type === 'money') {
+      foundSpendMethod = spendMethods.find((s) => s.key === 'money');
+    }
+
+    if (foundSpendMethod) {
+      setFormType(type);
+      setFormData({ ...formData, spendMethodId: foundSpendMethod.id });
+      setDisableSpendMethodInput(true);
+      setSaveSpendModalVisible(true);
+    } else {
+      setFormType(type);
+      setSaveSpendModalVisible(true);
+    }
   };
 
   return (
@@ -545,6 +562,32 @@ const Home = () => {
                   />
                   {'date' in formErrors && (
                     <FormControl.ErrorMessage>{formErrors.date}</FormControl.ErrorMessage>
+                  )}
+                </FormControl>
+
+                <FormControl isRequired isInvalid={formErrors.spendMethodId}>
+                  <FormControl.Label>Método</FormControl.Label>
+                  <Select
+                    isDisabled={disableSpendMethodInput}
+                    _selectedItem={{
+                      bg: 'primary.600',
+                      endIcon: <CheckIcon size="5" color="white" />,
+                    }}
+                    selectedValue={formData.spendMethodId}
+                    accessibilityLabel="Método"
+                    placeholder="Método"
+                    onValueChange={(value) => setFormData({ ...formData, spendMethodId: value })}
+                  >
+                    {spendMethods.map((spendMethod) => (
+                      <Select.Item
+                        key={spendMethod.id}
+                        label={spendMethod.name}
+                        value={spendMethod.id}
+                      />
+                    ))}
+                  </Select>
+                  {'spendMethodId' in formErrors && (
+                    <FormControl.ErrorMessage>{formErrors.spendMethodId}</FormControl.ErrorMessage>
                   )}
                 </FormControl>
               </VStack>
