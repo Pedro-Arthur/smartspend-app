@@ -21,6 +21,10 @@ const Home = () => {
           Dicas de saúde financeira
         </Text>
         <TipsCarousel />
+
+        <Text fontWeight="semibold" fontSize="md" mx={4}>
+          Histórico de gastos
+        </Text>
       </Box>
 
       <TermsModal />
