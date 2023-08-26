@@ -35,6 +35,25 @@ const groupAndSortSpends = (spends) => {
   return finalList;
 };
 
+const formatDay = (dateString) => {
+  const today = new Date();
+
+  const date = new Date(dateString);
+  date.setDate(date.getDate() + 1);
+
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  if (date.toDateString() === today.toDateString()) {
+    return 'Hoje';
+  }
+  if (date.toDateString() === yesterday.toDateString()) {
+    return 'Ontem';
+  }
+
+  return dateString.split('-').reverse().join('/');
+};
+
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
@@ -70,7 +89,7 @@ const Home = () => {
               renderItem={({ item, index }) => (
                 <VStack mt={index > 0 ? 4 : 0}>
                   <Text mb={2} fontWeight="semibold" fontSize="md">
-                    {item.date}
+                    {formatDay(item.date)}
                   </Text>
 
                   <FlatList
