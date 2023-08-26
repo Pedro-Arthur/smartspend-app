@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   useColorModeValue,
   Box,
@@ -9,16 +9,39 @@ import {
   Divider,
   FlatList,
   Icon,
+  Pressable,
+  Popover,
+  Button,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
 import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
+import { ToastContext } from '../../contexts/ToastContext';
+import api from '../../services/api';
 
 import PixIcon from '../../assets/images/pix.svg';
 import BankIcon from '../../assets/images/bank.svg';
+
+const DeleteButton = (triggerProps) => (
+  <Pressable
+    {...triggerProps}
+    px={4}
+    borderTopRightRadius={8}
+    borderBottomRightRadius={8}
+    height="full"
+    bgColor="danger.600"
+    justifyContent="center"
+    _pressed={{
+      opacity: 0.5,
+    }}
+  >
+    <Icon as={<AntDesign name="delete" />} color="white" />
+  </Pressable>
+);
 
 const groupAndSortSpends = (spends) => {
   const groupedSpends = spends.reduce((groups, spend) => {
@@ -91,11 +114,53 @@ const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
 
-  const greeting = getGreeting();
   const { user } = useContext(AuthContext);
-  const { spends } = useContext(DataContext);
+  const { spends, removeSpend } = useContext(DataContext);
+  const { showToast } = useContext(ToastContext);
+  const { token } = useContext(AuthContext);
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const greeting = getGreeting();
   const sortedAndGroupedSpends = groupAndSortSpends(spends);
+
+  const deleteSpend = async (id) => {
+    try {
+      setIsLoading(true);
+
+      await api.delete(`/spends/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      removeSpend(id);
+
+      showToast({
+        title: 'Sucesso!',
+        description: 'Gasto deletado com sucesso!',
+        variant: 'solid',
+        isClosable: true,
+        status: 'success',
+      });
+    } catch (error) {
+      showToast({
+        title: 'Ops!',
+        description: error?.response?.data?.message || 'Erro ao deletar gasto!',
+        variant: 'solid',
+        isClosable: true,
+        status: 'error',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
 
   return (
     <>
@@ -140,35 +205,88 @@ const Home = () => {
                       </Text>
                     </HStack>
 
-                    {item.values.map((spend) => (
-                      <HStack
-                        key={spend.id}
-                        mt={4}
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <HStack alignItems="center">
-                          <Icon
-                            mr={2}
-                            color="primary.600"
-                            fontSize={20}
-                            as={getIconBySpendMethod(spend.spendMethod.key)}
-                          />
+                    <SwipeListView
+                      scrollEnabled={false}
+                      showsVerticalScrollIndicator={false}
+                      data={item.values}
+                      // eslint-disable-next-line no-shadow
+                      renderItem={({ item }) => (
+                        <HStack mt={4} justifyContent="space-between" alignItems="center">
+                          <HStack alignItems="center">
+                            <Icon
+                              mr={2}
+                              color="primary.600"
+                              fontSize={20}
+                              as={getIconBySpendMethod(item.spendMethod.key)}
+                            />
 
-                          <VStack>
-                            <Text>{spend.spendMethod.name}</Text>
-                            <Text fontSize="xs">{spend.category.name}</Text>
-                          </VStack>
+                            <VStack>
+                              <Text>{item.spendMethod.name}</Text>
+                              <Text fontSize="xs">{item.category.name}</Text>
+                            </VStack>
+                          </HStack>
+
+                          <Text>
+                            {new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(item.value)}
+                          </Text>
                         </HStack>
-
-                        <Text>
-                          {new Intl.NumberFormat('pt-BR', {
-                            style: 'currency',
-                            currency: 'BRL',
-                          }).format(spend.value)}
-                        </Text>
-                      </HStack>
-                    ))}
+                      )}
+                      keyExtractor={(spend) => spend.id}
+                      renderHiddenItem={(data, rowMap) => (
+                        <HStack mt={4}>
+                          <Pressable
+                            borderTopLeftRadius={8}
+                            borderBottomLeftRadius={8}
+                            px={4}
+                            ml="auto"
+                            bg="dark.500"
+                            justifyContent="center"
+                            onPress={() => closeRow(rowMap, data.item.id)}
+                            _pressed={{
+                              opacity: 0.5,
+                            }}
+                          >
+                            <Icon as={<AntDesign name="close" />} color="white" />
+                          </Pressable>
+                          <Pressable
+                            px={4}
+                            bg="primary.600"
+                            justifyContent="center"
+                            _pressed={{
+                              opacity: 0.5,
+                            }}
+                          >
+                            <Icon as={<AntDesign name="edit" />} color="white" />
+                          </Pressable>
+                          <Popover trigger={DeleteButton}>
+                            <Popover.Content accessibilityLabel="Deletar gasto" w="56">
+                              <Popover.Arrow />
+                              <Popover.CloseButton />
+                              <Popover.Header>Deletar gasto</Popover.Header>
+                              <Popover.Body>
+                                Isso removerá os dados relacionados ao gasto. Esta ação não pode ser
+                                revertida. Os dados excluídos não podem ser recuperados.
+                              </Popover.Body>
+                              <Popover.Footer justifyContent="flex-end">
+                                <Button.Group>
+                                  <Button
+                                    onPress={() => deleteSpend(data.item.id)}
+                                    isLoading={isLoading}
+                                    colorScheme="danger"
+                                  >
+                                    Deletar
+                                  </Button>
+                                </Button.Group>
+                              </Popover.Footer>
+                            </Popover.Content>
+                          </Popover>
+                        </HStack>
+                      )}
+                      rightOpenValue={-147}
+                    />
                   </VStack>
                 )}
                 ItemSeparatorComponent={<Divider my={4} />}
