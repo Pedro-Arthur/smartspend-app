@@ -89,7 +89,28 @@ const formatDay = (dateString) => {
     return 'Ontem';
   }
 
-  return dateString.split('-').reverse().join('/');
+  const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  const months = [
+    'jan',
+    'fev',
+    'mar',
+    'abr',
+    'mai',
+    'jun',
+    'jul',
+    'ago',
+    'set',
+    'out',
+    'nov',
+    'dez',
+  ];
+
+  const dayOfWeek = weekdays[date.getDay()];
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${dayOfWeek}, ${day} ${month} ${year}`;
 };
 
 const getIconBySpendMethod = (key) => {
