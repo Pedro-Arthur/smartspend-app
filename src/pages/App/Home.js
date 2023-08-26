@@ -1,14 +1,49 @@
 import React, { useContext } from 'react';
-import { useColorModeValue, Box, Text, Heading } from 'native-base';
+import {
+  useColorModeValue,
+  Box,
+  Text,
+  Heading,
+  HStack,
+  Avatar,
+  VStack,
+  Divider,
+  FlatList,
+} from 'native-base';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
 import { AuthContext } from '../../contexts/AuthContext';
+import { DataContext } from '../../contexts/DataContext';
+
+const groupAndSortSpends = (spends) => {
+  const groupedSpends = spends.reduce((groups, spend) => {
+    const group = groups[spend.date] || [];
+    group.push(spend);
+    // eslint-disable-next-line no-param-reassign
+    groups[spend.date] = group;
+    return groups;
+  }, {});
+
+  const sortedDates = Object.keys(groupedSpends).sort((a, b) => b.localeCompare(a));
+
+  const finalList = sortedDates.map((date) => ({
+    date,
+    values: groupedSpends[date],
+  }));
+
+  return finalList;
+};
 
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
+  const boxColor = useColorModeValue('white', 'dark.100');
+
   const greeting = getGreeting();
   const { user } = useContext(AuthContext);
+  const { spends } = useContext(DataContext);
+
+  const sortedAndGroupedSpends = groupAndSortSpends(spends);
 
   return (
     <>
@@ -17,14 +52,58 @@ const Home = () => {
           {greeting}, {user && user.name}!
         </Heading>
 
-        <Text fontWeight="semibold" fontSize="md" mx={4} mt={4}>
-          Dicas de saúde financeira
-        </Text>
-        <TipsCarousel />
+        <VStack>
+          <Text fontWeight="semibold" fontSize="md" mx={4} mt={4}>
+            Dicas de saúde financeira
+          </Text>
+          <TipsCarousel />
+        </VStack>
 
-        <Text fontWeight="semibold" fontSize="md" mx={4}>
-          Histórico de gastos
-        </Text>
+        <VStack>
+          <Text fontWeight="semibold" fontSize="md" mx={4}>
+            Histórico de gastos
+          </Text>
+          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+            <FlatList
+              data={sortedAndGroupedSpends}
+              keyExtractor={(spendGroup) => spendGroup.date}
+              renderItem={({ item, index }) => (
+                <VStack mt={index > 0 ? 4 : 0}>
+                  <Text mb={2} fontWeight="semibold" fontSize="md">
+                    {item.date}
+                  </Text>
+
+                  <FlatList
+                    data={item.values}
+                    keyExtractor={(spend) => spend.id}
+                    // eslint-disable-next-line no-shadow
+                    renderItem={({ item }) => (
+                      <HStack justifyContent="space-between" alignItems="center">
+                        <HStack>
+                          <Avatar mr={2} size="40px" bg="primary.600" _text={{ color: 'white' }}>
+                            {user.name.charAt(0)}
+                          </Avatar>
+                          <VStack>
+                            <Text>{item.spendMethod.name}</Text>
+                            <Text>{item.category.name}</Text>
+                          </VStack>
+                        </HStack>
+
+                        <Text>
+                          {new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL',
+                          }).format(item.value)}
+                        </Text>
+                      </HStack>
+                    )}
+                    ItemSeparatorComponent={<Divider my={2} />}
+                  />
+                </VStack>
+              )}
+            />
+          </Box>
+        </VStack>
       </Box>
 
       <TermsModal />
