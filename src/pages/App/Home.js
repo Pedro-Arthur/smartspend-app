@@ -93,6 +93,7 @@ const Home = () => {
             Histórico de gastos
           </Text>
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+            {sortedAndGroupedSpends.length === 0 && <Text>Nenhum gasto encontrado...</Text>}
             <FlatList
               data={sortedAndGroupedSpends}
               keyExtractor={(spendGroup) => spendGroup.date}
@@ -119,7 +120,7 @@ const Home = () => {
                       <HStack justifyContent="space-between" alignItems="center">
                         <HStack alignItems="center">
                           <Avatar mr={2} size="30px" bg="primary.600" _text={{ color: 'white' }}>
-                            {user.name.charAt(0)}
+                            a
                           </Avatar>
                           <VStack>
                             <Text>{item.spendMethod.name}</Text>
