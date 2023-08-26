@@ -92,7 +92,7 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Histórico de gastos
           </Text>
-          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+          <Box height={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
             {sortedAndGroupedSpends.length === 0 && <Text>Nenhum gasto encontrado...</Text>}
             <FlatList
               showsVerticalScrollIndicator={false}
