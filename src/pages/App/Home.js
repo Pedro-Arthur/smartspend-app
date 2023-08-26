@@ -115,60 +115,66 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Histórico de gastos
           </Text>
-          <Box h={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
-            {sortedAndGroupedSpends.length === 0 && <Text>Nenhum gasto encontrado...</Text>}
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={sortedAndGroupedSpends}
-              keyExtractor={(spendGroup) => spendGroup.date}
-              renderItem={({ item }) => (
-                <VStack>
-                  <HStack justifyContent="space-between" alignItems="center">
-                    <Text fontWeight="semibold" fontSize="md">
-                      {formatDay(item.date)}
-                    </Text>
-                    <Text fontSize="xs">
-                      {new Intl.NumberFormat('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      }).format(item.totalSpent)}
-                    </Text>
-                  </HStack>
 
-                  {item.values.map((spend) => (
-                    <HStack
-                      key={spend.id}
-                      mt={4}
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <HStack alignItems="center">
-                        <Icon
-                          mr={2}
-                          color="primary.600"
-                          fontSize={20}
-                          as={getIconBySpendMethod(spend.spendMethod.name)}
-                        />
-
-                        <VStack>
-                          <Text>{spend.spendMethod.name}</Text>
-                          <Text fontSize="xs">{spend.category.name}</Text>
-                        </VStack>
-                      </HStack>
-
-                      <Text>
+          {sortedAndGroupedSpends.length === 0 ? (
+            <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+              <Text>Nenhum gasto encontrado...</Text>
+            </Box>
+          ) : (
+            <Box h={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={sortedAndGroupedSpends}
+                keyExtractor={(spendGroup) => spendGroup.date}
+                renderItem={({ item }) => (
+                  <VStack>
+                    <HStack justifyContent="space-between" alignItems="center">
+                      <Text fontWeight="semibold" fontSize="md">
+                        {formatDay(item.date)}
+                      </Text>
+                      <Text fontSize="xs">
                         {new Intl.NumberFormat('pt-BR', {
                           style: 'currency',
                           currency: 'BRL',
-                        }).format(spend.value)}
+                        }).format(item.totalSpent)}
                       </Text>
                     </HStack>
-                  ))}
-                </VStack>
-              )}
-              ItemSeparatorComponent={<Divider my={6} />}
-            />
-          </Box>
+
+                    {item.values.map((spend) => (
+                      <HStack
+                        key={spend.id}
+                        mt={4}
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <HStack alignItems="center">
+                          <Icon
+                            mr={2}
+                            color="primary.600"
+                            fontSize={20}
+                            as={getIconBySpendMethod(spend.spendMethod.name)}
+                          />
+
+                          <VStack>
+                            <Text>{spend.spendMethod.name}</Text>
+                            <Text fontSize="xs">{spend.category.name}</Text>
+                          </VStack>
+                        </HStack>
+
+                        <Text>
+                          {new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL',
+                          }).format(spend.value)}
+                        </Text>
+                      </HStack>
+                    ))}
+                  </VStack>
+                )}
+                ItemSeparatorComponent={<Divider my={4} />}
+              />
+            </Box>
+          )}
         </VStack>
       </Box>
 

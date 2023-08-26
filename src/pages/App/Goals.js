@@ -251,6 +251,7 @@ const Goals = () => {
       )}
 
       <SwipeListView
+        showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={goals}
         renderItem={({ item }) => (

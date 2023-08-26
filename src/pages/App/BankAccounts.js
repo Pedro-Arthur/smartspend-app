@@ -255,6 +255,7 @@ const BankAccounts = () => {
       )}
 
       <SwipeListView
+        showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={filteredBankAccounts}
         renderItem={({ item }) => (

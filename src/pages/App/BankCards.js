@@ -253,6 +253,7 @@ const BankCards = () => {
       )}
 
       <SwipeListView
+        showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={filteredBankCards}
         renderItem={({ item }) => (
