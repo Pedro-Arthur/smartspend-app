@@ -12,6 +12,7 @@ import {
   Pressable,
   Popover,
   Button,
+  Modal,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -25,6 +26,7 @@ import api from '../../services/api';
 import PixIcon from '../../assets/images/pix.svg';
 import DetailsSpend from '../../components/DetailsSpend';
 import AddSpendFab from '../../components/AddSpendFab';
+import useKeyboard from '../../hooks/useKeyboard';
 
 const DeleteButton = (triggerProps) => (
   <Pressable
@@ -141,6 +143,7 @@ const getHistoricSpendsHeight = (spends) => {
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
+  const { isKeyboardVisible, keyboardHeight } = useKeyboard();
 
   const { user } = useContext(AuthContext);
   const { spends, removeSpend, addSpend } = useContext(DataContext);
@@ -444,6 +447,34 @@ const Home = () => {
         />
 
         <AddSpendFab openSaveModal={openSaveModal} />
+
+        <Modal
+          isOpen={saveSpendModalVisible}
+          onClose={() => onCloseSaveSpendModal()}
+          pb={isKeyboardVisible ? keyboardHeight : 0}
+          justifyContent="flex-end"
+          bottom="4"
+          size="xl"
+        >
+          <Modal.Content>
+            <Modal.CloseButton />
+            <Modal.Header>Salvar gasto</Modal.Header>
+            <Modal.Body>
+              <VStack space={3} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                flex="1"
+                onPress={() => {
+                  saveSpend();
+                }}
+                isLoading={isLoading}
+              >
+                Salvar
+              </Button>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
       </Box>
 
       <TermsModal />
