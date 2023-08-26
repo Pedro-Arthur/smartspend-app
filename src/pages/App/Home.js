@@ -122,7 +122,6 @@ const getHistoricSpendsHeight = (spends) => {
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
-  const customCardText = useColorModeValue('black', 'white');
 
   const { user } = useContext(AuthContext);
   const { spends, removeSpend } = useContext(DataContext);
@@ -323,7 +322,6 @@ const Home = () => {
           closeRow={closeRow}
           setCurrentSpendDetails={setCurrentSpendDetails}
           currentSpendDetails={currentSpendDetails}
-          customCardText={customCardText}
         />
 
         <Fab

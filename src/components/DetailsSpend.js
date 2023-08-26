@@ -7,7 +7,6 @@ const DetailsSpend = ({
   closeRow,
   setCurrentSpendDetails,
   currentSpendDetails,
-  customCardText,
 }) => (
   <Modal
     isOpen={detailsSpendModalVisible}
@@ -29,7 +28,7 @@ const DetailsSpend = ({
                 <Text fontSize="xs" color="muted.400">
                   Valor
                 </Text>
-                <Text fontWeight="semibold" color={customCardText}>
+                <Text fontWeight="semibold">
                   {new Intl.NumberFormat('pt-BR', {
                     style: 'currency',
                     currency: 'BRL',
@@ -41,7 +40,7 @@ const DetailsSpend = ({
                 <Text fontSize="xs" color="muted.400">
                   Data
                 </Text>
-                <Text fontWeight="semibold" color={customCardText}>
+                <Text fontWeight="semibold">
                   {currentSpendDetails.date.split('-').reverse().join('/')}
                 </Text>
               </VStack>
@@ -52,18 +51,14 @@ const DetailsSpend = ({
                 <Text fontSize="xs" color="muted.400">
                   Categoria
                 </Text>
-                <Text fontWeight="semibold" color={customCardText}>
-                  {currentSpendDetails.category.name}
-                </Text>
+                <Text fontWeight="semibold">{currentSpendDetails.category.name}</Text>
               </VStack>
 
               <VStack>
                 <Text fontSize="xs" color="muted.400">
                   Método
                 </Text>
-                <Text fontWeight="semibold" color={customCardText}>
-                  {currentSpendDetails.spendMethod.name}
-                </Text>
+                <Text fontWeight="semibold">{currentSpendDetails.spendMethod.name}</Text>
               </VStack>
             </HStack>
 
@@ -78,7 +73,7 @@ const DetailsSpend = ({
                           <Text fontSize="xs" color="muted.400">
                             Conta
                           </Text>
-                          <Text fontWeight="semibold" color={customCardText}>
+                          <Text fontWeight="semibold">
                             {currentSpendDetails.bankAccount.number}-
                             {currentSpendDetails.bankAccount.digit}
                           </Text>
@@ -88,7 +83,7 @@ const DetailsSpend = ({
                           <Text fontSize="xs" color="muted.400">
                             Agência
                           </Text>
-                          <Text fontWeight="semibold" color={customCardText}>
+                          <Text fontWeight="semibold">
                             {currentSpendDetails.bankAccount.agency}
                           </Text>
                         </VStack>
@@ -99,7 +94,7 @@ const DetailsSpend = ({
                           <Text fontSize="xs" color="muted.400">
                             Banco
                           </Text>
-                          <Text fontWeight="semibold" color={customCardText}>
+                          <Text fontWeight="semibold">
                             {currentSpendDetails.bankAccount.bank.name}
                           </Text>
                         </VStack>
@@ -115,7 +110,7 @@ const DetailsSpend = ({
                           <Text fontSize="xs" color="muted.400">
                             Cartão (Últimos 4 números)
                           </Text>
-                          <Text fontWeight="semibold" color={customCardText}>
+                          <Text fontWeight="semibold">
                             {currentSpendDetails.bankCard.lastFourNumbers}
                           </Text>
                         </VStack>
@@ -125,7 +120,7 @@ const DetailsSpend = ({
                           <Text fontSize="xs" color="muted.400">
                             Banco
                           </Text>
-                          <Text fontWeight="semibold" color={customCardText}>
+                          <Text fontWeight="semibold">
                             {currentSpendDetails.bankCard.bankAccount.bank.name}
                           </Text>
                         </VStack>
@@ -140,9 +135,7 @@ const DetailsSpend = ({
                 <Text fontSize="xs" color="muted.400">
                   Descrição
                 </Text>
-                <Text fontWeight="semibold" color={customCardText}>
-                  {currentSpendDetails.description}
-                </Text>
+                <Text fontWeight="semibold">{currentSpendDetails.description}</Text>
               </VStack>
             </HStack>
           </>
