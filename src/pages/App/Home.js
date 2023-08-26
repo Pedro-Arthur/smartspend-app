@@ -12,6 +12,7 @@ import {
   Pressable,
   Popover,
   Button,
+  Fab,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -127,6 +128,7 @@ const Home = () => {
   const { token } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [saveSpendModalVisible, setSaveSpendModalVisible] = useState(false);
 
   const greeting = getGreeting();
   const sortedAndGroupedSpends = groupAndSortSpends(spends);
@@ -314,6 +316,16 @@ const Home = () => {
             </Box>
           )}
         </VStack>
+
+        <Fab
+          onPress={() => {
+            setSaveSpendModalVisible(true);
+          }}
+          size="sm"
+          icon={<Icon color="white" as={<MaterialIcons name="attach-money" />} size="sm" />}
+          renderInPortal={false}
+          bgColor="success.600"
+        />
       </Box>
 
       <TermsModal />
