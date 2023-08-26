@@ -1,5 +1,5 @@
 export default [
-  'Crie um orçamento mensal e siga-o.',
+  'Crie um orçamento mensal e siga-o corretamente.',
   'Poupe uma parte do seu salário regularmente.',
   'Evite dívidas de cartão de crédito, pague o valor total.',
   'Pesquise antes de fazer compras, em busca de melhores preços.',

@@ -35,7 +35,7 @@ const TipsCarousel = () => {
                 as={<MaterialCommunityIcons name="lightbulb-on-outline" />}
                 mr={4}
               />
-              <Text>{item}</Text>
+              <Text numberOfLines={2}>{item}</Text>
             </HStack>
           </Box>
         )}
