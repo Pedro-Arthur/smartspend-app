@@ -95,6 +95,7 @@ const Home = () => {
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
             {sortedAndGroupedSpends.length === 0 && <Text>Nenhum gasto encontrado...</Text>}
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={sortedAndGroupedSpends}
               keyExtractor={(spendGroup) => spendGroup.date}
               renderItem={({ item }) => (
@@ -113,6 +114,7 @@ const Home = () => {
                   </HStack>
 
                   <FlatList
+                    showsVerticalScrollIndicator={false}
                     data={item.values}
                     keyExtractor={(spend) => spend.id}
                     // eslint-disable-next-line no-shadow
