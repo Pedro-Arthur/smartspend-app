@@ -232,6 +232,14 @@ const Home = () => {
       errors.spendMethodId = 'Método é obrigatório!';
     }
 
+    if (!formData.bankAccounId && (formType === 'pix' || formType === 'transfer')) {
+      errors.bankAccounId = 'Conta é obrigatória!';
+    }
+
+    if (!formData.bankCardId && formType === 'card') {
+      errors.bankCardId = 'Cartão é obrigatório!';
+    }
+
     setFormErrors(errors);
 
     if (
@@ -239,7 +247,9 @@ const Home = () => {
       !errors.value &&
       !errors.date &&
       !errors.categoryId &&
-      !errors.spendMethodId
+      !errors.spendMethodId &&
+      !errors.bankAccounId &&
+      !errors.bankCardId
     ) {
       try {
         setIsLoading(true);
