@@ -4,6 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useColorModeValue, Icon, Center, Avatar } from 'native-base';
 import { Platform } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
+import BankIcon from '../assets/images/bank.svg';
 
 // Pages
 import Home from '../pages/App/Home';
@@ -28,7 +29,7 @@ const AppRoutes = () => {
   );
 
   const bankAccountsIcon = ({ color }) => (
-    <Icon as={<AntDesign name="bank" />} color={color} size={6} />
+    <Icon as={<BankIcon width={24} height={24} fill={color} />} />
   );
 
   const goalsIcon = ({ color }) => (

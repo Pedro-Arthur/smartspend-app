@@ -17,8 +17,8 @@ import { getGreeting } from '../../utils/helpers';
 import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
 
-import PixIcon from '../../assets/images/historicSpends/pix.svg';
-import BankIcon from '../../assets/images/historicSpends/bank.svg';
+import PixIcon from '../../assets/images/pix.svg';
+import BankIcon from '../../assets/images/bank.svg';
 
 const groupAndSortSpends = (spends) => {
   const groupedSpends = spends.reduce((groups, spend) => {
