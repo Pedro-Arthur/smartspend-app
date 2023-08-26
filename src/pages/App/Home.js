@@ -265,6 +265,10 @@ const Home = () => {
     }
   };
 
+  const openSaveModal = (type) => {
+    console.log(type);
+  };
+
   return (
     <>
       <Box flex="1" bg={bg}>
@@ -415,7 +419,7 @@ const Home = () => {
           currentSpendDetails={currentSpendDetails}
         />
 
-        <AddSpendFab />
+        <AddSpendFab openSaveModal={openSaveModal} />
       </Box>
 
       <TermsModal />

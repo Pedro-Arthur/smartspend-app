@@ -4,7 +4,7 @@ import { MaterialCommunityIcons, MaterialIcons, AntDesign } from '@expo/vector-i
 import PixIcon from '../assets/images/pix.svg';
 import BankIcon from '../assets/images/bank.svg';
 
-const AddSpendFab = () => {
+const AddSpendFab = ({ openSaveModal }) => {
   const { isOpen, onToggle } = useDisclose();
 
   return (
@@ -46,42 +46,47 @@ const AddSpendFab = () => {
           <IconButton
             mb="4"
             variant="solid"
-            bg="green.500"
-            colorScheme="indigo"
+            bg="primary.600"
+            colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={<BankIcon width={24} height={24} fill="#fff" />} />}
+            onPress={() => openSaveModal('transfer')}
           />
           <IconButton
             mb="4"
             variant="solid"
-            bg="indigo.500"
-            colorScheme="indigo"
+            bg="primary.600"
+            colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={<PixIcon width={24} height={24} fill="#fff" />} />}
+            onPress={() => openSaveModal('pix')}
           />
           <IconButton
             mb="4"
             variant="solid"
-            bg="yellow.400"
-            colorScheme="yellow"
+            bg="primary.600"
+            colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={AntDesign} color="white" size="6" name="creditcard" />}
+            onPress={() => openSaveModal('card')}
           />
           <IconButton
             mb="4"
             variant="solid"
-            bg="teal.400"
-            colorScheme="teal"
+            bg="primary.600"
+            colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={MaterialCommunityIcons} size="6" name="barcode-scan" color="white" />}
+            onPress={() => openSaveModal('ticket')}
           />
           <IconButton
             mb="4"
             variant="solid"
-            bg="red.500"
-            colorScheme="red"
+            bg="primary.600"
+            colorScheme="primary"
             borderRadius="full"
             icon={<Icon as={MaterialIcons} size="6" name="attach-money" color="white" />}
+            onPress={() => openSaveModal('money')}
           />
         </Stagger>
       </Box>
