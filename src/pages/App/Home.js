@@ -574,13 +574,23 @@ const Home = () => {
                     placeholder="Método"
                     onValueChange={(value) => setFormData({ ...formData, spendMethodId: value })}
                   >
-                    {spendMethods.map((spendMethod) => (
-                      <Select.Item
-                        key={spendMethod.id}
-                        label={spendMethod.name}
-                        value={spendMethod.id}
-                      />
-                    ))}
+                    {formType === 'card'
+                      ? spendMethods
+                          .filter((s) => s.key === 'debit' || s.key === 'credit')
+                          .map((spendMethod) => (
+                            <Select.Item
+                              key={spendMethod.id}
+                              label={spendMethod.name}
+                              value={spendMethod.id}
+                            />
+                          ))
+                      : spendMethods.map((spendMethod) => (
+                          <Select.Item
+                            key={spendMethod.id}
+                            label={spendMethod.name}
+                            value={spendMethod.id}
+                          />
+                        ))}
                   </Select>
                   {'spendMethodId' in formErrors && (
                     <FormControl.ErrorMessage>{formErrors.spendMethodId}</FormControl.ErrorMessage>
