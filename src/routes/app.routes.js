@@ -57,7 +57,7 @@ const AppRoutes = () => {
           fontFamily: 'montserrat-regular',
         },
         tabBarStyle: {
-          height: Platform.OS === 'android' ? 45 : 75,
+          height: Platform.OS === 'android' ? 46 : 76,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.3,
