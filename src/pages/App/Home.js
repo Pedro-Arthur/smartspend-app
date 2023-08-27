@@ -177,7 +177,7 @@ const Home = () => {
     categoryId: null,
     spendMethodId: null,
     bankCardId: null,
-    bankAccounId: null,
+    bankAccountId: null,
     customCategory: null,
   });
   const [formErrors, setFormErrors] = useState({
@@ -187,7 +187,7 @@ const Home = () => {
     categoryId: null,
     spendMethodId: null,
     bankCardId: null,
-    bankAccounId: null,
+    bankAccountId: null,
     customCategory: null,
   });
   const [formType, setFormType] = useState(null);
@@ -202,7 +202,7 @@ const Home = () => {
       categoryId: null,
       spendMethodId: null,
       bankCardId: null,
-      bankAccounId: null,
+      bankAccountId: null,
       customCategory: null,
     });
     setFormErrors({
@@ -212,7 +212,7 @@ const Home = () => {
       categoryId: null,
       spendMethodId: null,
       bankCardId: null,
-      bankAccounId: null,
+      bankAccountId: null,
       customCategory: null,
     });
     setFormType(null);
@@ -227,7 +227,7 @@ const Home = () => {
       categoryId: null,
       spendMethodId: null,
       bankCardId: null,
-      bankAccounId: null,
+      bankAccountId: null,
       customCategory: null,
     };
 
@@ -255,8 +255,8 @@ const Home = () => {
       errors.spendMethodId = 'Método é obrigatório!';
     }
 
-    if (!formData.bankAccounId && (formType === 'pix' || formType === 'transfer')) {
-      errors.bankAccounId = 'Conta é obrigatória!';
+    if (!formData.bankAccountId && (formType === 'pix' || formType === 'transfer')) {
+      errors.bankAccountId = 'Conta é obrigatória!';
     }
 
     if (!formData.bankCardId && formType === 'card') {
@@ -275,7 +275,7 @@ const Home = () => {
       !errors.date &&
       !errors.categoryId &&
       !errors.spendMethodId &&
-      !errors.bankAccounId &&
+      !errors.bankAccountId &&
       !errors.bankCardId &&
       !errors.customCategory
     ) {
@@ -650,6 +650,69 @@ const Home = () => {
                       <FormControl.ErrorMessage>
                         {formErrors.customCategory}
                       </FormControl.ErrorMessage>
+                    )}
+                  </FormControl>
+                )}
+
+                {(formType === 'pix' || formType === 'transfer') && (
+                  <FormControl isRequired isInvalid={formErrors.bankAccountId}>
+                    <FormControl.Label>Conta bancária</FormControl.Label>
+                    <Select
+                      _selectedItem={{
+                        bg: 'primary.600',
+                        endIcon: <CheckIcon size="5" color="white" />,
+                      }}
+                      selectedValue={formData.bankAccountId}
+                      accessibilityLabel="Conta bancária"
+                      placeholder="Conta bancária"
+                      onValueChange={(value) => setFormData({ ...formData, bankAccountId: value })}
+                    >
+                      {bankAccounts.map((bankAccount) => (
+                        <Select.Item
+                          key={bankAccount.id}
+                          label={`${bankAccount.bank.name} (${bankAccount.number}-${bankAccount.digit})`}
+                          value={bankAccount.id}
+                        />
+                      ))}
+                    </Select>
+                    {'bankAccountId' in formErrors && (
+                      <FormControl.ErrorMessage>
+                        {formErrors.bankAccountId}
+                      </FormControl.ErrorMessage>
+                    )}
+                  </FormControl>
+                )}
+
+                {formType === 'card' && (
+                  <FormControl isRequired isInvalid={formErrors.bankCardId}>
+                    <FormControl.Label>Cartão</FormControl.Label>
+                    <Select
+                      isDisabled={!formData.spendMethodId}
+                      _selectedItem={{
+                        bg: 'primary.600',
+                        endIcon: <CheckIcon size="5" color="white" />,
+                      }}
+                      selectedValue={formData.bankCardId}
+                      accessibilityLabel="Cartão"
+                      placeholder="Cartão"
+                      onValueChange={(value) => setFormData({ ...formData, bankCardId: value })}
+                    >
+                      {bankCards
+                        .filter(
+                          (bc) =>
+                            bc.type ===
+                            spendMethods.find((s) => s.id === formData.spendMethodId)?.key
+                        )
+                        .map((bankCard) => (
+                          <Select.Item
+                            key={bankCard.id}
+                            label={`${bankCard.bankAccount.bank.name} (Final ${bankCard.lastFourNumbers})`}
+                            value={bankCard.id}
+                          />
+                        ))}
+                    </Select>
+                    {'bankCardId' in formErrors && (
+                      <FormControl.ErrorMessage>{formErrors.bankCardId}</FormControl.ErrorMessage>
                     )}
                   </FormControl>
                 )}
