@@ -78,6 +78,7 @@ const AppRoutes = () => {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: bankAccountsIcon,
+          tabBarAccessibilityLabel: 'Página de contas bancárias',
         }}
       />
 
@@ -87,6 +88,7 @@ const AppRoutes = () => {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: bankCardsIcon,
+          tabBarAccessibilityLabel: 'Página de cartões bancários',
         }}
       />
 
@@ -96,6 +98,7 @@ const AppRoutes = () => {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: homeIcon,
+          tabBarAccessibilityLabel: 'Página principal',
         }}
       />
 
@@ -105,6 +108,7 @@ const AppRoutes = () => {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: goalsIcon,
+          tabBarAccessibilityLabel: 'Página de metas',
         }}
       />
 
@@ -114,6 +118,7 @@ const AppRoutes = () => {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: profileIcon,
+          tabBarAccessibilityLabel: 'Página de perfil',
         }}
       />
     </Tab.Navigator>

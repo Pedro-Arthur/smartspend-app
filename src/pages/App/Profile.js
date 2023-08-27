@@ -115,7 +115,7 @@ const Profile = () => {
         <HStack justifyContent="flex-end">
           <Menu placement="left top" w="190" trigger={SettingsIcon}>
             <Menu.Item>
-              <HStack alignItems="center" space={4}>
+              <HStack accessibilityLabel="Trocar o tema" alignItems="center" space={4}>
                 <Text>Tema escuro</Text>
                 <Switch isChecked={colorMode === 'dark'} onToggle={toggleColorMode} />
               </HStack>
@@ -130,9 +130,17 @@ const Profile = () => {
               source={{
                 uri: user.pictureUrl,
               }}
+              accessibilityRole="image"
+              accessibilityLabel="Foto de perfil"
             />
           ) : (
-            <Avatar size="70px" bg="primary.600" _text={{ color: 'white', fontSize: '2xl' }}>
+            <Avatar
+              accessibilityRole="image"
+              accessibilityLabel="Foto de perfil"
+              size="70px"
+              bg="primary.600"
+              _text={{ color: 'white', fontSize: '2xl' }}
+            >
               {user.name.charAt(0)}
             </Avatar>
           )}

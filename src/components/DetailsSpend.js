@@ -18,9 +18,12 @@ const DetailsSpend = ({
     }}
   >
     <Modal.Content>
-      <Modal.CloseButton />
+      <Modal.CloseButton
+        accessibilityRole="button"
+        accessibilityHint="Fechar modal de detalhes do gasto"
+      />
       <Modal.Header>Detalhes do gasto</Modal.Header>
-      <Modal.Body>
+      <Modal.Body accessible>
         {currentSpendDetails && (
           <>
             <HStack justifyContent="space-between">

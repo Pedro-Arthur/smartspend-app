@@ -37,6 +37,9 @@ import DatePickerInput from '../../components/DatePickerInput';
 
 const DeleteButton = (triggerProps) => (
   <Pressable
+    accessible
+    accessibilityRole="button"
+    accessibilityHint="Deletar gasto"
     {...triggerProps}
     px={4}
     borderTopRightRadius={8}
@@ -418,7 +421,7 @@ const Home = () => {
                 keyExtractor={(spendGroup) => spendGroup.date}
                 renderItem={({ item }) => (
                   <VStack>
-                    <HStack justifyContent="space-between" alignItems="center">
+                    <HStack accessible justifyContent="space-between" alignItems="center">
                       <Text fontSize="xs">{formatDay(item.date)}</Text>
 
                       <HStack>
@@ -440,7 +443,13 @@ const Home = () => {
                       data={item.values}
                       // eslint-disable-next-line no-shadow
                       renderItem={({ item }) => (
-                        <HStack bg={boxColor} justifyContent="space-between" alignItems="center">
+                        <HStack
+                          accessible
+                          accessibilityHint="Deslize para a direita pra ter mais opções"
+                          bg={boxColor}
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
                           <HStack alignItems="center">
                             <Icon
                               mr={2}
@@ -469,6 +478,8 @@ const Home = () => {
                       renderHiddenItem={(data, rowMap) => (
                         <HStack>
                           <Pressable
+                            accessibilityRole="button"
+                            accessibilityHint="Abrir modal de detalhes do gasto"
                             borderTopLeftRadius={8}
                             borderBottomLeftRadius={8}
                             px={4}
@@ -542,7 +553,7 @@ const Home = () => {
           size="xl"
         >
           <Modal.Content>
-            <Modal.CloseButton />
+            <Modal.CloseButton accessibilityRole="button" accessibilityLabel="Fechar modal" />
             <Modal.Header>Salvar gasto</Modal.Header>
             <Modal.Body>
               <VStack space={3}>
@@ -552,7 +563,7 @@ const Home = () => {
                     onChangeText={(value) => setFormData({ ...formData, description: value })}
                     value={formData.description}
                     maxLength={100}
-                    placeholder="Compra dos materiais escolares"
+                    placeholder="Insira uma descrição para o seu gasto"
                   />
                   {'description' in formErrors && (
                     <FormControl.ErrorMessage>{formErrors.description}</FormControl.ErrorMessage>
@@ -576,7 +587,7 @@ const Home = () => {
                   <DatePickerInput
                     onChange={(value) => setFormData({ ...formData, date: value })}
                     value={formData.date}
-                    placeholder="Data"
+                    placeholder="Selecione uma data"
                   />
                   {'date' in formErrors && (
                     <FormControl.ErrorMessage>{formErrors.date}</FormControl.ErrorMessage>
@@ -592,7 +603,7 @@ const Home = () => {
                       endIcon: <CheckIcon size="5" color="white" />,
                     }}
                     selectedValue={formData.spendMethodId}
-                    accessibilityLabel="Método"
+                    accessibilityLabel="Selecione um método do gasto"
                     placeholder="Método"
                     onValueChange={(value) => setFormData({ ...formData, spendMethodId: value })}
                   >
@@ -627,7 +638,7 @@ const Home = () => {
                       endIcon: <CheckIcon size="5" color="white" />,
                     }}
                     selectedValue={formData.categoryId}
-                    accessibilityLabel="Categoria"
+                    accessibilityLabel="Selecione uma categoria"
                     placeholder="Categoria"
                     onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
                   >
@@ -655,7 +666,7 @@ const Home = () => {
                       onChangeText={(value) => setFormData({ ...formData, customCategory: value })}
                       value={formData.customCategory}
                       maxLength={50}
-                      placeholder="Nova categoria"
+                      placeholder="Insira a nova categoria"
                     />
                     {'customCategory' in formErrors && (
                       <FormControl.ErrorMessage>
@@ -674,7 +685,7 @@ const Home = () => {
                         endIcon: <CheckIcon size="5" color="white" />,
                       }}
                       selectedValue={formData.bankAccountId}
-                      accessibilityLabel="Conta bancária"
+                      accessibilityLabel="Selecione a conta bancária"
                       placeholder="Conta bancária"
                       onValueChange={(value) => setFormData({ ...formData, bankAccountId: value })}
                     >
@@ -704,7 +715,7 @@ const Home = () => {
                         endIcon: <CheckIcon size="5" color="white" />,
                       }}
                       selectedValue={formData.bankCardId}
-                      accessibilityLabel="Cartão"
+                      accessibilityLabel="Selecione o cartão"
                       placeholder="Cartão"
                       onValueChange={(value) => setFormData({ ...formData, bankCardId: value })}
                     >

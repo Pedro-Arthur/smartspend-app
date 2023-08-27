@@ -30,6 +30,8 @@ import useKeyboard from '../../hooks/useKeyboard';
 
 const DeleteButton = (triggerProps) => (
   <Pressable
+    accessibilityRole="button"
+    accessibilityLabel="Deletar cartão"
     {...triggerProps}
     px={4}
     borderTopRightRadius={8}
@@ -48,6 +50,9 @@ const DeleteButton = (triggerProps) => (
 const InfoIconButton = (triggerProps) => (
   <IconButton
     {...triggerProps}
+    accessible
+    accessibilityRole="button"
+    accessibilityLabel="Botão para ver uma informação sobre a caixa de texto dos últimos 4 números"
     variant="unstyled"
     _icon={{
       as: AntDesign,
@@ -231,7 +236,7 @@ const BankCards = () => {
   return (
     <Box flex="1" bg={bg}>
       <Center my="4">
-        <Text>CARTÕES</Text>
+        <Text accessibilityLabel="Seus cartões bancários">CARTÕES</Text>
       </Center>
 
       <Input
@@ -240,14 +245,21 @@ const BankCards = () => {
         }
         mx={4}
         mb={4}
-        placeholder="Pesquisa..."
+        placeholder="Pesquise por algum cartão"
         value={search}
         onChangeText={handleSearch}
       />
 
       {filteredBankCards.length === 0 && (
         <Center position="absolute" alignSelf="center" h="100%">
-          <Image w="100" h="100" source={require('../../assets/images/empty.png')} alt="empty" />
+          <Image
+            accessibilityRole="image"
+            accessibilityLabel="Imagem representando que a lista está vazia"
+            w="100"
+            h="100"
+            source={require('../../assets/images/empty.png')}
+            alt="empty"
+          />
           <Text mt="2">Nenhum cartão encontrado...</Text>
         </Center>
       )}
@@ -257,7 +269,16 @@ const BankCards = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={filteredBankCards}
         renderItem={({ item }) => (
-          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>
+          <Box
+            accessible
+            accessibilityHint="Deslize para a direita pra ter mais opções"
+            shadow={2}
+            mx={4}
+            p={4}
+            borderRadius={8}
+            bg={boxColor}
+            mb={4}
+          >
             <VStack>
               <Text fontWeight="semibold" fontSize="md" color="primary.600">
                 {item.bankAccount.bank.name}
@@ -309,6 +330,8 @@ const BankCards = () => {
         renderHiddenItem={(data, rowMap) => (
           <HStack mx={4} mb={4}>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Fechar menu de opções"
               borderTopLeftRadius={8}
               borderBottomLeftRadius={8}
               px={4}
@@ -323,6 +346,8 @@ const BankCards = () => {
               <Icon as={<AntDesign name="close" />} color="white" />
             </Pressable>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Editar cartão"
               px={4}
               bg="primary.600"
               justifyContent="center"
@@ -339,7 +364,10 @@ const BankCards = () => {
             <Popover trigger={DeleteButton}>
               <Popover.Content accessibilityLabel="Deletar cartão" w="56">
                 <Popover.Arrow />
-                <Popover.CloseButton />
+                <Popover.CloseButton
+                  accessibilityRole="button"
+                  accessibilityLabel="Fechar menu de deletar cartão"
+                />
                 <Popover.Header>Deletar cartão</Popover.Header>
                 <Popover.Body>
                   Isso removerá os dados relacionados ao cartão. Esta ação não pode ser revertida.
@@ -370,6 +398,8 @@ const BankCards = () => {
         size="sm"
         icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
         renderInPortal={false}
+        accessibilityRole="button"
+        accessibilityLabel="Abrir modal para adicionar cartão"
       />
 
       <Modal
@@ -381,7 +411,7 @@ const BankCards = () => {
         size="xl"
       >
         <Modal.Content>
-          <Modal.CloseButton />
+          <Modal.CloseButton accessibilityRole="button" accessibilityLabel="Fechar modal" />
           <Modal.Header>Salvar cartão</Modal.Header>
           <Modal.Body>
             <VStack space={3}>
@@ -392,7 +422,10 @@ const BankCards = () => {
                   <Popover trigger={InfoIconButton}>
                     <Popover.Content accessibilityLabel="Números do cartão" w="56">
                       <Popover.Arrow />
-                      <Popover.CloseButton />
+                      <Popover.CloseButton
+                        accessibilityRole="button"
+                        accessibilityLabel="Fechar informação da caixa de texto"
+                      />
                       <Popover.Header>Números do cartão</Popover.Header>
                       <Popover.Body>
                         Por razões de segurança, apenas mantemos os últimos 4 dígitos do cartão
@@ -407,7 +440,7 @@ const BankCards = () => {
                   onChangeText={(value) => setFormData({ ...formData, lastFourNumbers: value })}
                   value={formData.lastFourNumbers}
                   maxLength={4}
-                  placeholder="Últimos 4 números do seu cartão"
+                  placeholder="Insira os últimos 4 números do seu cartão"
                 />
                 {'lastFourNumbers' in formErrors && (
                   <FormControl.ErrorMessage>{formErrors.lastFourNumbers}</FormControl.ErrorMessage>
@@ -422,7 +455,7 @@ const BankCards = () => {
                     endIcon: <CheckIcon size="5" color="white" />,
                   }}
                   selectedValue={formData.type}
-                  accessibilityLabel="Tipo do cartão"
+                  accessibilityLabel="Selecione o tipo do seu cartão"
                   placeholder="Tipo do cartão"
                   onValueChange={(value) => setFormData({ ...formData, type: value })}
                 >
@@ -442,7 +475,7 @@ const BankCards = () => {
                     endIcon: <CheckIcon size="5" color="white" />,
                   }}
                   selectedValue={formData.bankAccountId}
-                  accessibilityLabel="Conta bancária do cartão"
+                  accessibilityLabel="Selecione a conta bancária do cartão"
                   placeholder="Conta bancária do cartão"
                   onValueChange={(value) => setFormData({ ...formData, bankAccountId: value })}
                 >

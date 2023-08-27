@@ -69,7 +69,10 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
       <Modal isOpen={showDatePicker} onClose={onCloseModal} size="xl">
         <Modal.Content>
           <Modal.Header>{placeholder}</Modal.Header>
-          <Modal.CloseButton />
+          <Modal.CloseButton
+            accessibilityRole="button"
+            accessibilityLabel="Fechar modal de selecionar data"
+          />
           <Modal.Body p={0}>
             <DatePicker
               configs={datePickerConfigs}

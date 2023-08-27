@@ -11,29 +11,46 @@ const slides = [
     title: 'Gerencie seus gastos!',
     text: 'SmartSpend te auxilia no controle e gestão das finanças.',
     image: require('../../assets/images/slides/1.png'),
+    accessibilityLabel: 'Imagem representando o gerenciamento de dinheiro',
   },
   {
     key: 's2',
     title: 'Aprenda mais!',
     text: 'Estude com dicas sobre investimentos e economia.',
     image: require('../../assets/images/slides/2.png'),
+    accessibilityLabel: 'Imagem representando o aprendizado de finanças',
   },
   {
     key: 's3',
     title: 'Defina metas!',
     text: 'Economize com nosso sistema de meta de gastos.',
     image: require('../../assets/images/slides/3.png'),
+    accessibilityLabel: 'Imagem representando o sistema de metas financeiras',
   },
 ];
 
 const NextButton = () => (
-  <Center bgColor="primary.600" borderRadius="full" w={10} h={10}>
+  <Center
+    accessibilityRole="button"
+    accessibilityLabel="Ir para o próximo slide"
+    bgColor="primary.600"
+    borderRadius="full"
+    w={10}
+    h={10}
+  >
     <Icon size="md" as={<Feather name="chevron-right" />} color="white" />
   </Center>
 );
 
 const DoneButton = () => (
-  <Center bgColor="primary.600" borderRadius="full" w={10} h={10}>
+  <Center
+    accessibilityRole="button"
+    accessibilityLabel="Sair da tela de bem-vindo e ir para a tela de autenticação"
+    bgColor="primary.600"
+    borderRadius="full"
+    w={10}
+    h={10}
+  >
     <Icon size="md" as={<Feather name="check" />} color="white" />
   </Center>
 );
@@ -44,7 +61,14 @@ const Item = ({ item, bg }) => (
       {item.title}
     </Heading>
 
-    <Image w="200" h="200" source={item.image} alt={item.key} />
+    <Image
+      w="200"
+      h="200"
+      source={item.image}
+      alt={item.key}
+      accessibilityRole="image"
+      accessibilityLabel={item.accessibilityLabel}
+    />
 
     <Text mx={20} textAlign="center">
       {item.text}

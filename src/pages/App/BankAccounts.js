@@ -29,6 +29,8 @@ import useKeyboard from '../../hooks/useKeyboard';
 
 const DeleteButton = (triggerProps) => (
   <Pressable
+    accessibilityRole="button"
+    accessibilityLabel="Deletar conta"
     {...triggerProps}
     px={4}
     borderTopRightRadius={8}
@@ -233,7 +235,7 @@ const BankAccounts = () => {
   return (
     <Box flex="1" bg={bg}>
       <Center my="4">
-        <Text>CONTAS</Text>
+        <Text accessibilityLabel="Suas contas bancárias">CONTAS</Text>
       </Center>
 
       <Input
@@ -242,14 +244,21 @@ const BankAccounts = () => {
         }
         mx={4}
         mb={4}
-        placeholder="Pesquisa..."
+        placeholder="Pesquise por alguma conta"
         value={search}
         onChangeText={handleSearch}
       />
 
       {filteredBankAccounts.length === 0 && (
         <Center position="absolute" alignSelf="center" h="100%">
-          <Image w="100" h="100" source={require('../../assets/images/empty.png')} alt="empty" />
+          <Image
+            accessibilityRole="image"
+            accessibilityLabel="Imagem representando que a lista está vazia"
+            w="100"
+            h="100"
+            source={require('../../assets/images/empty.png')}
+            alt="empty"
+          />
           <Text mt="2">Nenhuma conta encontrada...</Text>
         </Center>
       )}
@@ -259,7 +268,16 @@ const BankAccounts = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={filteredBankAccounts}
         renderItem={({ item }) => (
-          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>
+          <Box
+            accessible
+            accessibilityHint="Deslize para a direita pra ter mais opções"
+            shadow={2}
+            mx={4}
+            p={4}
+            borderRadius={8}
+            bg={boxColor}
+            mb={4}
+          >
             <VStack>
               <Text fontWeight="semibold" fontSize="md" color="primary.600">
                 {item.bank.name}
@@ -298,6 +316,8 @@ const BankAccounts = () => {
         renderHiddenItem={(data, rowMap) => (
           <HStack mx={4} mb={4}>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Fechar menu de opções"
               borderTopLeftRadius={8}
               borderBottomLeftRadius={8}
               px={4}
@@ -312,6 +332,8 @@ const BankAccounts = () => {
               <Icon as={<AntDesign name="close" />} color="white" />
             </Pressable>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Editar conta"
               px={4}
               bg="primary.600"
               justifyContent="center"
@@ -328,7 +350,10 @@ const BankAccounts = () => {
             <Popover trigger={DeleteButton}>
               <Popover.Content accessibilityLabel="Deletar conta" w="56">
                 <Popover.Arrow />
-                <Popover.CloseButton />
+                <Popover.CloseButton
+                  accessibilityRole="button"
+                  accessibilityLabel="Fechar menu de deletar conta"
+                />
                 <Popover.Header>Deletar conta</Popover.Header>
                 <Popover.Body>
                   Isso removerá os dados relacionados à conta. Esta ação não pode ser revertida. Os
@@ -359,6 +384,8 @@ const BankAccounts = () => {
         size="sm"
         icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
         renderInPortal={false}
+        accessibilityRole="button"
+        accessibilityLabel="Abrir modal para adicionar conta"
       />
 
       <Modal
@@ -370,7 +397,7 @@ const BankAccounts = () => {
         size="xl"
       >
         <Modal.Content>
-          <Modal.CloseButton />
+          <Modal.CloseButton accessibilityRole="button" accessibilityLabel="Fechar modal" />
           <Modal.Header>Salvar conta</Modal.Header>
           <Modal.Body>
             <VStack space={3}>
@@ -381,7 +408,7 @@ const BankAccounts = () => {
                   onChangeText={(value) => setFormData({ ...formData, number: value })}
                   value={formData.number}
                   maxLength={10}
-                  placeholder="Número da sua conta"
+                  placeholder="Insira o número da sua conta"
                 />
                 {'number' in formErrors && (
                   <FormControl.ErrorMessage>{formErrors.number}</FormControl.ErrorMessage>
@@ -395,7 +422,7 @@ const BankAccounts = () => {
                   onChangeText={(value) => setFormData({ ...formData, digit: value })}
                   value={formData.digit}
                   maxLength={1}
-                  placeholder="Dígito da sua conta"
+                  placeholder="Insira o dígito da sua conta"
                 />
                 {'digit' in formErrors && (
                   <FormControl.ErrorMessage>{formErrors.digit}</FormControl.ErrorMessage>
@@ -409,7 +436,7 @@ const BankAccounts = () => {
                   onChangeText={(value) => setFormData({ ...formData, agency: value })}
                   value={formData.agency}
                   maxLength={4}
-                  placeholder="Agência da sua conta"
+                  placeholder="Insira a agência da sua conta"
                 />
                 {'agency' in formErrors && (
                   <FormControl.ErrorMessage>{formErrors.agency}</FormControl.ErrorMessage>
@@ -424,7 +451,7 @@ const BankAccounts = () => {
                     endIcon: <CheckIcon size="5" color="white" />,
                   }}
                   selectedValue={formData.bankId}
-                  accessibilityLabel="Banco da conta"
+                  accessibilityLabel="Selecione um banco que esteja na lista"
                   placeholder="Banco da conta"
                   onValueChange={(value) => setFormData({ ...formData, bankId: value })}
                 >

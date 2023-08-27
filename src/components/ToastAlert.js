@@ -26,7 +26,13 @@ const ToastAlert = ({ id, toast, status, variant, title, description, isClosable
         {isClosable ? (
           <IconButton
             variant="unstyled"
-            icon={<CloseIcon size="3" />}
+            icon={
+              <CloseIcon
+                accessibilityRole="button"
+                accessibilityLabel="Botão para fechar o alerta"
+                size="3"
+              />
+            }
             _icon={{
               color: variant === 'solid' ? 'lightText' : 'darkText',
             }}

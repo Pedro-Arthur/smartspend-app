@@ -64,6 +64,8 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} w="90%">
         <Box p="2" py="8">
           <IconButton
+            accessibilityRole="button"
+            accessibilityLabel="Botão de voltar para a página anterior"
             variant="unstyled"
             _icon={{
               as: Feather,
@@ -85,7 +87,7 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
                 InputLeftElement={
                   <Icon as={<AntDesign name="lock" />} size={4} ml="3" color="muted.400" />
                 }
-                placeholder="******"
+                placeholder="Insira o código"
                 onChangeText={(value) => setFormData({ ...formData, code: value })}
                 value={formData.code}
               />

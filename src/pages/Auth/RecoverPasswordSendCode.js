@@ -80,6 +80,8 @@ const RecoverPasswordSendCode = ({ navigation }) => {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <Box p="2" py="8" w="90%">
           <IconButton
+            accessibilityRole="button"
+            accessibilityLabel="Botão de voltar para a página anterior"
             variant="unstyled"
             _icon={{
               as: Feather,
@@ -120,7 +122,7 @@ const RecoverPasswordSendCode = ({ navigation }) => {
                   <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
                 }
                 keyboardType="email-address"
-                placeholder="joao@email.com"
+                placeholder="Insira seu e-mail"
                 onChangeText={(value) => setFormData({ ...formData, email: value })}
                 value={formData.email}
               />

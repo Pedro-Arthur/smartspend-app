@@ -56,6 +56,9 @@ const AddSpendFab = ({ openSaveModal }) => {
               borderRadius="full"
               icon={<Icon as={MaterialCommunityIcons} color="white" size="6" name="bank-outline" />}
               onPress={() => handlePress('transfer')}
+              accessibilityRole="button"
+              accessibilityLabel="Adicionar gasto do tipo transferência"
+              accessible
             />
             <IconButton
               mb="4"
@@ -65,6 +68,9 @@ const AddSpendFab = ({ openSaveModal }) => {
               borderRadius="full"
               icon={<Icon as={<PixIcon width={24} height={24} fill="#fff" />} />}
               onPress={() => handlePress('pix')}
+              accessibilityRole="button"
+              accessibilityLabel="Adicionar gasto do tipo pix"
+              accessible
             />
             <IconButton
               mb="4"
@@ -74,6 +80,9 @@ const AddSpendFab = ({ openSaveModal }) => {
               borderRadius="full"
               icon={<Icon as={AntDesign} color="white" size="6" name="creditcard" />}
               onPress={() => handlePress('card')}
+              accessibilityRole="button"
+              accessibilityLabel="Adicionar gasto do tipo cartão"
+              accessible
             />
             <IconButton
               mb="4"
@@ -83,6 +92,9 @@ const AddSpendFab = ({ openSaveModal }) => {
               borderRadius="full"
               icon={<Icon as={MaterialCommunityIcons} size="6" name="barcode-scan" color="white" />}
               onPress={() => handlePress('ticket')}
+              accessibilityRole="button"
+              accessibilityLabel="Adicionar gasto do tipo boleto"
+              accessible
             />
             <IconButton
               mb="4"
@@ -92,6 +104,9 @@ const AddSpendFab = ({ openSaveModal }) => {
               borderRadius="full"
               icon={<Icon as={MaterialIcons} size="6" name="attach-money" color="white" />}
               onPress={() => handlePress('money')}
+              accessibilityRole="button"
+              accessibilityLabel="Adicionar gasto do tipo dinheiro"
+              accessible
             />
           </Stagger>
         </Box>
@@ -102,6 +117,8 @@ const AddSpendFab = ({ openSaveModal }) => {
         icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
         renderInPortal={false}
         onPress={onToggle}
+        accessibilityRole="button"
+        accessibilityLabel="Abir menu vertical de opções para adicionar gasto"
       />
     </>
   );

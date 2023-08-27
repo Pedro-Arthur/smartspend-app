@@ -31,6 +31,8 @@ import DatePickerInput from '../../components/DatePickerInput';
 
 const DeleteButton = (triggerProps) => (
   <Pressable
+    accessibilityRole="button"
+    accessibilityLabel="Botão de deletar meta"
     {...triggerProps}
     px={4}
     borderTopRightRadius={8}
@@ -48,6 +50,9 @@ const DeleteButton = (triggerProps) => (
 
 const InfoIconButton = (triggerProps) => (
   <IconButton
+    accessible
+    accessibilityRole="button"
+    accessibilityLabel="Botão para ver uma informação sobre a caixa de texto do valor máximo"
     {...triggerProps}
     variant="unstyled"
     _icon={{
@@ -240,12 +245,19 @@ const Goals = () => {
   return (
     <Box flex="1" bg={bg}>
       <Center my="4">
-        <Text>METAS</Text>
+        <Text accessibilityLabel="Suas metas financeiras">METAS</Text>
       </Center>
 
       {goals.length === 0 && (
         <Center position="absolute" alignSelf="center" h="100%">
-          <Image w="100" h="100" source={require('../../assets/images/empty.png')} alt="empty" />
+          <Image
+            accessibilityRole="image"
+            accessibilityLabel="Imagem representando que a lista está vazia"
+            w="100"
+            h="100"
+            source={require('../../assets/images/empty.png')}
+            alt="empty"
+          />
           <Text mt="2">Nenhuma meta encontrada...</Text>
         </Center>
       )}
@@ -255,7 +267,16 @@ const Goals = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         data={goals}
         renderItem={({ item }) => (
-          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mb={4}>
+          <Box
+            accessible
+            accessibilityHint="Deslize para a direita pra ter mais opções"
+            shadow={2}
+            mx={4}
+            p={4}
+            borderRadius={8}
+            bg={boxColor}
+            mb={4}
+          >
             <VStack>
               <Text fontWeight="semibold" fontSize="md" color="primary.600">
                 {new Intl.NumberFormat('pt-BR', {
@@ -297,7 +318,12 @@ const Goals = () => {
                 </Text>
               </VStack>
 
-              <Progress colorScheme={getProgressColor(item.percent)} value={item.percent} />
+              <Progress
+                accessible
+                accessibilityLabel="Barra de progresso da meta"
+                colorScheme={getProgressColor(item.percent)}
+                value={item.percent}
+              />
             </VStack>
           </Box>
         )}
@@ -305,6 +331,8 @@ const Goals = () => {
         renderHiddenItem={(data, rowMap) => (
           <HStack mx={4} mb={4}>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Fechar menu de opções"
               borderTopLeftRadius={8}
               borderBottomLeftRadius={8}
               px={4}
@@ -321,7 +349,10 @@ const Goals = () => {
             <Popover trigger={DeleteButton}>
               <Popover.Content accessibilityLabel="Deletar meta" w="56">
                 <Popover.Arrow />
-                <Popover.CloseButton />
+                <Popover.CloseButton
+                  accessibilityRole="button"
+                  accessibilityLabel="Fechar menu de deletar meta"
+                />
                 <Popover.Header>Deletar meta</Popover.Header>
                 <Popover.Body>
                   Isso removerá os dados relacionados a meta. Esta ação não pode ser revertida. Os
@@ -352,6 +383,8 @@ const Goals = () => {
         size="sm"
         icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
         renderInPortal={false}
+        accessibilityRole="button"
+        accessibilityLabel="Botão para abrir modal de adicionar meta"
       />
 
       <Modal
@@ -363,7 +396,7 @@ const Goals = () => {
         size="xl"
       >
         <Modal.Content>
-          <Modal.CloseButton />
+          <Modal.CloseButton accessibilityRole="button" accessibilityLabel="Fechar modal" />
           <Modal.Header>Salvar meta</Modal.Header>
           <Modal.Body>
             <VStack space={3}>
@@ -374,7 +407,7 @@ const Goals = () => {
                   value={formData.startDate}
                   maximumDate={maximumDate}
                   minimumDate={todayDate}
-                  placeholder="Data inicial"
+                  placeholder="Selecione a data inicial"
                 />
                 {'startDate' in formErrors && (
                   <FormControl.ErrorMessage>{formErrors.startDate}</FormControl.ErrorMessage>
@@ -388,7 +421,7 @@ const Goals = () => {
                   value={formData.endDate}
                   maximumDate={maximumDate}
                   minimumDate={todayDate}
-                  placeholder="Data final"
+                  placeholder="Selecione a data final"
                 />
                 {'endDate' in formErrors && (
                   <FormControl.ErrorMessage>{formErrors.endDate}</FormControl.ErrorMessage>
@@ -402,7 +435,10 @@ const Goals = () => {
                   <Popover trigger={InfoIconButton}>
                     <Popover.Content accessibilityLabel="Valor máximo" w="56">
                       <Popover.Arrow />
-                      <Popover.CloseButton />
+                      <Popover.CloseButton
+                        accessibilityRole="button"
+                        accessibilityLabel="Fechar informação sobre valor máximo"
+                      />
                       <Popover.Header>Valor máximo</Popover.Header>
                       <Popover.Body>
                         O valor máximo representa o limite que você deve gastar para alcançar com

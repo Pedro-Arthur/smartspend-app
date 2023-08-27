@@ -93,6 +93,8 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} w="90%">
         <Box p="2" py="8">
           <IconButton
+            accessibilityRole="button"
+            accessibilityLabel="Botão de voltar para a página anterior"
             variant="unstyled"
             _icon={{
               as: Feather,
@@ -113,7 +115,11 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
               <Input
                 type={showPassword ? 'text' : 'password'}
                 InputRightElement={
-                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <Pressable
+                    accessibilityLabel="Alterar visibilidade da senha"
+                    accessibilityRole="button"
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
                     <Icon
                       as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
                       size={4}
@@ -122,7 +128,7 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
                     />
                   </Pressable>
                 }
-                placeholder="******"
+                placeholder="Insira a nova senha"
                 onChangeText={(value) => setFormData({ ...formData, newPassword: value })}
                 value={formData.newPassword}
               />
@@ -136,7 +142,11 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
               <Input
                 type={showPassword ? 'text' : 'password'}
                 InputRightElement={
-                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <Pressable
+                    accessibilityLabel="Alterar visibilidade da confirmação da senha"
+                    accessibilityRole="button"
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
                     <Icon
                       as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
                       size={4}
@@ -145,7 +155,7 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
                     />
                   </Pressable>
                 }
-                placeholder="******"
+                placeholder="Insira a confirmação da senha"
                 onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
                 value={formData.confirmPassword}
               />

@@ -153,6 +153,8 @@ const SignUp = ({ navigation }) => {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} w="90%">
         <Box p="2" py="8">
           <IconButton
+            accessibilityRole="button"
+            accessibilityLabel="Botão de voltar para a página anterior"
             variant="unstyled"
             _icon={{
               as: Feather,
@@ -177,7 +179,7 @@ const SignUp = ({ navigation }) => {
                 InputLeftElement={
                   <Icon as={<AntDesign name="user" />} size={4} ml="3" color="muted.400" />
                 }
-                placeholder="João Silva"
+                placeholder="Insira seu nome"
                 onChangeText={(value) => setFormData({ ...formData, name: value })}
                 value={formData.name}
               />
@@ -193,7 +195,7 @@ const SignUp = ({ navigation }) => {
                   <Icon as={<AntDesign name="mail" />} size={4} ml="3" color="muted.400" />
                 }
                 keyboardType="email-address"
-                placeholder="joao@email.com"
+                placeholder="Insira seu e-mail"
                 onChangeText={(value) => setFormData({ ...formData, email: value })}
                 value={formData.email}
               />
@@ -207,7 +209,11 @@ const SignUp = ({ navigation }) => {
               <Input
                 type={showPassword ? 'text' : 'password'}
                 InputRightElement={
-                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <Pressable
+                    accessibilityLabel="Alterar visibilidade da senha"
+                    accessibilityRole="button"
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
                     <Icon
                       as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
                       size={4}
@@ -216,7 +222,7 @@ const SignUp = ({ navigation }) => {
                     />
                   </Pressable>
                 }
-                placeholder="******"
+                placeholder="Insira sua senha"
                 onChangeText={(value) => setFormData({ ...formData, password: value })}
                 value={formData.password}
               />
@@ -230,7 +236,11 @@ const SignUp = ({ navigation }) => {
               <Input
                 type={showPassword ? 'text' : 'password'}
                 InputRightElement={
-                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <Pressable
+                    accessibilityLabel="Alterar visibilidade da confirmação da senha"
+                    accessibilityRole="button"
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
                     <Icon
                       as={<Feather name={showPassword ? 'eye' : 'eye-off'} />}
                       size={4}
@@ -239,7 +249,7 @@ const SignUp = ({ navigation }) => {
                     />
                   </Pressable>
                 }
-                placeholder="******"
+                placeholder="Insira a confirmação da senha"
                 onChangeText={(value) => setFormData({ ...formData, confirmPassword: value })}
                 value={formData.confirmPassword}
               />

@@ -16,9 +16,17 @@ const UserAvatarBox = ({ user, changeLoginHeader }) => (
             source={{
               uri: user.pictureUrl,
             }}
+            accessibilityLabel="Foto de perfil usuário"
+            accessibilityRole="image"
           />
         ) : (
-          <Avatar size="40px" bg="primary.600" _text={{ color: 'white' }}>
+          <Avatar
+            accessibilityLabel="Foto de perfil usuário"
+            accessibilityRole="image"
+            size="40px"
+            bg="primary.600"
+            _text={{ color: 'white' }}
+          >
             {user.name.charAt(0)}
           </Avatar>
         )}
@@ -35,6 +43,8 @@ const UserAvatarBox = ({ user, changeLoginHeader }) => (
             fontSize="xs"
             fontWeight="medium"
             alignSelf="flex-start"
+            accessibilityLabel="Botão para alterar o e-mail pré-carregado"
+            accessibilityRole="button"
           >
             Outro
           </Text>
