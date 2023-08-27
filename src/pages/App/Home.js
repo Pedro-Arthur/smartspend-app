@@ -140,13 +140,6 @@ const getIconBySpendMethod = (key) => {
   }
 };
 
-const getHistoricSpendsHeight = (spends) => {
-  if (spends.length > 8) {
-    return 500;
-  }
-  return 'auto';
-};
-
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
@@ -419,7 +412,7 @@ const Home = () => {
             </Box>
           ) : (
             <Box
-              h={getHistoricSpendsHeight(spends)}
+              h={spends.length > 8 ? 500 : 'auto'}
               shadow={2}
               mx={4}
               p={4}
