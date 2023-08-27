@@ -36,7 +36,7 @@ import AddSpendFab from '../../components/AddSpendFab';
 import useKeyboard from '../../hooks/useKeyboard';
 import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
-import GraphicSpendsPerMonth1 from '../../components/Graphics/SpendsPerMonth1';
+import GraphicSpendsPerMonth from '../../components/Graphics/SpendsPerMonth';
 
 LogBox.ignoreLogs(['VirtualizedLists']);
 
@@ -146,6 +146,25 @@ const getIconBySpendMethod = (key) => {
     default:
       return <MaterialIcons name="attach-money" />;
   }
+};
+
+const sumSpendsInMonth = (spends, month) => {
+  const year = new Date().getFullYear();
+
+  const monthStr = month < 10 ? `0${month}` : `${month}`;
+  const monthStart = `${year}-${monthStr}-01`;
+
+  const nextMonth = month === 12 ? 1 : month + 1;
+  const nextMonthStr = nextMonth < 10 ? `0${nextMonth}` : `${nextMonth}`;
+  const monthEnd = `${year}-${nextMonthStr}-01`;
+
+  return spends.reduce((sum, spend) => {
+    if (spend.date >= monthStart && spend.date < monthEnd) {
+      // eslint-disable-next-line no-param-reassign
+      sum += parseFloat(spend.value);
+    }
+    return sum;
+  }, 0);
 };
 
 const Home = () => {
@@ -344,14 +363,21 @@ const Home = () => {
 
   const greeting = getGreeting();
   const sortedAndGroupedSpends = groupAndSortSpends(spends);
-  const dataGraphicSpendsPerMonth1 = [
-    Math.random() * 100,
-    Math.random() * 100,
-    Math.random() * 100,
-    Math.random() * 100,
-    Math.random() * 100,
-    Math.random() * 100,
-  ];
+
+  const dataGraphicSpendsPerMonth1 = [];
+  const dataGraphicSpendsPerMonth2 = [];
+
+  // eslint-disable-next-line no-plusplus
+  for (let month = 1; month <= 6; month++) {
+    const sum = sumSpendsInMonth(spends, month);
+    dataGraphicSpendsPerMonth1.push(sum);
+  }
+
+  // eslint-disable-next-line no-plusplus
+  for (let month = 7; month <= 12; month++) {
+    const sum = sumSpendsInMonth(spends, month);
+    dataGraphicSpendsPerMonth2.push(sum);
+  }
 
   const deleteSpend = async (id) => {
     try {
@@ -552,8 +578,22 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Gastos por mês (1º semestre)
           </Text>
-          <GraphicSpendsPerMonth1
+          <GraphicSpendsPerMonth
             data={dataGraphicSpendsPerMonth1}
+            scale={['jan', 'fev', 'mar', 'abr', 'mai', 'jun']}
+            boxColor={boxColor}
+            boxColorHex={boxColorHex}
+            graphicLabelColor={graphicLabelColor}
+          />
+        </VStack>
+
+        <VStack mb={4}>
+          <Text fontWeight="semibold" fontSize="md" mx={4}>
+            Gastos por mês (2º semestre)
+          </Text>
+          <GraphicSpendsPerMonth
+            data={dataGraphicSpendsPerMonth2}
+            scale={['jul', 'ago', 'set', 'out', 'nov', 'dez']}
             boxColor={boxColor}
             boxColorHex={boxColorHex}
             graphicLabelColor={graphicLabelColor}

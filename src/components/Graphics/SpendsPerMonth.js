@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { processFontFamily } from 'expo-font';
 
-const GraphicSpendsPerMonth1 = ({ data, boxColor, boxColorHex, graphicLabelColor }) => (
+const GraphicSpendsPerMonth1 = ({ data, scale, boxColor, boxColorHex, graphicLabelColor }) => (
   <Box
     accessible
     accessibilityLabel="Gráfico de Gastos por mês (1º semestre)"
@@ -17,7 +17,7 @@ const GraphicSpendsPerMonth1 = ({ data, boxColor, boxColorHex, graphicLabelColor
   >
     <LineChart
       data={{
-        labels: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun'],
+        labels: scale,
         datasets: [
           {
             data,
@@ -43,6 +43,9 @@ const GraphicSpendsPerMonth1 = ({ data, boxColor, boxColorHex, graphicLabelColor
         propsForLabels: { fontFamily: processFontFamily('montserrat-regular') },
       }}
       bezier
+      style={{
+        marginBottom: -10,
+      }}
     />
   </Box>
 );
