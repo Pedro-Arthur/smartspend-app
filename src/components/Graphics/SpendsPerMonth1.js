@@ -26,7 +26,7 @@ const GraphicSpendsPerMonth1 = ({ data, boxColor, boxColorHex, graphicLabelColor
       }}
       width={Dimensions.get('window').width - 64}
       height={220}
-      yAxisLabel="R$"
+      yAxisLabel="R$ "
       yAxisInterval={1}
       chartConfig={{
         backgroundColor: boxColorHex,
