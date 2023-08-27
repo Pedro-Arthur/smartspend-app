@@ -37,6 +37,7 @@ import useKeyboard from '../../hooks/useKeyboard';
 import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
 import GraphicSpendsPerMonth from '../../components/Graphics/SpendsPerMonth';
+import SpendMethodsMostUsed from '../../components/Graphics/SpendMethodsMostUsed';
 
 LogBox.ignoreLogs(['VirtualizedLists']);
 
@@ -171,8 +172,6 @@ const sumSpendsInMonth = (spends, month) => {
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
-  const boxColorHex = useColorModeValue('#ffffff', '#27272a');
-  const graphicLabelColor = useColorModeValue('0, 0, 0', '255, 255, 255');
   const { isKeyboardVisible, keyboardHeight } = useKeyboard();
 
   const { user } = useContext(AuthContext);
@@ -582,9 +581,6 @@ const Home = () => {
           <GraphicSpendsPerMonth
             data={dataGraphicSpendsPerMonth1}
             scale={['jan', 'fev', 'mar', 'abr', 'mai', 'jun']}
-            boxColor={boxColor}
-            boxColorHex={boxColorHex}
-            graphicLabelColor={graphicLabelColor}
           />
         </VStack>
 
@@ -595,10 +591,14 @@ const Home = () => {
           <GraphicSpendsPerMonth
             data={dataGraphicSpendsPerMonth2}
             scale={['jul', 'ago', 'set', 'out', 'nov', 'dez']}
-            boxColor={boxColor}
-            boxColorHex={boxColorHex}
-            graphicLabelColor={graphicLabelColor}
           />
+        </VStack>
+
+        <VStack mb={4}>
+          <Text fontWeight="semibold" fontSize="md" mx={4}>
+            Métodos mais usados
+          </Text>
+          <SpendMethodsMostUsed />
         </VStack>
 
         <DetailsSpend
