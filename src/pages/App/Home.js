@@ -598,7 +598,34 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Métodos mais usados
           </Text>
-          <SpendMethodsMostUsed />
+          <SpendMethodsMostUsed
+            data={[
+              {
+                key: 'pix',
+                spends: 20,
+              },
+              {
+                key: 'money',
+                spends: 52,
+              },
+              {
+                key: 'credit',
+                spends: 1,
+              },
+              {
+                key: 'debit',
+                spends: 44,
+              },
+              {
+                key: 'transfer',
+                spends: 7,
+              },
+              {
+                key: 'ticket',
+                spends: 15,
+              },
+            ]}
+          />
         </VStack>
 
         <DetailsSpend

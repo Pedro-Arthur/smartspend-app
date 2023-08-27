@@ -4,7 +4,7 @@ import { PieChart } from 'react-native-chart-kit';
 import { processFontFamily } from 'expo-font';
 import { Box, useColorModeValue } from 'native-base';
 
-const SpendMethodsMostUsed = () => {
+const SpendMethodsMostUsed = ({ data }) => {
   const boxColor = useColorModeValue('white', 'dark.100');
   const boxColorHex = useColorModeValue('#ffffff', '#27272a');
   const labelColor = useColorModeValue('#000', '#fff');
@@ -23,33 +23,55 @@ const SpendMethodsMostUsed = () => {
       <PieChart
         data={[
           {
-            name: 'Seoul',
-            population: 21500000,
-            color: 'rgba(131, 167, 234, 1)',
+            name: 'PIX',
+            key: 'pix',
+            spends: 21500000,
+            color: '#1abc9c',
             legendFontColor: labelColor,
             legendFontSize: 12,
             legendFontFamily: processFontFamily('montserrat-regular'),
           },
           {
-            name: 'Toronto',
-            population: 2800000,
-            color: '#F00',
+            name: 'Transferência',
+            key: 'transfer',
+            spends: 2800000,
+            color: '#3498db',
             legendFontColor: labelColor,
             legendFontSize: 12,
             legendFontFamily: processFontFamily('montserrat-regular'),
           },
           {
-            name: 'New York',
-            population: 8538000,
-            color: '#ffffff',
+            name: 'Crédito',
+            key: 'credit',
+            spends: 8538000,
+            color: '#9b59b6',
             legendFontColor: labelColor,
             legendFontSize: 12,
             legendFontFamily: processFontFamily('montserrat-regular'),
           },
           {
-            name: 'Moscow',
-            population: 11920000,
-            color: 'rgb(0, 0, 255)',
+            name: 'Débito',
+            key: 'debit',
+            spends: 11920000,
+            color: '#f1c40f',
+            legendFontColor: labelColor,
+            legendFontSize: 12,
+            legendFontFamily: processFontFamily('montserrat-regular'),
+          },
+          {
+            name: 'Dinheiro',
+            key: 'money',
+            spends: 11920000,
+            color: '#e67e22',
+            legendFontColor: labelColor,
+            legendFontSize: 12,
+            legendFontFamily: processFontFamily('montserrat-regular'),
+          },
+          {
+            name: 'Boleto',
+            key: 'ticket',
+            spends: 11920000,
+            color: '#e74c3c',
             legendFontColor: labelColor,
             legendFontSize: 12,
             legendFontFamily: processFontFamily('montserrat-regular'),
@@ -64,7 +86,7 @@ const SpendMethodsMostUsed = () => {
           decimalPlaces: 2,
           color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         }}
-        accessor="population"
+        accessor="spends"
         backgroundColor="transparent"
         paddingLeft="15"
       />
