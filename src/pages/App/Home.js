@@ -411,15 +411,7 @@ const Home = () => {
               <Text>Nenhum gasto encontrado...</Text>
             </Box>
           ) : (
-            <Box
-              h={spends.length > 8 ? 500 : 'auto'}
-              shadow={2}
-              mx={4}
-              p={4}
-              borderRadius={8}
-              bg={boxColor}
-              mt={2}
-            >
+            <Box h={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
               <FlatList
                 showsVerticalScrollIndicator={false}
                 data={sortedAndGroupedSpends}
