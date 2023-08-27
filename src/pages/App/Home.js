@@ -23,6 +23,7 @@ import {
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { LogBox } from 'react-native';
+import { LineChart, Grid } from 'react-native-svg-charts';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
@@ -38,6 +39,8 @@ import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
 
 LogBox.ignoreLogs(['VirtualizedLists']);
+
+const graphicData = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80];
 
 const DeleteButton = (triggerProps) => (
   <Pressable
@@ -420,6 +423,7 @@ const Home = () => {
           ) : (
             <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
               <FlatList
+                scrollEnabled={false}
                 showsVerticalScrollIndicator={false}
                 data={sortedAndGroupedSpends}
                 keyExtractor={(spendGroup) => spendGroup.date}
@@ -541,16 +545,14 @@ const Home = () => {
             Dashboard de gastos
           </Text>
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
-            <Text>Nenhum gasto encontrado...</Text>
+            <LineChart
+              style={{ height: 200 }}
+              data={graphicData}
+              svg={{ stroke: 'rgb(134, 65, 244)' }}
+              contentInset={{ top: 20, bottom: 20 }}
+            >
+              <Grid />
+            </LineChart>
           </Box>
         </VStack>
 
