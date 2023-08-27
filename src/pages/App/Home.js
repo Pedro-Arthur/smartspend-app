@@ -295,6 +295,8 @@ const Home = () => {
             }
           );
 
+          addCategory(newCategory);
+
           spend = await api.post(
             '/spends',
             { ...formData, categoryId: newCategory.id },
