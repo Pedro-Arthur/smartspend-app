@@ -379,6 +379,26 @@ const Home = () => {
     dataGraphicSpendsPerMonth2.push(sum);
   }
 
+  const spendMethodsKeys = {
+    pix: 'pix',
+    money: 'money',
+    credit: 'credit',
+    debit: 'debit',
+    transfer: 'transfer',
+    ticket: 'ticket',
+  };
+
+  const dataGraphicMethodsMostUsed = Object.keys(spendMethodsKeys).map((methodKey) => {
+    const spendsCount = spends.reduce(
+      (count, s) => (s.spendMethod.key === spendMethodsKeys[methodKey] ? count + 1 : count),
+      0
+    );
+    return {
+      key: methodKey,
+      spends: spendsCount,
+    };
+  });
+
   const deleteSpend = async (id) => {
     try {
       setIsLoading(true);
@@ -598,34 +618,7 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Métodos mais usados
           </Text>
-          <SpendMethodsMostUsed
-            data={[
-              {
-                key: 'pix',
-                spends: 20,
-              },
-              {
-                key: 'money',
-                spends: 52,
-              },
-              {
-                key: 'credit',
-                spends: 1,
-              },
-              {
-                key: 'debit',
-                spends: 44,
-              },
-              {
-                key: 'transfer',
-                spends: 7,
-              },
-              {
-                key: 'ticket',
-                spends: 15,
-              },
-            ]}
-          />
+          <SpendMethodsMostUsed data={dataGraphicMethodsMostUsed} />
         </VStack>
 
         <DetailsSpend
