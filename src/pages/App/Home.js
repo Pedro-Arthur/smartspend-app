@@ -312,7 +312,7 @@ const Home = () => {
           });
         }
 
-        addSpend(spend);
+        addSpend({ ...spend, date: spend.date.length > 10 ? spend.date.slice(0, 10) : spend.date });
 
         showToast({
           title: 'Sucesso!',
