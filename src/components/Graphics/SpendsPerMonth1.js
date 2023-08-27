@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from 'native-base';
 import { Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
+import { processFontFamily } from 'expo-font';
 
 const GraphicSpendsPerMonth1 = ({ data, boxColor, boxColorHex, graphicLabelColor }) => (
   <Box
@@ -39,10 +40,10 @@ const GraphicSpendsPerMonth1 = ({ data, boxColor, boxColorHex, graphicLabelColor
           strokeWidth: '2',
           stroke: boxColorHex,
         },
+        propsForLabels: { fontFamily: processFontFamily('montserrat-regular') },
       }}
       bezier
     />
   </Box>
 );
-
 export default GraphicSpendsPerMonth1;
