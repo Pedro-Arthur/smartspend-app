@@ -24,8 +24,7 @@ const SpendMethodsMostUsed = ({ data }) => {
         data={[
           {
             name: 'PIX',
-            key: 'pix',
-            spends: 21500000,
+            spends: data.find((d) => d.key === 'pix').spends,
             color: '#1abc9c',
             legendFontColor: labelColor,
             legendFontSize: 12,
@@ -33,8 +32,7 @@ const SpendMethodsMostUsed = ({ data }) => {
           },
           {
             name: 'Transferência',
-            key: 'transfer',
-            spends: 2800000,
+            spends: data.find((d) => d.key === 'transfer').spends,
             color: '#3498db',
             legendFontColor: labelColor,
             legendFontSize: 12,
@@ -42,8 +40,7 @@ const SpendMethodsMostUsed = ({ data }) => {
           },
           {
             name: 'Crédito',
-            key: 'credit',
-            spends: 8538000,
+            spends: data.find((d) => d.key === 'credit').spends,
             color: '#9b59b6',
             legendFontColor: labelColor,
             legendFontSize: 12,
@@ -51,8 +48,7 @@ const SpendMethodsMostUsed = ({ data }) => {
           },
           {
             name: 'Débito',
-            key: 'debit',
-            spends: 11920000,
+            spends: data.find((d) => d.key === 'debit').spends,
             color: '#f1c40f',
             legendFontColor: labelColor,
             legendFontSize: 12,
@@ -60,8 +56,7 @@ const SpendMethodsMostUsed = ({ data }) => {
           },
           {
             name: 'Dinheiro',
-            key: 'money',
-            spends: 11920000,
+            spends: data.find((d) => d.key === 'money').spends,
             color: '#e67e22',
             legendFontColor: labelColor,
             legendFontSize: 12,
@@ -69,8 +64,7 @@ const SpendMethodsMostUsed = ({ data }) => {
           },
           {
             name: 'Boleto',
-            key: 'ticket',
-            spends: 11920000,
+            spends: data.find((d) => d.key === 'ticket').spends,
             color: '#e74c3c',
             legendFontColor: labelColor,
             legendFontSize: 12,
