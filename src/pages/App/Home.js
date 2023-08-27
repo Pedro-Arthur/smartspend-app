@@ -17,6 +17,7 @@ import {
   TextArea,
   Select,
   CheckIcon,
+  Input,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -177,6 +178,7 @@ const Home = () => {
     spendMethodId: null,
     bankCardId: null,
     bankAccounId: null,
+    customCategory: null,
   });
   const [formErrors, setFormErrors] = useState({
     description: null,
@@ -186,6 +188,7 @@ const Home = () => {
     spendMethodId: null,
     bankCardId: null,
     bankAccounId: null,
+    customCategory: null,
   });
   const [formType, setFormType] = useState(null);
   const [disableSpendMethodInput, setDisableSpendMethodInput] = useState(false);
@@ -200,6 +203,7 @@ const Home = () => {
       spendMethodId: null,
       bankCardId: null,
       bankAccounId: null,
+      customCategory: null,
     });
     setFormErrors({
       description: null,
@@ -209,6 +213,7 @@ const Home = () => {
       spendMethodId: null,
       bankCardId: null,
       bankAccounId: null,
+      customCategory: null,
     });
     setFormType(null);
     setDisableSpendMethodInput(false);
@@ -223,6 +228,7 @@ const Home = () => {
       spendMethodId: null,
       bankCardId: null,
       bankAccounId: null,
+      customCategory: null,
     };
 
     if (!formData.description) {
@@ -257,6 +263,10 @@ const Home = () => {
       errors.bankCardId = 'Cartão é obrigatório!';
     }
 
+    if (formData.categoryId === 'new' && !formData.customCategory) {
+      errors.customCategory = 'Categoria é obrigatória!';
+    }
+
     setFormErrors(errors);
 
     if (
@@ -266,7 +276,8 @@ const Home = () => {
       !errors.categoryId &&
       !errors.spendMethodId &&
       !errors.bankAccounId &&
-      !errors.bankCardId
+      !errors.bankCardId &&
+      !errors.customCategory
     ) {
       try {
         setIsLoading(true);
@@ -596,6 +607,52 @@ const Home = () => {
                     <FormControl.ErrorMessage>{formErrors.spendMethodId}</FormControl.ErrorMessage>
                   )}
                 </FormControl>
+
+                <FormControl isRequired isInvalid={formErrors.categoryId}>
+                  <FormControl.Label>Categoria</FormControl.Label>
+                  <Select
+                    _selectedItem={{
+                      bg: 'primary.600',
+                      endIcon: <CheckIcon size="5" color="white" />,
+                    }}
+                    selectedValue={formData.categoryId}
+                    accessibilityLabel="Categoria"
+                    placeholder="Categoria"
+                    onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
+                  >
+                    <Select.Item
+                      startIcon={
+                        <Icon mt={1} color="white" fontSize={16} name="plus" as={AntDesign} />
+                      }
+                      label="Adicionar nova categoria"
+                      _text={{ fontWeight: 'semibold', color: 'white' }}
+                      value="new"
+                    />
+                    {categories.map((category) => (
+                      <Select.Item key={category.id} label={category.name} value={category.id} />
+                    ))}
+                  </Select>
+                  {'categoryId' in formErrors && (
+                    <FormControl.ErrorMessage>{formErrors.categoryId}</FormControl.ErrorMessage>
+                  )}
+                </FormControl>
+
+                {formData.categoryId === 'new' && (
+                  <FormControl isRequired isInvalid={formErrors.customCategory}>
+                    <FormControl.Label>Nova categoria</FormControl.Label>
+                    <Input
+                      onChangeText={(value) => setFormData({ ...formData, customCategory: value })}
+                      value={formData.customCategory}
+                      maxLength={50}
+                      placeholder="Nova categoria"
+                    />
+                    {'customCategory' in formErrors && (
+                      <FormControl.ErrorMessage>
+                        {formErrors.customCategory}
+                      </FormControl.ErrorMessage>
+                    )}
+                  </FormControl>
+                )}
               </VStack>
             </Modal.Body>
             <Modal.Footer>
