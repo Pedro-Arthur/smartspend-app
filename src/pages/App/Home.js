@@ -22,8 +22,7 @@ import {
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { LogBox, Dimensions } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
+import { LogBox } from 'react-native';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
@@ -37,6 +36,7 @@ import AddSpendFab from '../../components/AddSpendFab';
 import useKeyboard from '../../hooks/useKeyboard';
 import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
+import GraphicSpendsPerMonth1 from '../../components/Graphics/SpendsPerMonth1';
 
 LogBox.ignoreLogs(['VirtualizedLists']);
 
@@ -344,6 +344,14 @@ const Home = () => {
 
   const greeting = getGreeting();
   const sortedAndGroupedSpends = groupAndSortSpends(spends);
+  const dataGraphicSpendsPerMonth1 = [
+    Math.random() * 100,
+    Math.random() * 100,
+    Math.random() * 100,
+    Math.random() * 100,
+    Math.random() * 100,
+    Math.random() * 100,
+  ];
 
   const deleteSpend = async (id) => {
     try {
@@ -544,43 +552,12 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Gastos por mês (1º semestre)
           </Text>
-          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
-            <LineChart
-              data={{
-                labels: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun'],
-                datasets: [
-                  {
-                    data: [
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                    ],
-                  },
-                ],
-              }}
-              width={Dimensions.get('window').width - 64}
-              height={220}
-              yAxisLabel="R$"
-              yAxisInterval={1}
-              chartConfig={{
-                backgroundColor: boxColorHex,
-                backgroundGradientFrom: boxColorHex,
-                backgroundGradientTo: boxColorHex,
-                decimalPlaces: 2,
-                color: (opacity = 1) => `rgba(217, 119, 6, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(${graphicLabelColor}, ${opacity})`,
-                propsForDots: {
-                  r: '6',
-                  strokeWidth: '2',
-                  stroke: boxColorHex,
-                },
-              }}
-              bezier
-            />
-          </Box>
+          <GraphicSpendsPerMonth1
+            data={dataGraphicSpendsPerMonth1}
+            boxColor={boxColor}
+            boxColorHex={boxColorHex}
+            graphicLabelColor={graphicLabelColor}
+          />
         </VStack>
 
         <DetailsSpend
