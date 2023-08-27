@@ -282,11 +282,35 @@ const Home = () => {
       try {
         setIsLoading(true);
 
-        const spend = await api.post('/spends', formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        let spend;
+
+        if (formData.categoryId === 'new') {
+          const newCategory = await api.post(
+            '/categories',
+            { name: formData.customCategory },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          spend = await api.post(
+            '/spends',
+            { ...formData, categoryId: newCategory.id },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        } else {
+          spend = await api.post('/spends', formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        }
 
         addSpend(spend);
 
