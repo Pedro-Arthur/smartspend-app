@@ -22,8 +22,8 @@ import {
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { LogBox } from 'react-native';
-import { LineChart, Grid } from 'react-native-svg-charts';
+import { LogBox, Dimensions } from 'react-native';
+import { LineChart } from 'react-native-chart-kit';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
@@ -39,8 +39,6 @@ import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
 
 LogBox.ignoreLogs(['VirtualizedLists']);
-
-const graphicData = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80];
 
 const DeleteButton = (triggerProps) => (
   <Pressable
@@ -153,6 +151,8 @@ const getIconBySpendMethod = (key) => {
 const Home = () => {
   const bg = useColorModeValue('warmGray.100', 'dark.50');
   const boxColor = useColorModeValue('white', 'dark.100');
+  const boxColorHex = useColorModeValue('#ffffff', '#27272a');
+  const graphicLabelColor = useColorModeValue('0, 0, 0', '255, 255, 255');
   const { isKeyboardVisible, keyboardHeight } = useKeyboard();
 
   const { user } = useContext(AuthContext);
@@ -542,17 +542,44 @@ const Home = () => {
 
         <VStack mb={4}>
           <Text fontWeight="semibold" fontSize="md" mx={4}>
-            Dashboard de gastos
+            Gastos por mês (1º semestre)
           </Text>
           <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
             <LineChart
-              style={{ height: 200 }}
-              data={graphicData}
-              svg={{ stroke: 'rgb(134, 65, 244)' }}
-              contentInset={{ top: 20, bottom: 20 }}
-            >
-              <Grid />
-            </LineChart>
+              data={{
+                labels: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun'],
+                datasets: [
+                  {
+                    data: [
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                    ],
+                  },
+                ],
+              }}
+              width={Dimensions.get('window').width - 64}
+              height={220}
+              yAxisLabel="R$"
+              yAxisInterval={1}
+              chartConfig={{
+                backgroundColor: boxColorHex,
+                backgroundGradientFrom: boxColorHex,
+                backgroundGradientTo: boxColorHex,
+                decimalPlaces: 2,
+                color: (opacity = 1) => `rgba(217, 119, 6, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(${graphicLabelColor}, ${opacity})`,
+                propsForDots: {
+                  r: '6',
+                  strokeWidth: '2',
+                  stroke: boxColorHex,
+                },
+              }}
+              bezier
+            />
           </Box>
         </VStack>
 
