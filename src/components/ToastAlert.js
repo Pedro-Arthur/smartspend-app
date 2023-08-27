@@ -3,6 +3,7 @@ import { Text, Alert, VStack, HStack, IconButton, CloseIcon } from 'native-base'
 
 const ToastAlert = ({ id, toast, status, variant, title, description, isClosable, ...rest }) => (
   <Alert
+    accessible
     maxWidth="100%"
     alignSelf="center"
     flexDirection="row"
