@@ -18,9 +18,11 @@ import {
   Select,
   CheckIcon,
   Input,
+  ScrollView,
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { LogBox } from 'react-native';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
@@ -34,6 +36,8 @@ import AddSpendFab from '../../components/AddSpendFab';
 import useKeyboard from '../../hooks/useKeyboard';
 import CurrencyInput from '../../components/CurrencyInput';
 import DatePickerInput from '../../components/DatePickerInput';
+
+LogBox.ignoreLogs(['VirtualizedLists']);
 
 const DeleteButton = (triggerProps) => (
   <Pressable
@@ -391,7 +395,7 @@ const Home = () => {
   };
 
   return (
-    <>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <Box flex="1" bg={bg}>
         <Heading size="lg" fontWeight="600" mx={4} mt={4}>
           {greeting}, {user && user.name}!
@@ -414,7 +418,7 @@ const Home = () => {
               <Text>Nenhum gasto encontrado...</Text>
             </Box>
           ) : (
-            <Box h={500} shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+            <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
               <FlatList
                 showsVerticalScrollIndicator={false}
                 data={sortedAndGroupedSpends}
@@ -435,7 +439,7 @@ const Home = () => {
                       </HStack>
                     </HStack>
 
-                    <Divider my={2} />
+                    <Divider mb={4} mt={2} />
 
                     <SwipeListView
                       scrollEnabled={false}
@@ -459,9 +463,7 @@ const Home = () => {
                             />
 
                             <VStack>
-                              <Text fontWeight="semibold" fontSize="xs">
-                                {item.spendMethod.name}
-                              </Text>
+                              <Text fontWeight="semibold">{item.spendMethod.name}</Text>
                               <Text fontSize="xs">{item.category.name}</Text>
                             </VStack>
                           </HStack>
@@ -502,7 +504,7 @@ const Home = () => {
                           <Popover trigger={DeleteButton}>
                             <Popover.Content accessibilityLabel="Deletar gasto" w="56">
                               <Popover.Arrow />
-                              <Popover.CloseButton />
+                              <Popover.CloseButton accessibilityLabel="Fechar menu de deletar gasto" />
                               <Popover.Header>Deletar gasto</Popover.Header>
                               <Popover.Body>
                                 Isso removerá os dados relacionados ao gasto. Esta ação não pode ser
@@ -524,7 +526,7 @@ const Home = () => {
                         </HStack>
                       )}
                       rightOpenValue={-100}
-                      ItemSeparatorComponent={<Box mb={2} />}
+                      ItemSeparatorComponent={<Box mb={4} />}
                     />
                   </VStack>
                 )}
@@ -532,6 +534,24 @@ const Home = () => {
               />
             </Box>
           )}
+        </VStack>
+
+        <VStack mb={4}>
+          <Text fontWeight="semibold" fontSize="md" mx={4}>
+            Dashboard de gastos
+          </Text>
+          <Box shadow={2} mx={4} p={4} borderRadius={8} bg={boxColor} mt={2}>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+            <Text>Nenhum gasto encontrado...</Text>
+          </Box>
         </VStack>
 
         <DetailsSpend
@@ -756,7 +776,7 @@ const Home = () => {
       </Box>
 
       <TermsModal />
-    </>
+    </ScrollView>
   );
 };
 
