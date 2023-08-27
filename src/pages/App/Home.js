@@ -155,8 +155,9 @@ const sumSpendsInMonth = (spends, month) => {
   const monthStart = `${year}-${monthStr}-01`;
 
   const nextMonth = month === 12 ? 1 : month + 1;
+  const nextMonthYear = month === 12 ? year + 1 : year;
   const nextMonthStr = nextMonth < 10 ? `0${nextMonth}` : `${nextMonth}`;
-  const monthEnd = `${year}-${nextMonthStr}-01`;
+  const monthEnd = `${nextMonthYear}-${nextMonthStr}-01`;
 
   return spends.reduce((sum, spend) => {
     if (spend.date >= monthStart && spend.date < monthEnd) {
