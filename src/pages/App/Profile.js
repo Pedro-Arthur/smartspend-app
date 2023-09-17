@@ -145,16 +145,18 @@ const Profile = () => {
             </Avatar>
           )}
 
-          <Text fontWeight="medium" fontSize="lg" mt={3}>
-            {user.name}
-          </Text>
-          <Text color="muted.400" fontSize="xs">
-            {user.email}
-          </Text>
+          <VStack accessible alignItems="center">
+            <Text fontWeight="medium" fontSize="lg" mt={3}>
+              {user.name}
+            </Text>
+            <Text color="muted.400" fontSize="xs">
+              {user.email}
+            </Text>
+          </VStack>
 
           <Divider my={4} />
 
-          <HStack justifyContent="space-between" width="full">
+          <HStack accessible justifyContent="space-between" width="full">
             <VStack alignItems="center" width="1/3">
               <Text fontWeight="semibold" color={customCardText}>
                 {bankCards.length}

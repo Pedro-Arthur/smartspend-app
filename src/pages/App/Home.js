@@ -618,7 +618,7 @@ const Home = () => {
           <Text fontWeight="semibold" fontSize="md" mx={4}>
             Métodos mais usados
           </Text>
-          <SpendMethodsMostUsed data={dataGraphicMethodsMostUsed} />
+          <SpendMethodsMostUsed totalSpends={spends.length} data={dataGraphicMethodsMostUsed} />
         </VStack>
 
         <DetailsSpend
