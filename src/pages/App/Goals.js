@@ -18,7 +18,7 @@ import {
   Pressable,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { RefreshControl } from 'react-native';
+import { AccessibilityInfo, RefreshControl } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
@@ -123,27 +123,38 @@ const Goals = () => {
 
     if (!formData.startDate) {
       errors.startDate = 'A data inicial é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('A data inicial é obrigatória!');
     }
 
     if (!formData.endDate) {
       errors.endDate = 'A data final é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('A data final é obrigatória!');
     }
 
     if (formData.startDate && formData.endDate) {
       if (formData.startDate > formData.endDate) {
         errors.endDate = 'Data final deve ser maior que a data inicial.';
+        AccessibilityInfo.announceForAccessibility('Data final deve ser maior que a data inicial.');
       }
       if (formData.startDate - formData.endDate === 0) {
         errors.endDate = 'Data final e data inicial não podem ser iguais.';
+        AccessibilityInfo.announceForAccessibility(
+          'Data final e data inicial não podem ser iguais.'
+        );
       }
     }
 
     if (!formData.maxValue) {
       errors.maxValue = 'O valor máximo é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('O valor máximo é obrigatório!');
     } else if (formData.maxValue < 1) {
       errors.maxValue = 'O valor máximo precisa ser maior que R$ 1,00!';
+      AccessibilityInfo.announceForAccessibility('O valor máximo precisa ser maior que R$ 1,00!');
     } else if (formData.maxValue > 9999999) {
       errors.maxValue = 'O valor máximo precisa ser menor que R$ 9.999.999,00!';
+      AccessibilityInfo.announceForAccessibility(
+        'O valor máximo precisa ser menor que R$ 9.999.999,00!'
+      );
     }
 
     setFormErrors(errors);

@@ -22,7 +22,7 @@ import {
 } from 'native-base';
 import { MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { LogBox } from 'react-native';
+import { AccessibilityInfo, LogBox } from 'react-native';
 import TermsModal from '../../components/TermsModal';
 import TipsCarousel from '../../components/TipsCarousel';
 import { getGreeting } from '../../utils/helpers';
@@ -255,38 +255,48 @@ const Home = () => {
 
     if (!formData.description) {
       errors.description = 'Descrição é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Descrição é obrigatória!');
     }
 
     if (!formData.value) {
       errors.value = 'O valor é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('O valor é obrigatório!');
     } else if (formData.value < 1) {
       errors.value = 'O valor precisa ser maior que R$ 1,00!';
+      AccessibilityInfo.announceForAccessibility('O valor precisa ser maior que R$ 1,00!');
     } else if (formData.value > 9999999) {
       errors.value = 'O valor precisa ser menor que R$ 999.999,00!';
+      AccessibilityInfo.announceForAccessibility('O valor precisa ser menor que R$ 999.999,00!');
     }
 
     if (!formData.date) {
       errors.date = 'Data é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Data é obrigatória!');
     }
 
     if (!formData.categoryId) {
       errors.categoryId = 'Categoria é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Categoria é obrigatória!');
     }
 
     if (!formData.spendMethodId) {
       errors.spendMethodId = 'Método é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Método é obrigatório!');
     }
 
     if (!formData.bankAccountId && (formType === 'pix' || formType === 'transfer')) {
       errors.bankAccountId = 'Conta é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Conta é obrigatória!');
     }
 
     if (!formData.bankCardId && formType === 'card') {
       errors.bankCardId = 'Cartão é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Cartão é obrigatório!');
     }
 
     if (formData.categoryId === 'new' && !formData.customCategory) {
       errors.customCategory = 'Categoria é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Categoria é obrigatória!');
     }
 
     setFormErrors(errors);

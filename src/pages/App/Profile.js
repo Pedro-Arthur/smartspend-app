@@ -18,6 +18,7 @@ import {
   Divider,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
+import { AccessibilityInfo } from 'react-native';
 import { AuthContext } from '../../contexts/AuthContext';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
@@ -60,6 +61,7 @@ const Profile = () => {
 
     if (!formData.name) {
       errors.name = 'Nome é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Nome é obrigatório!');
     }
 
     setFormErrors(errors);

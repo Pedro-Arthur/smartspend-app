@@ -18,7 +18,7 @@ import { Feather, AntDesign } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
-import { Platform } from 'react-native';
+import { AccessibilityInfo, Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import GoogleLogo from '../../assets/images/google-logo.svg';
 import api from '../../services/api';
@@ -59,25 +59,33 @@ const SignUp = ({ navigation }) => {
 
     if (!formData.email) {
       errors.email = 'E-mail é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('E-mail é obrigatório!');
     } else {
       const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
       if (!regexEmail.test(formData.email)) {
         errors.email = 'E-mail é inválido!';
+        AccessibilityInfo.announceForAccessibility('E-mail é inválido!');
       }
     }
 
     const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
     if (!formData.password) {
       errors.password = 'Senha é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Senha é obrigatória!');
     } else if (formData.password.length < 8 || !regexPass.test(formData.password)) {
       errors.password =
         'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.';
+      AccessibilityInfo.announceForAccessibility(
+        'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.'
+      );
     } else if (formData.confirmPassword !== formData.password) {
       errors.confirmPassword = 'Senhas não coincidem!';
+      AccessibilityInfo.announceForAccessibility('Senhas não coincidem!');
     }
 
     if (!formData.name) {
       errors.name = 'Nome é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Nome é obrigatório!');
     }
 
     setFormErrors(errors);

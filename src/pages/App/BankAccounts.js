@@ -19,7 +19,7 @@ import {
   Pressable,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { RefreshControl } from 'react-native';
+import { AccessibilityInfo, RefreshControl } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
@@ -126,20 +126,25 @@ const BankAccounts = () => {
 
     if (!formData.number) {
       errors.number = 'Número é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Número é obrigatório!');
     }
 
     if (!formData.digit) {
       errors.digit = 'Dígito é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Dígito é obrigatório!');
     }
 
     if (!formData.agency) {
       errors.agency = 'Agência é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Agência é obrigatória!');
     } else if (formData.agency.length < 4) {
       errors.agency = 'Agência deve possuir 4 números!';
+      AccessibilityInfo.announceForAccessibility('Agência deve possuir 4 números!');
     }
 
     if (!formData.bankId) {
       errors.bankId = 'Banco é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Banco é obrigatório!');
     }
 
     setFormErrors(errors);

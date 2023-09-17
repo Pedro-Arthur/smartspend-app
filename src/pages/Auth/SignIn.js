@@ -22,7 +22,7 @@ import * as Google from 'expo-auth-session/providers/google';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
 import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
+import { AccessibilityInfo, Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import { AuthContext } from '../../contexts/AuthContext';
 import { FetchLoadingContext } from '../../contexts/FetchLoadingContext';
@@ -69,16 +69,19 @@ const SignIn = ({ navigation }) => {
     if (loginHeader === 'email') {
       if (!formData.email) {
         errors.email = 'E-mail é obrigatório!';
+        AccessibilityInfo.announceForAccessibility('E-mail é obrigatório!');
       } else {
         const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         if (!regexEmail.test(formData.email)) {
           errors.email = 'E-mail é inválido!';
+          AccessibilityInfo.announceForAccessibility('E-mail é inválido!');
         }
       }
     }
 
     if (!formData.password) {
       errors.password = 'Senha é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Senha é obrigatória!');
     }
 
     setFormErrors(errors);

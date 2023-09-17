@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Platform } from 'react-native';
+import { AccessibilityInfo, Platform } from 'react-native';
 import {
   Box,
   Button,
@@ -38,10 +38,12 @@ const RecoverPasswordSendCode = ({ navigation }) => {
 
     if (!formData.email) {
       errors.email = 'E-mail é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('E-mail é obrigatório!');
     } else {
       const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
       if (!regexEmail.test(formData.email)) {
         errors.email = 'E-mail é inválido!';
+        AccessibilityInfo.announceForAccessibility('E-mail é inválido!');
       }
     }
 

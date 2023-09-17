@@ -15,7 +15,7 @@ import {
 } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
-import { Platform } from 'react-native';
+import { AccessibilityInfo, Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import api from '../../services/api';
 
@@ -43,11 +43,16 @@ const RecoverPasswordUpdate = ({ navigation, route }) => {
     const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
     if (!formData.newPassword) {
       errors.newPassword = 'Senha é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Senha é obrigatória!');
     } else if (formData.newPassword.length < 8 || !regexPass.test(formData.newPassword)) {
       errors.newPassword =
         'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.';
+      AccessibilityInfo.announceForAccessibility(
+        'A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial. Além disso, a senha deve ter no mínimo 8 caracteres de comprimento.'
+      );
     } else if (formData.confirmPassword !== formData.newPassword) {
       errors.confirmPassword = 'Senhas não coincidem!';
+      AccessibilityInfo.announceForAccessibility('Senhas não coincidem!');
     }
 
     setFormErrors(errors);

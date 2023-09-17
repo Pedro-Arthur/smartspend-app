@@ -13,7 +13,7 @@ import {
   KeyboardAvoidingView,
 } from 'native-base';
 import { Feather, AntDesign } from '@expo/vector-icons';
-import { Platform } from 'react-native';
+import { AccessibilityInfo, Platform } from 'react-native';
 import { ToastContext } from '../../contexts/ToastContext';
 import api from '../../services/api';
 
@@ -36,6 +36,7 @@ const RecoverPasswordCheckCode = ({ navigation }) => {
 
     if (!formData.code) {
       errors.code = 'Código é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Código é obrigatório!');
     }
 
     setFormErrors(errors);
