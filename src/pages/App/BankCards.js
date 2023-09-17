@@ -20,7 +20,7 @@ import {
   Pressable,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { RefreshControl } from 'react-native';
+import { AccessibilityInfo, RefreshControl } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { DataContext } from '../../contexts/DataContext';
 import api from '../../services/api';
@@ -133,14 +133,17 @@ const BankCards = () => {
 
     if (!formData.lastFourNumbers || formData.lastFourNumbers.length < 4) {
       errors.lastFourNumbers = 'Os últimos 4 números são obrigatórios!';
+      AccessibilityInfo.announceForAccessibility('Os últimos 4 números são obrigatórios!');
     }
 
     if (!formData.type) {
       errors.type = 'Tipo do cartão é obrigatório!';
+      AccessibilityInfo.announceForAccessibility('Tipo do cartão é obrigatório!');
     }
 
     if (!formData.bankAccountId) {
       errors.bankAccountId = 'Conta bancária é obrigatória!';
+      AccessibilityInfo.announceForAccessibility('Conta bancária é obrigatória!');
     }
 
     setFormErrors(errors);
