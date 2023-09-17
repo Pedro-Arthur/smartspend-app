@@ -437,7 +437,13 @@ const Goals = () => {
                   <FormControl.Label>Valor máximo</FormControl.Label>
 
                   <Popover trigger={InfoIconButton}>
-                    <Popover.Content accessibilityLabel="Valor máximo" w="56">
+                    <Popover.Content
+                      accessibilityLabel="Valor máximo. O valor máximo representa o limite que você deve gastar para alcançar com
+                        sucesso a sua meta. No entanto, é importante notar que quanto mais próximo
+                        desse valor máximo você estiver, maior será o risco de não conseguir atingir
+                        a meta desejada."
+                      w="56"
+                    >
                       <Popover.Arrow />
                       <Popover.CloseButton
                         accessibilityRole="button"

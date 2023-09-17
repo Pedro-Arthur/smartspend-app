@@ -362,7 +362,11 @@ const BankCards = () => {
               <Icon as={<AntDesign name="edit" />} color="white" />
             </Pressable>
             <Popover trigger={DeleteButton}>
-              <Popover.Content accessibilityLabel="Deletar cartão" w="56">
+              <Popover.Content
+                accessibilityLabel="Deletar cartão. Isso removerá os dados relacionados ao cartão. Esta ação não pode ser revertida.
+                  Os dados excluídos não podem ser recuperados."
+                w="56"
+              >
                 <Popover.Arrow />
                 <Popover.CloseButton
                   accessibilityRole="button"
@@ -420,7 +424,11 @@ const BankCards = () => {
                   <FormControl.Label>Últimos 4 números</FormControl.Label>
 
                   <Popover trigger={InfoIconButton}>
-                    <Popover.Content accessibilityLabel="Números do cartão" w="56">
+                    <Popover.Content
+                      accessibilityLabel="Números do cartão. Por razões de segurança, apenas mantemos os últimos 4 dígitos do cartão
+                        armazenados."
+                      w="56"
+                    >
                       <Popover.Arrow />
                       <Popover.CloseButton
                         accessibilityRole="button"

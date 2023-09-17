@@ -560,7 +560,11 @@ const Home = () => {
                             <Icon as={<AntDesign name="infocirlceo" />} color="white" />
                           </Pressable>
                           <Popover trigger={DeleteButton}>
-                            <Popover.Content accessibilityLabel="Deletar gasto" w="56">
+                            <Popover.Content
+                              accessibilityLabel="Deletar gasto. Isso removerá os dados relacionados ao gasto. Esta ação não pode ser
+                                revertida. Os dados excluídos não podem ser recuperados."
+                              w="56"
+                            >
                               <Popover.Arrow />
                               <Popover.CloseButton accessibilityLabel="Fechar menu de deletar gasto" />
                               <Popover.Header>Deletar gasto</Popover.Header>

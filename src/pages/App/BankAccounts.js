@@ -348,7 +348,11 @@ const BankAccounts = () => {
               <Icon as={<AntDesign name="edit" />} color="white" />
             </Pressable>
             <Popover trigger={DeleteButton}>
-              <Popover.Content accessibilityLabel="Deletar conta" w="56">
+              <Popover.Content
+                accessibilityLabel="Deletar conta. Isso removerá os dados relacionados à conta. Esta ação não pode ser revertida. Os
+                  dados excluídos não podem ser recuperados."
+                w="56"
+              >
                 <Popover.Arrow />
                 <Popover.CloseButton
                   accessibilityRole="button"
