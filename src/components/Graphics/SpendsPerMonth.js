@@ -9,10 +9,27 @@ const GraphicSpendsPerMonth1 = ({ data, scale }) => {
   const boxColorHex = useColorModeValue('#ffffff', '#27272a');
   const graphicLabelColor = useColorModeValue('0, 0, 0', '255, 255, 255');
 
+  const months = {
+    jan: 'Janeiro',
+    fev: 'Fevereiro',
+    mar: 'Março',
+    abr: 'Abril',
+    mai: 'Maio',
+    jun: 'Junho',
+    jul: 'Julho',
+    ago: 'Agosto',
+    set: 'Setembro',
+    out: 'Outubro',
+    nov: 'Novembro',
+    dez: 'Dezembro',
+  };
+
   return (
     <Box
       accessible
-      accessibilityLabel="Gráfico de Gastos por mês"
+      accessibilityLabel={`Gráfico de Gastos por mês: ${scale.map(
+        (item, index) => `${months[item]} - R$ ${parseFloat(data[index].toFixed(2))}`
+      )}`}
       shadow={2}
       mx={4}
       p={4}
