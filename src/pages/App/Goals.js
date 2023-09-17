@@ -347,7 +347,11 @@ const Goals = () => {
               <Icon as={<AntDesign name="close" />} color="white" />
             </Pressable>
             <Popover trigger={DeleteButton}>
-              <Popover.Content accessibilityLabel="Deletar meta" w="56">
+              <Popover.Content
+                accessibilityLabel="Deletar meta. Isso removerá os dados relacionados a meta. Esta ação não pode ser revertida. Os
+                  dados excluídos não podem ser recuperados."
+                w="56"
+              >
                 <Popover.Arrow />
                 <Popover.CloseButton
                   accessibilityRole="button"
