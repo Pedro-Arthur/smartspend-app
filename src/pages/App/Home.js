@@ -745,10 +745,17 @@ const Home = () => {
                   >
                     <Select.Item
                       startIcon={
-                        <Icon mt={1} color="white" fontSize={16} name="plus" as={AntDesign} />
+                        <Icon
+                          mt={1}
+                          _dark={{ color: 'white' }}
+                          color="black"
+                          fontSize={16}
+                          name="plus"
+                          as={AntDesign}
+                        />
                       }
                       label="Adicionar nova categoria"
-                      _text={{ fontWeight: 'semibold', color: 'white' }}
+                      _text={{ fontWeight: 'semibold', _dark: { color: 'white' }, color: 'black' }}
                       value="new"
                     />
                     {categories.map((category) => (
