@@ -38,6 +38,8 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
     ],
   };
 
+  const newDate = new Date();
+
   const onSelectedChange = (selectedValue) => {
     const dateArray = selectedValue.split('/');
     const year = parseInt(dateArray[0], 10);
@@ -66,7 +68,15 @@ const DatePickerInput = ({ value, onChange, maximumDate, minimumDate, placeholde
         placeholder={placeholder}
       />
 
-      <Modal isOpen={showDatePicker} onClose={onCloseModal} size="xl">
+      <Modal
+        accessibilityHint={`Por favor, selecione um dia no calendário localizado na parte central da tela. Para navegar para o mês anterior, utilize o botão no canto superior esquerdo. Para avançar para o mês seguinte, use o botão no canto superior direito. O mês atual é: ${
+          datePickerConfigs.monthNames[newDate.getMonth()]
+        } de ${newDate.getFullYear()}. Se não for possível acessar o mês anterior ou o mês seguinte, pode ser porque a seleção de datas está limitada a este intervalo.`}
+        accessible
+        isOpen={showDatePicker}
+        onClose={onCloseModal}
+        size="xl"
+      >
         <Modal.Content>
           <Modal.Header>{placeholder}</Modal.Header>
           <Modal.CloseButton
