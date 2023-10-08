@@ -17,28 +17,48 @@ const Tab = createBottomTabNavigator();
 const AppRoutes = () => {
   const { user } = useContext(AuthContext);
 
-  const homeIcon = () => (
-    <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-7" shadow={2}>
-      <Icon as={<AntDesign name="home" />} size={6} color="white" />
-    </Center>
-  );
+  const homeIcon = ({ color, focused }) =>
+    focused ? (
+      <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-7" shadow={2}>
+        <Icon as={<AntDesign name="home" />} size={6} color="white" />
+      </Center>
+    ) : (
+      <Icon as={<AntDesign name="home" />} color={color} size={6} />
+    );
 
-  const bankCardsIcon = ({ color }) => (
-    <Icon as={<AntDesign name="creditcard" />} color={color} size={6} />
-  );
+  const bankCardsIcon = ({ color, focused }) =>
+    focused ? (
+      <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-7" shadow={2}>
+        <Icon as={<AntDesign name="creditcard" />} size={6} color="white" />
+      </Center>
+    ) : (
+      <Icon as={<AntDesign name="creditcard" />} color={color} size={6} />
+    );
 
-  const bankAccountsIcon = ({ color }) => (
-    <Icon as={<MaterialCommunityIcons name="bank-outline" />} color={color} size={6} />
-  );
+  const bankAccountsIcon = ({ color, focused }) =>
+    focused ? (
+      <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-7" shadow={2}>
+        <Icon as={<MaterialCommunityIcons name="bank-outline" />} size={6} color="white" />
+      </Center>
+    ) : (
+      <Icon as={<MaterialCommunityIcons name="bank-outline" />} color={color} size={6} />
+    );
 
-  const goalsIcon = ({ color }) => (
-    <Icon as={<AntDesign name="calendar" />} color={color} size={6} />
-  );
+  const goalsIcon = ({ color, focused }) =>
+    focused ? (
+      <Center bg="primary.600" borderRadius="full" w={12} h={12} mt="-7" shadow={2}>
+        <Icon as={<AntDesign name="calendar" />} size={6} color="white" />
+      </Center>
+    ) : (
+      <Icon as={<AntDesign name="calendar" />} color={color} size={6} />
+    );
 
-  const profileIcon = () =>
+  const profileIcon = ({ focused }) =>
     user && user.pictureUrl ? (
       <Avatar
         size="27px"
+        bg="primary.600"
+        p={focused ? 0.5 : 0}
         source={{
           uri: user.pictureUrl,
         }}
