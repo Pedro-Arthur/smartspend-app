@@ -15,22 +15,34 @@ const CurrencyInput = ({ value, onChangeText, maxDigits }) => {
   const [formattedValue, setFormattedValue] = useState(formatCurrency(value || 0));
 
   const handleTextChange = (text) => {
-    if (text) {
+    if (text !== '') {
       const numericValue = parseFloat(text.replace(/[^\d]/g, '')) / 100;
 
-      if (maxDigits !== undefined && text.replace(/[^\d]/g, '').length > maxDigits) {
-        const truncatedValue = text.slice(0, maxDigits);
-        const truncatedNumericValue = parseFloat(truncatedValue.replace(/[^\d]/g, '')) / 100;
+      if (!Number.isNaN(numericValue)) {
+        if (maxDigits !== undefined && text.replace(/[^\d]/g, '').length > maxDigits) {
+          const truncatedValue = text.slice(0, maxDigits);
+          const truncatedNumericValue = parseFloat(truncatedValue.replace(/[^\d]/g, '')) / 100;
 
-        setFormattedValue(formatCurrency(truncatedNumericValue));
-        if (onChangeText) {
-          onChangeText(truncatedNumericValue);
+          setFormattedValue(formatCurrency(truncatedNumericValue));
+          if (onChangeText) {
+            onChangeText(truncatedNumericValue);
+          }
+        } else {
+          setFormattedValue(formatCurrency(numericValue));
+          if (onChangeText) {
+            onChangeText(numericValue);
+          }
         }
       } else {
-        setFormattedValue(formatCurrency(numericValue));
+        setFormattedValue('R$ 0,00');
         if (onChangeText) {
-          onChangeText(numericValue);
+          onChangeText(0);
         }
+      }
+    } else {
+      setFormattedValue('R$ 0,00');
+      if (onChangeText) {
+        onChangeText(0);
       }
     }
   };
